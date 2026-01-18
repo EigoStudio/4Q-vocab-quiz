@@ -105,36 +105,22 @@
         @media print {
             @page { margin: 15mm; }
             body { background: white; padding: 0; }
-            .page { 
-                box-shadow: none; width: 95%; padding: 0 5mm; 
-                min-height: auto; 
-            }
-            /* 不要な要素を非表示（指示文とSetタイトルも追加） */
+            .page { box-shadow: none; width: 95%; padding: 0 5mm; min-height: auto; }
             .controls, .check-btn, .reset-btn, .instructions, .set-title { display: none !important; }
-            
             h1 { font-size: 15pt; margin-top: 5px; margin-bottom: 30px; }
-            
-            /* 【変更】コンテナの左側に縦線を入れ、隙間を詰める */
             .set-container { 
-                margin-bottom: 30px; 
-                page-break-inside: avoid;
-                border-left: 3px solid #000; /* セット区切りの縦線 */
-                padding-left: 8px;
+                margin-bottom: 30px; page-break-inside: avoid;
+                border-left: 3px solid #000; padding-left: 8px;
             }
-            
-            td { padding: 4px 2px; line-height: 1.7; }
-            .jp-column { font-size: 13pt; }
-            
+            td { padding: 4px 2px; line-height: 1.6; }
+            .jp-column { font-size: 11pt; }
             .answer-column { border-bottom: 1px solid #000; }
             .word-chip { 
-                border: none !important; 
-                padding: 0 !important;
-                font-size: 15pt;
+                border: none !important; padding: 0 !important; font-size: 15pt;
                 background: transparent !important;
             }
-            .choice-slot { border: none !important; height: auto !important; min-height: auto !important; }
-            .drop-zone { height: auto !important; min-height: auto !important; visibility: hidden; }
-            
+            .choice-slot, .drop-zone { border: none !important; height: auto !important; min-height: auto !important; }
+            .drop-zone { visibility: hidden; }
             * { color: black !important; border-color: black !important; box-shadow: none !important; }
         }
 
