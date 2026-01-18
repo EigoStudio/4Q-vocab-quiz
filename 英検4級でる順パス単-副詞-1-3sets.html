@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <title>英検4級 でる順パス単 p57-59 副詞 #1</title>
+    <style>
+        /* --- 基本設定（画面表示用） --- */
+        body {
+            background-color: #f0f2f5;
+            font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .page {
+            background-color: white;
+            width: 95%;
+            max-width: 210mm;
+            min-height: 297mm;
+            padding: 10mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        h1 { text-align: center; font-size: 1.5rem; margin: 0 0 5px 0; }
+        .instructions { text-align: center; font-size: 0.9rem; color: #333; margin-bottom: 15px; }
+
+        .set-container { margin-bottom: 25px; }
+        .set-title {
+            font-size: 1.1rem; font-weight: bold; margin-bottom: 8px;
+            border-left: 5px solid #4A90E2; padding-left: 10px;
+        }
+
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        td { padding: 8px 5px; vertical-align: middle; }
+
+        /* 列幅：日本語40%で2行化を防止 */
+        .jp-column { width: 40%; font-size: 1rem; }
+        .answer-column { width: 30%; border-bottom: 2px solid #4A90E2; position: relative; }
+        .choice-column { width: 30%; text-align: right; }
+
+        .drop-zone {
+            width: 100%; min-height: 42px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+
+        .choice-slot {
+            width: 100%; min-height: 42px; 
+            border: 1px dashed #ccc; border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+            background-color: #fcfcfc; cursor: pointer;
+        }
+
+        .word-chip {
+/* 合字（fiなどの結合）を強制的にオフにする */
+    font-variant-ligatures: none;
+    /* 文字の間隔をわずかに広げる（必要に応じて） */
+    letter-spacing: 0.02em;
+            padding: 6px 10px;
+            background-color: #fff;
+            border: 1px solid #4A90E2;
+            border-radius: 6px;
+            cursor: grab;
+            user-select: none;
+            font-family: "Chalkboard SE", "Chalkboard", "Comic Neue", "Comic Sans MS", cursive, sans-serif;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+            touch-action: manipulation;
+            white-space: nowrap;
+            display: inline-block;
+        }
+        
+        .word-chip.selected {
+            background-color: #ffeb3b;
+            border-color: #fbc02d;
+            box-shadow: 0 0 8px rgba(255, 235, 59, 0.8);
+        }
+
+        .result-mark {
+            position: absolute; right: -22px; top: 12px; font-weight: bold; font-size: 1.4rem;
+        }
+        .correct { color: #28a745; }
+        .incorrect { color: #dc3545; }
+
+        .controls { margin-bottom: 15px; display: flex; gap: 10px; }
+        button {
+            padding: 10px 15px; font-size: 0.9rem; cursor: pointer;
+            border: none; border-radius: 6px; color: white; font-weight: bold;
+        }
+        .reset-btn { background-color: #4A90E2; }
+        .check-btn { background-color: #28a745; }
+
+        /* -------------------------------------------
+           【PDF・印刷用設定：見出し削除版】
+        ------------------------------------------- */
+        @media print {
+            @page { margin: 15mm; }
+            body { background: white; padding: 0; }
+            .page { 
+                box-shadow: none; width: 95%; padding: 0 5mm; 
+                min-height: auto; 
+            }
+            /* 不要な要素を非表示（指示文とSetタイトルも追加） */
+            .controls, .check-btn, .reset-btn, .instructions, .set-title { display: none !important; }
+            
+            h1 { font-size: 15pt; margin-top: 5px; margin-bottom: 30px; }
+            
+            /* 【変更】コンテナの左側に縦線を入れ、隙間を詰める */
+            .set-container { 
+                margin-bottom: 30px; 
+                page-break-inside: avoid;
+                border-left: 3px solid #000; /* セット区切りの縦線 */
+                padding-left: 8px;
+            }
+            
+            td { padding: 4px 2px; line-height: 1.7; }
+            .jp-column { font-size: 13pt; }
+            
+            .answer-column { border-bottom: 1px solid #000; }
+            .word-chip { 
+                border: none !important; 
+                padding: 0 !important;
+                font-size: 15pt;
+                background: transparent !important;
+            }
+            .choice-slot { border: none !important; height: auto !important; min-height: auto !important; }
+            .drop-zone { height: auto !important; min-height: auto !important; visibility: hidden; }
+            
+            * { color: black !important; border-color: black !important; box-shadow: none !important; }
+        }
+
+        /* スマホ向け調整 */
+        @media (max-width: 600px) {
+            .page { padding: 5mm; }
+            .jp-column { width: 35%; font-size: 0.85rem; }
+            .answer-column, .choice-column { width: 32.5%; }
+            .word-chip { font-size: 0.85rem; padding: 4px 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+    <button class="reset-btn" onclick="renderAll()">リセット / シャッフル</button>
+    <button class="check-btn" onclick="checkAnswers()">答え合わせ</button>
+</div>
+
+<div class="page">
+    <h1>英検4級 でる順パス単 p57-59 副詞 #1</h1>
+    <p class="instructions">単語をタップ(またはドラッグ)して、正しい意味の横に並べましょう！</p>
+    <div id="sets-root"></div>
+</div>
+
+<script>
+const data = {
+    items: [
+        { jp: "ふたたび（また）", en: "again" },
+        { jp: "〜もまた", en: "also" },
+        { jp: "離れて（留守で）", en: "away" },
+        { jp: "後ろへ", en: "back" },
+        { jp: "簡単に（楽々と）", en: "easily" },
+        { jp: "ちょうど（ほんの）", en: "just" },
+        { jp: "もっと遅く（後後で）", en: "later" },
+        { jp: "たぶん", en: "maybe" },
+        { jp: "離れて（脱いで）", en: "off" },
+        { jp: "たびたび（よく）", en: "often" },
+        { jp: "1度", en: "once" },
+        { jp: "ただ〜だけ", en: "only" },
+        { jp: "外へ（不在で）", en: "out" },
+        { jp: "本当に", en: "really" },
+        { jp: "とても", en: "so" },
+        { jp: "まもなく", en: "soon" },
+        { jp: "今でも（まだ）", en: "still" },
+        { jp: "そこに", en: "there" },
+        { jp: "いっしょに", en: "together" },
+        { jp: "今夜は", en: "tonight" },
+        { jp: "いつもは", en: "usually" }
+    ]
+};
+
+let selectedChip = null;
+
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function renderAll() {
+    const root = document.getElementById('sets-root');
+    root.innerHTML = '';
+    selectedChip = null;
+    
+    const setSizes = [7, 7, 6];
+    let currentIdx = 0;
+
+    setSizes.forEach((size, setIdx) => {
+        const setChunk = data.items.slice(currentIdx, currentIdx + size);
+        currentIdx += size;
+
+        const shuffledJp = shuffle(setChunk);
+        const shuffledEn = shuffle(setChunk.map(item => item.en));
+
+        const setDiv = document.createElement('div');
+        setDiv.className = 'set-container';
+        setDiv.innerHTML = `<div class="set-title">Set ${setIdx + 1}</div>`;
+
+        const table = document.createElement('table');
+        shuffledJp.forEach((item, i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="jp-column">${i + 1}. ${item.jp}</td>
+                <td class="answer-column" data-correct="${item.en}">
+                    <div class="drop-zone" onclick="handleZoneClick(event)" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <span class="result-mark"></span>
+                </td>
+                <td class="choice-column">
+                    <div class="choice-slot" onclick="handleZoneClick(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="word-chip" draggable="true" onclick="handleChipClick(event)" ondragstart="drag(event)" id="word-${setIdx}-${i}">
+                            ${shuffledEn[i]}
+                        </div>
+                    </div>
+                </td>
+            `;
+            table.appendChild(tr);
+        });
+        setDiv.appendChild(table);
+        root.appendChild(setDiv);
+    });
+}
+
+function handleChipClick(e) {
+    e.stopPropagation();
+    const chip = e.currentTarget;
+    if (selectedChip === chip) {
+        chip.classList.remove('selected');
+        selectedChip = null;
+    } else {
+        if (selectedChip) selectedChip.classList.remove('selected');
+        selectedChip = chip;
+        chip.classList.add('selected');
+    }
+}
+
+function handleZoneClick(e) {
+    const targetZone = e.currentTarget;
+    if (selectedChip) {
+        moveElement(selectedChip, targetZone);
+        selectedChip.classList.remove('selected');
+        selectedChip = null;
+    }
+}
+
+function moveElement(draggedEl, target) {
+    if (target.children.length === 0) {
+        target.appendChild(draggedEl);
+    } else {
+        const currentInTarget = target.children[0];
+        const originParent = draggedEl.parentNode;
+        originParent.appendChild(currentInTarget);
+        target.appendChild(draggedEl);
+    }
+}
+
+function allowDrop(e) { e.preventDefault(); }
+function drag(e) { 
+    e.dataTransfer.setData("text", e.target.id);
+    if(selectedChip) {
+        selectedChip.classList.remove('selected');
+        selectedChip = null;
+    }
+}
+function drop(e) {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    const draggedEl = document.getElementById(id);
+    const target = e.target.closest('.drop-zone, .choice-slot');
+    if (target && draggedEl) moveElement(draggedEl, target);
+}
+
+function checkAnswers() {
+    document.querySelectorAll('.answer-column').forEach(col => {
+        const correctEn = col.getAttribute('data-correct').trim();
+        const droppedWord = col.querySelector('.word-chip');
+        const mark = col.querySelector('.result-mark');
+        
+        if (droppedWord) {
+            const userAns = droppedWord.textContent.trim();
+            if (userAns === correctEn) {
+                mark.textContent = "○";
+                mark.className = "result-mark correct";
+            } else {
+                mark.textContent = "×";
+                mark.className = "result-mark incorrect";
+            }
+        } else {
+            mark.textContent = "";
+        }
+    });
+}
+
+renderAll();
+</script>
+
+</body>
+</html>
