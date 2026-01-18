@@ -227,6 +227,48 @@ function renderAll() {
     });
 }
 
+// --- スマホ用タッチ移動ロジック ---
+let touchOffsetX = 0;
+let touchOffsetY = 0;
+
+function handleTouchStart(e) {
+    const chip = e.currentTarget;
+    const touch = e.touches[0];
+    const rect = chip.getBoundingClientRect();
+    touchOffsetX = touch.clientX - rect.left;
+    touchOffsetY = touch.clientY - rect.top;
+    chip.classList.add('dragging');
+    if (selectedChip) selectedChip.classList.remove('selected');
+    selectedChip = chip;
+}
+
+function handleTouchMove(e) {
+    const chip = e.currentTarget;
+    const touch = e.touches[0];
+    e.preventDefault(); // スクロールを防止
+    chip.style.position = 'fixed';
+    chip.style.left = (touch.clientX - touchOffsetX) + 'px';
+    chip.style.top = (touch.clientY - touchOffsetY) + 'px';
+}
+
+function handleTouchEnd(e) {
+    const chip = e.currentTarget;
+    chip.classList.remove('dragging');
+    chip.style.position = '';
+    chip.style.left = '';
+    chip.style.top = '';
+
+    const touch = e.changedTouches[0];
+    // 指を離した位置にある要素を特定
+    const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+    const zone = dropTarget ? dropTarget.closest('.drop-zone, .choice-slot') : null;
+
+    if (zone) {
+        moveElement(chip, zone);
+    }
+    selectedChip = null;
+}
+    
 function handleChipClick(e) {
     e.stopPropagation();
     const chip = e.currentTarget;
