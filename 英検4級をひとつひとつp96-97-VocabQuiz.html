@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-    <title>英検4級 Vocab Quiz p96-97</title>
+    <title>英検4級 でる順パス単 p57-59 副詞 #1</title>
     <style>
         /* --- 基本設定（画面表示用） --- */
         body {
@@ -19,7 +19,7 @@
 
         .page {
             background-color: white;
-            width: 95%;
+            width: 100%;
             max-width: 210mm;
             min-height: 297mm;
             padding: 10mm;
@@ -40,28 +40,19 @@
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
         td { padding: 8px 5px; vertical-align: middle; }
 
-        /* 列幅：日本語40%で2行化を防止 */
         .jp-column { width: 40%; font-size: 1rem; }
         .answer-column { width: 30%; border-bottom: 2px solid #4A90E2; position: relative; }
         .choice-column { width: 30%; text-align: right; }
 
-        .drop-zone {
+        .drop-zone, .choice-slot {
             width: 100%; min-height: 42px; display: flex; align-items: center; justify-content: center;
             cursor: pointer;
         }
-
-        .choice-slot {
-            width: 100%; min-height: 42px; 
-            border: 1px dashed #ccc; border-radius: 5px;
-            display: flex; align-items: center; justify-content: center;
-            background-color: #fcfcfc; cursor: pointer;
-        }
+        .choice-slot { border: 1px dashed #ccc; border-radius: 5px; background-color: #fcfcfc; }
 
         .word-chip {
-/* 合字（fiなどの結合）を強制的にオフにする */
-    font-variant-ligatures: none;
-    /* 文字の間隔をわずかに広げる（必要に応じて） */
-    letter-spacing: 0.02em;
+            font-variant-ligatures: none;
+            letter-spacing: 0.02em;
             padding: 6px 10px;
             background-color: #fff;
             border: 1px solid #4A90E2;
@@ -73,16 +64,25 @@
             font-weight: 500;
             color: #333;
             box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-            transition: background-color 0.2s;
-            touch-action: manipulation;
+            transition: background-color 0.2s, transform 0.05s;
+            touch-action: none; /* スマホのスクロールと干渉させない */
             white-space: nowrap;
             display: inline-block;
+            position: relative;
+            z-index: 10;
         }
         
         .word-chip.selected {
             background-color: #ffeb3b;
             border-color: #fbc02d;
             box-shadow: 0 0 8px rgba(255, 235, 59, 0.8);
+        }
+
+        /* ドラッグ中の見た目 */
+        .dragging {
+            opacity: 0.8;
+            transform: scale(1.1);
+            z-index: 1000 !important;
         }
 
         .result-mark {
@@ -100,7 +100,7 @@
         .check-btn { background-color: #28a745; }
 
         /* -------------------------------------------
-           【PDF・印刷用設定：見出し削除版】
+            【PDF・印刷用設定】気に入っていただいている設定を維持
         ------------------------------------------- */
         @media print {
             @page { margin: 15mm; }
@@ -124,12 +124,11 @@
             * { color: black !important; border-color: black !important; box-shadow: none !important; }
         }
 
-        /* スマホ向け調整 */
-        @media (max-width: 900px) {
+        @media (max-width: 600px) {
             .page { padding: 5mm; }
             .jp-column { width: 40%; font-size: 0.65rem; }
-            .answer-column, .choice-column { width: 30%; }
-            .word-chip { font-size: 0.80rem; padding: 4px 6px; }
+            .word-chip { font-size: 0.85rem; padding: 4px 6px; }
+            .instructions  { display: none !important; }
         }
     </style>
 </head>
