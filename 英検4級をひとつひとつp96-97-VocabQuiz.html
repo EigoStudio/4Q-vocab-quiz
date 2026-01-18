@@ -189,13 +189,12 @@ function renderAll() {
     root.innerHTML = '';
     selectedChip = null;
     
-    const setSizes = [7, 7, 6];
+    const setSizes = [7, 7, 7]; // 21単語すべてを表示
     let currentIdx = 0;
 
     setSizes.forEach((size, setIdx) => {
         const setChunk = data.items.slice(currentIdx, currentIdx + size);
         currentIdx += size;
-
         const shuffledJp = shuffle(setChunk);
         const shuffledEn = shuffle(setChunk.map(item => item.en));
 
@@ -214,7 +213,11 @@ function renderAll() {
                 </td>
                 <td class="choice-column">
                     <div class="choice-slot" onclick="handleZoneClick(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="word-chip" draggable="true" onclick="handleChipClick(event)" ondragstart="drag(event)" id="word-${setIdx}-${i}">
+                        <div class="word-chip" draggable="true" onclick="handleChipClick(event)" 
+                             ondragstart="drag(event)" id="word-${setIdx}-${i}"
+                             ontouchstart="handleTouchStart(event)" 
+                             ontouchmove="handleTouchMove(event)" 
+                             ontouchend="handleTouchEnd(event)">
                             ${shuffledEn[i]}
                         </div>
                     </div>
@@ -268,7 +271,8 @@ function handleTouchEnd(e) {
     }
     selectedChip = null;
 }
-    
+
+// --- 既存のクリック/PCドラッグ用ロジック ---
 function handleChipClick(e) {
     e.stopPropagation();
     const chip = e.currentTarget;
@@ -281,16 +285,14 @@ function handleChipClick(e) {
         chip.classList.add('selected');
     }
 }
-
 function handleZoneClick(e) {
     const targetZone = e.currentTarget;
-    if (selectedChip) {
+    if (selectedChip && !selectedChip.classList.contains('dragging')) {
         moveElement(selectedChip, targetZone);
         selectedChip.classList.remove('selected');
         selectedChip = null;
     }
 }
-
 function moveElement(draggedEl, target) {
     if (target.children.length === 0) {
         target.appendChild(draggedEl);
@@ -301,10 +303,9 @@ function moveElement(draggedEl, target) {
         target.appendChild(draggedEl);
     }
 }
-
 function allowDrop(e) { e.preventDefault(); }
 function drag(e) { 
-    e.dataTransfer.setData("text", e.target.id);
+    e.dataTransfer.setData("text", e.target.id); 
     if(selectedChip) {
         selectedChip.classList.remove('selected');
         selectedChip = null;
@@ -323,7 +324,6 @@ function checkAnswers() {
         const correctEn = col.getAttribute('data-correct').trim();
         const droppedWord = col.querySelector('.word-chip');
         const mark = col.querySelector('.result-mark');
-        
         if (droppedWord) {
             const userAns = droppedWord.textContent.trim();
             if (userAns === correctEn) {
@@ -333,9 +333,7 @@ function checkAnswers() {
                 mark.textContent = "×";
                 mark.className = "result-mark incorrect";
             }
-        } else {
-            mark.textContent = "";
-        }
+        } else { mark.textContent = ""; }
     });
 }
 
