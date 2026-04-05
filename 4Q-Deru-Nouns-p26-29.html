@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 名詞 p26-39 (85問)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        .word-display { 
+            font-size: 3.5rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            margin: 10px 0 30px 0; 
+            letter-spacing: 1px;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 0 10px;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        ruby rt { font-size: 0.6em; font-weight: normal; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.2rem;">英検4級でる順パス単 名詞 p26-39</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 85</div>
+    <div class="word-display" id="word-text">Loading...</div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 85</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル）</button>
+</div>
+
+<script>
+const quizData = [
+    // p28-29 食べ物
+    {w:"food", a:"食べ物", c:["道具","器","景色"]},
+    {w:"pizza", a:"ピザ", c:["パン","肉","魚"]},
+    {w:"cheese", a:"チーズ", c:["牛乳","バター","卵"]},
+    {w:"soup", a:"スープ", c:["サラダ","パン","水"]},
+    {w:"salad", a:"サラダ", c:["肉","野菜","果物"]},
+    {w:"vegetable", a:"野菜", c:["肉","果物","米"]},
+    {w:"toast", a:"トースト", c:["ご飯","餅","麺"]},
+    {w:"hamburger", a:"ハンバーガー", c:["ステーキ","サンドイッチ","パスタ"]},
+    {w:"pancake", a:"パンケーキ", c:["クッキー","チョコ","飴"]},
+    {w:"chocolate", a:"チョコレート", c:["ガム","ケーキ","ドーナツ"]},
+    {w:"coffee", a:"コーヒー", c:["紅茶","牛乳","お茶"]},
+    {w:"juice", a:"ジュース", c:["水","お湯","お茶"]},
+    {w:"popcorn", a:"ポップコーン", c:["豆","ポテト","チップス"]},
+    {w:"menu", a:"メニュー", c:["注文","会計","予約"]},
+    {w:"dish", a:"皿、料理", c:["机","コップ","箸"]},
+    // p30-31 自然・生き物
+    {w:"weather", a:"天気", c:["季節","気温","空気"]},
+    {w:"rain", a:"雨", c:["雪","風","太陽"]},
+    {w:"water", a:"水", c:["火","土","空気"]},
+    {w:"river", a:"川", c:["海","湖","池"]},
+    {w:"beach", a:"浜、海辺", c:["山","森","砂漠"]},
+    {w:"mountain", a:"山", c:["丘","谷","平野"]},
+    {w:"star", a:"星", c:["月","太陽","虹"]},
+    {w:"flower", a:"花", c:["木","草","葉"]},
+    {w:"rose", a:"バラ", c:["ユリ","サクラ","チューリップ"]},
+    {w:"animal", a:"動物", c:["植物","昆虫","魚"]},
+    // p32 音楽
+    {w:"practice", a:"練習", c:["試合","演奏","発表"]},
+    {w:"guitar", a:"ギター", c:["ドラム","ピアノ","バイオリン"]},
+    {w:"violin", a:"バイオリン", c:["チェロ","ラッパ","ギター"]},
+    {w:"sound", a:"音", c:["光","色","匂い"]},
+    {w:"concert", a:"音楽会", c:["映画会","展示会","祭り"]},
+    {w:"musical", a:"ミュージカル", c:["ドラマ","オペラ","映画"]},
+    // p33 衣服・色
+    {w:"shirt", a:"シャツ、ワイシャツ", c:["ズボン","靴下","帽子"]},
+    {w:"dress", a:"ドレス、服装", c:["靴","帽子","鞄"]},
+    {w:"color", a:"色", c:["形","重さ","大きさ"]},
+    {w:"purple", a:"紫色", c:["茶色","灰色","緑色"]},
+    // p34 国・地域
+    {w:"Japan", a:"日本", c:["中国","韓国","アメリカ"]},
+    {w:"Spain", a:"スペイン", c:["イタリア","フランス","ドイツ"]},
+    {w:"England", a:"イングランド", c:["カナダ","イギリス","豪州"]},
+    {w:"Africa", a:"アフリカ", c:["アジア","欧州","南米"]},
+    {w:"India", a:"インド", c:["タイ","トルコ","ベトナム"]},
+    // p35 スポーツ
+    {w:"soccer", a:"サッカー", c:["野球","テニス","水泳"]},
+    {w:"basketball", a:"バスケットボール", c:["バレー","ラグビー","ゴルフ"]},
+    {w:"volleyball", a:"バレーボール", c:["テニス","野球","卓球"]},
+    {w:"badminton", a:"バドミントン", c:["テニス","卓球","ゴルフ"]},
+    {w:"racket", a:"ラケット", c:["バット","ボール","ネット"]},
+    {w:"jogging", a:"ジョギング", c:["体操","水泳","登山"]},
+    {w:"goal", a:"ゴール、目標", c:["スタート","休憩","練習"]},
+    // p36-39 その他名詞 & 人・家族
+    {w:"kind", a:"種類", c:["名前","形","性格"]},
+    {w:"e-mail", a:"電子メール", c:["電話","手紙","はがき"]},
+    {w:"information", a:"情報", c:["秘密","噂","事実"]},
+    {w:"thing", a:"物、こと", c:["場所","人","時間"]},
+    {w:"story", a:"物語、話", c:["歌","絵","夢"]},
+    {w:"word", a:"語、言葉", c:["文章","音","声"]},
+    {w:"future", a:"未来、将来", c:["過去","昨日","現在"]},
+    {w:"cell phone", a:"携帯電話", c:["テレビ","パソコン","電卓"]},
+    {w:"event", a:"行事、できごと", c:["会議","試合","休憩"]},
+    {w:"culture", a:"文化", c:["歴史","芸術","科学"]},
+    {w:"center", a:"中心、中央", c:["出口","端","角"]},
+    {w:"meeting", a:"会、会議", c:["遊び","授業","食事"]},
+    {w:"ticket", a:"<ruby>切符<rt>きっぷ</rt></ruby>、チケット", c:["お金","財布","名刺"]},
+    {w:"sale", a:"販売、特売", c:["購入","返品","広告"]},
+    {w:"money", a:"お金", c:["宝石","銀行","お財布"]},
+    {w:"line", a:"線、行列", c:["丸","点","星"]},
+    {w:"end", a:"終わり", c:["始まり","半分","途中"]},
+    {w:"front", a:"正面、前面", c:["後ろ","横","隣"]},
+    {w:"way", a:"道、方法", c:["空","海","橋"]},
+    {w:"race", a:"レース、<ruby>競走<rt>きょうそう</rt></ruby>", c:["散歩","昼寝","食事"]},
+    {w:"plan", a:"計画", c:["結果","反省","思い出"]},
+    {w:"fun", a:"楽しみ", c:["悲しみ","驚き","怒り"]},
+    {w:"example", a:"例", c:["問題","答え","図"]},
+    {w:"postcard", a:"はがき", c:["手紙","切手","封筒"]},
+    {w:"poster", a:"ポスター", c:["カレンダー","地図","看板"]},
+    {w:"robot", a:"ロボット", c:["機械","おもちゃ","人間"]},
+    {w:"job", a:"仕事、職", c:["趣味","遊び","休み"]},
+    {w:"doctor", a:"医者", c:["看護師","先生","店員"]},
+    {w:"dentist", a:"歯科医", c:["俳優","科学者","運転手"]},
+    {w:"scientist", a:"科学者", c:["監督","歌手","芸術家"]},
+    {w:"pilot", a:"パイロット", c:["警察官","船長","店員"]},
+    {w:"actor", a:"俳優", c:["歌手","監督","作家"]},
+    {w:"volunteer", a:"ボランティア", c:["会社員","公務員","軍人"]},
+    {w:"grandmother", a:"祖母", c:["祖父","叔母","母"]},
+    {w:"grandfather", a:"祖父", c:["祖母","叔父","父"]},
+    {w:"parent", a:"親", c:["子供","兄","妹"]},
+    {w:"husband", a:"夫", c:["妻","息子","娘"]},
+    {w:"son", a:"息子", c:["娘","父","兄"]},
+    {w:"aunt", a:"叔母、伯母", c:["叔父","母","祖母"]}
+];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    quizQueue = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    document.getElementById('word-text').textContent = current.w;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < quizQueue.length) { loadQuestion(); } else { showResult(); }
+        }, 500);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({w: quizQueue[currentIndex].w, a: quizQueue[currentIndex].a});
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item"><strong>${m.w}</strong><span>${m.a.replace(/<[^>]*>?/gm, '')}</span></div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p26-39 名詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・${m.w} (${m.a.replace(/<[^>]*>?/gm, '')})`).join("\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべて一発正解でした！すばらしい！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（p26-39 名詞）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
