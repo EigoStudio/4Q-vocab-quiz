@@ -53,15 +53,46 @@
 
         .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
         
+        /* 単語とボタンの並びを調整 */
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
         .word-display { 
             font-size: 3.5rem; 
             font-weight: 700; 
             color: var(--text-dark); 
-            margin: 10px 0 30px 0; 
             letter-spacing: 1px;
             border-bottom: 5px solid var(--accent-yellow);
             display: inline-block;
             padding: 0 10px;
+            margin: 0;
+        }
+
+        /* スピーカーボタンのスタイル */
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
         }
 
         .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -120,7 +151,10 @@
 
 <div class="container" id="quiz-screen">
     <div class="progress-bar" id="progress">1 / 85</div>
-    <div class="word-display" id="word-text">Loading...</div>
+    <div class="word-area">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
     <div class="choices-grid" id="choices-container"></div>
     <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
 </div>
@@ -137,8 +171,23 @@
 </div>
 
 <script>
+// 音声読み上げ関数
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+// 現在の単語を読み上げる関数
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').textContent;
+    speak(word);
+}
+
 const quizData = [
-    // p28-29 食べ物
+    // (データ内容は変更なし)
     {w:"food", a:"食べ物", c:["道具","器","景色"]},
     {w:"pizza", a:"ピザ", c:["パン","肉","魚"]},
     {w:"cheese", a:"チーズ", c:["牛乳","バター","卵"]},
@@ -154,7 +203,6 @@ const quizData = [
     {w:"popcorn", a:"ポップコーン", c:["豆","ポテト","チップス"]},
     {w:"menu", a:"メニュー", c:["注文","会計","予約"]},
     {w:"dish", a:"皿、料理", c:["机","コップ","箸"]},
-    // p30-31 自然・生き物
     {w:"weather", a:"天気", c:["季節","気温","空気"]},
     {w:"rain", a:"雨", c:["雪","風","太陽"]},
     {w:"water", a:"水", c:["火","土","空気"]},
@@ -165,25 +213,21 @@ const quizData = [
     {w:"flower", a:"花", c:["木","草","葉"]},
     {w:"rose", a:"バラ", c:["ユリ","サクラ","チューリップ"]},
     {w:"animal", a:"動物", c:["植物","昆虫","魚"]},
-    // p32 音楽
     {w:"practice", a:"練習", c:["試合","演奏","発表"]},
     {w:"guitar", a:"ギター", c:["ドラム","ピアノ","バイオリン"]},
     {w:"violin", a:"バイオリン", c:["チェロ","ラッパ","ギター"]},
     {w:"sound", a:"音", c:["光","色","匂い"]},
     {w:"concert", a:"音楽会", c:["映画会","展示会","祭り"]},
     {w:"musical", a:"ミュージカル", c:["ドラマ","オペラ","映画"]},
-    // p33 衣服・色
     {w:"shirt", a:"シャツ、ワイシャツ", c:["ズボン","靴下","帽子"]},
     {w:"dress", a:"ドレス、服装", c:["靴","帽子","鞄"]},
     {w:"color", a:"色", c:["形","重さ","大きさ"]},
     {w:"purple", a:"紫色", c:["茶色","灰色","緑色"]},
-    // p34 国・地域
     {w:"Japan", a:"日本", c:["中国","韓国","アメリカ"]},
     {w:"Spain", a:"スペイン", c:["イタリア","フランス","ドイツ"]},
     {w:"England", a:"イングランド", c:["カナダ","イギリス","豪州"]},
     {w:"Africa", a:"アフリカ", c:["アジア","欧州","南米"]},
     {w:"India", a:"インド", c:["タイ","トルコ","ベトナム"]},
-    // p35 スポーツ
     {w:"soccer", a:"サッカー", c:["野球","テニス","水泳"]},
     {w:"basketball", a:"バスケットボール", c:["バレー","ラグビー","ゴルフ"]},
     {w:"volleyball", a:"バレーボール", c:["テニス","野球","卓球"]},
@@ -191,7 +235,6 @@ const quizData = [
     {w:"racket", a:"ラケット", c:["バット","ボール","ネット"]},
     {w:"jogging", a:"ジョギング", c:["体操","水泳","登山"]},
     {w:"goal", a:"ゴール、目標", c:["スタート","休憩","練習"]},
-    // p36-39 その他名詞 & 人・家族
     {w:"kind", a:"種類", c:["名前","形","性格"]},
     {w:"e-mail", a:"電子メール", c:["電話","手紙","はがき"]},
     {w:"information", a:"情報", c:["秘密","噂","事実"]},
@@ -255,6 +298,8 @@ function loadQuestion() {
     document.getElementById('word-text').textContent = current.w;
     document.getElementById('feedback').textContent = "";
     
+    // 自動読み上げ（speak）を削除しました！
+
     const container = document.getElementById('choices-container');
     container.innerHTML = '';
     isFirstTry = true;
