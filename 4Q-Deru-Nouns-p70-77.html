@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 名詞 p70-77</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .word-display { 
+            font-size: 3.5rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            letter-spacing: 1px;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 85px; /* ルビの高さを考慮して少し高く */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6; /* ルビが重ならないように広げる */
+        }
+
+        ruby rt { font-size: 0.55em; font-weight: normal; color: #555; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.2rem;">英検4級でる順パス単 名詞 p70-77</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 47</div>
+    <div class="word-area">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 47</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル）</button>
+</div>
+
+<script>
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').textContent;
+    speak(word);
+}
+
+const quizData = [
+    {w:"shower", a:"シャワー", c:["トイレ", "サウナ", "プール"]},
+    {w:"bath", a:"<ruby>風呂<rt>ふろ</rt></ruby>", c:["<ruby>窓際<rt>まどぎわ</rt></ruby>", "<ruby>庭先<rt>にわさき</rt></ruby>", "<ruby>玄関<rt>げんかん</rt></ruby>"]},
+    {w:"bathroom", a:"<ruby>浴室<rt>よくしつ</rt></ruby>、トイレ", c:["<ruby>玄関<rt>げんかん</rt></ruby>、エントランス", "<ruby>庭園<rt>ていえん</rt></ruby>、ガーデン", "<ruby>寝室<rt>しんしつ</rt></ruby>、ベッドルーム"]},
+    {w:"towel", a:"タオル", c:["シャツ", "ベルト", "マスク"]},
+    {w:"phone", a:"<ruby>電話<rt>でんわ</rt></ruby>", c:["<ruby>時計<rt>とけい</rt></ruby>", "<ruby>手紙<rt>てがみ</rt></ruby>", "<ruby>辞書<rt>じしょ</rt></ruby>"]},
+    {w:"radio", a:"ラジオ", c:["テレビ", "カメラ", "ビデオ"]},
+    {w:"newspaper", a:"<ruby>新聞<rt>しんぶん</rt></ruby>", c:["<ruby>雑誌<rt>ざっし</rt></ruby>", "<ruby>辞書<rt>じしょ</rt></ruby>", "<ruby>絵本<rt>えほん</rt></ruby>"]},
+    {w:"photo", a:"<ruby>写真<rt>しゃしん</rt></ruby>", c:["<ruby>絵画<rt>かいが</rt></ruby>", "<ruby>鏡面<rt>きょうめん</rt></ruby>", "<ruby>窓枠<rt>まどわく</rt></ruby>"]},
+    {w:"comic", a:"<ruby>漫画本<rt>まんがぼん</rt></ruby>", c:["<ruby>小説本<rt>しょうせつぼん</rt></ruby>", "<ruby>新聞紙<rt>しんぶんし</rt></ruby>", "<ruby>雑誌類<rt>ざっしるい</rt></ruby>"]},
+    {w:"sofa", a:"ソファー", c:["テーブル", "ベッド", "デスク"]},
+    {w:"door", a:"ドア", c:["<ruby>窓枠<rt>まどわく</rt></ruby>", "<ruby>壁面<rt>へきめん</rt></ruby>", "<ruby>床板<rt>ゆかいた</rt></ruby>"]},
+    {w:"glass", a:"ガラス、コップ", c:["お<ruby>皿<rt>さら</rt></ruby>、プレート", "お<ruby>箸<rt>はし</rt></ruby>、フォーク", "お<ruby>鍋<rt>なべ</rt></ruby>、ケトル"]},
+    {w:"knife", a:"ナイフ", c:["フォーク", "スプーン", "プレート"]},
+    {w:"wallet", a:"さいふ", c:["かばん", "めがね", "ぼうし"]},
+    {w:"calendar", a:"カレンダー", c:["ポスター", "マップ", "ノート"]},
+    {w:"ruler", a:"<ruby>定規<rt>じょうぎ</rt></ruby>", c:["<ruby>鉛筆<rt>えんぴつ</rt></ruby>", "<ruby>筆箱<rt>ふでばこ</rt></ruby>", "<ruby>図鑑<rt>ずかん</rt></ruby>"]},
+    {w:"toy", a:"おもちゃ", c:["おやつ", "おみやげ", "おくりもの"]},
+    {w:"doghouse", a:"<ruby>犬小屋<rt>いぬごや</rt></ruby>", c:["<ruby>鳥<rt>とり</rt></ruby>かご", "<ruby>水槽<rt>すいそう</rt></ruby>", "<ruby>牛舎<rt>ぎゅうしゃ</rt></ruby>"]},
+    {w:"date", a:"<ruby>日付<rt>ひづけ</rt></ruby>", c:["<ruby>時刻<rt>じこく</rt></ruby>", "<ruby>天候<rt>てんこう</rt></ruby>", "<ruby>場所<rt>ばしょ</rt></ruby>"]},
+    {w:"noon", a:"<ruby>正午<rt>しょうご</rt></ruby>", c:["<ruby>深夜<rt>しんや</rt></ruby>", "<ruby>早朝<rt>そうちょう</rt></ruby>", "<ruby>夕方<rt>ゆうがた</rt></ruby>"]},
+    {w:"dictionary", a:"<ruby>辞書<rt>じしょ</rt></ruby>、<ruby>辞典<rt>じてん</rt></ruby>", c:["<ruby>教本<rt>きょうほん</rt></ruby>、<ruby>読本<rt>どくほん</rt></ruby>", "<ruby>雑誌<rt>ざっし</rt></ruby>、<ruby>新聞<rt>しんぶん</rt></ruby>", "<ruby>名簿<rt>めいぼ</rt></ruby>、<ruby>手帳<rt>てちょう</rt></ruby>"]},
+    {w:"paper", a:"<ruby>紙<rt>かみ</rt></ruby>、<ruby>答案用紙<rt>とうあんようし</rt></ruby>", c:["<ruby>本<rt>ほん</rt></ruby>、<ruby>教科書<rt>きょうかしょ</rt></ruby>", "<ruby>机<rt>つくえ</rt></ruby>、<ruby>事務机<rt>じむづくえ</rt></ruby>", "<ruby>筆<rt>ふで</rt></ruby>、<ruby>習字道具<rt>しゅうじどうぐ</rt></ruby>"]},
+    {w:"question", a:"<ruby>質問<rt>しつもん</rt></ruby>、<ruby>問題<rt>もんだい</rt></ruby>", c:["<ruby>回答<rt>かいとう</rt></ruby>、<ruby>返答<rt>へんとう</rt></ruby>", "<ruby>解説<rt>かいせつ</rt></ruby>、<ruby>説明<rt>せつめい</rt></ruby>", "<ruby>意見<rt>いけん</rt></ruby>、<ruby>感想<rt>かんそう</rt></ruby>"]},
+    {w:"floor", a:"<ruby>床<rt>ゆか</rt></ruby>、(<ruby>建物<rt>たてもの</rt></ruby>の)<ruby>階<rt>かい</rt></ruby>", c:["<ruby>壁<rt>かべ</rt></ruby>、(<ruby>部屋<rt>へや</rt></ruby>の)<ruby>角<rt>かど</rt></ruby>", "<ruby>窓<rt>まど</rt></ruby>、(<ruby>建物<rt>たてもの</rt></ruby>の)<ruby>枠<rt>わく</rt></ruby>", "<ruby>扉<rt>とびら</rt></ruby>、(<ruby>建物<rt>たてもの</rt></ruby>の)<ruby>門<rt>もん</rt></ruby>"]},
+    {w:"classroom", a:"<ruby>教室<rt>きょうしつ</rt></ruby>", c:["<ruby>売店<rt>ばいてん</rt></ruby>", "<ruby>食堂<rt>しょくどう</rt></ruby>", "<ruby>部室<rt>ぶしつ</rt></ruby>"]},
+    {w:"blackboard", a:"<ruby>黒板<rt>こくばん</rt></ruby>", c:["<ruby>机台<rt>きだい</rt></ruby>", "<ruby>椅子<rt>いす</rt></ruby>", "<ruby>教壇<rt>きょうだん</rt></ruby>"]},
+    {w:"eraser", a:"<ruby>消<rt>け</rt></ruby>しゴム", c:["ものさし", "えんぴつ", "ふでばこ"]},
+    {w:"map", a:"<ruby>地図<rt>ちず</rt></ruby>", c:["<ruby>絵画<rt>かいが</rt></ruby>", "<ruby>写真<rt>しゃしん</rt></ruby>", "<ruby>切手<rt>きって</rt></ruby>"]},
+    {w:"uniform", a:"<ruby>制服<rt>せいふく</rt></ruby>", c:["<ruby>私服<rt>しふく</rt></ruby>", "<ruby>水着<rt>みずぎ</rt></ruby>", "<ruby>下着<rt>したぎ</rt></ruby>"]},
+    {w:"grade", a:"<ruby>成績<rt>せいせき</rt></ruby>、<ruby>学年<rt>がくねん</rt></ruby>", c:["<ruby>氏名<rt>しめい</rt></ruby>、<ruby>番号<rt>ばんごう</rt></ruby>", "<ruby>校名<rt>こうめい</rt></ruby>、<ruby>学科<rt>がっか</rt></ruby>", "<ruby>住所<rt>じゅうしょ</rt></ruby>、<ruby>氏名<rt>しめい</rt></ruby>"]},
+    {w:"drama", a:"<ruby>演劇<rt>えんげき</rt></ruby>、ドラマ", c:["<ruby>合唱<rt>がっしょう</rt></ruby>、コーラス", "<ruby>演奏<rt>えんそう</rt></ruby>、ライブ", "<ruby>舞踊<rt>ぶよう</rt></ruby>、ダンス"]},
+    {w:"social studies", a:"<ruby>社会<rt>しゃかい</rt></ruby>", c:["<ruby>理科<rt>りか</rt></ruby>", "<ruby>算数<rt>さんすう</rt></ruby>", "<ruby>国語<rt>こくご</rt></ruby>"]},
+    {w:"bicycle", a:"<ruby>自転車<rt>じてんしゃ</rt></ruby>", c:["<ruby>自動車<rt>じどうしゃ</rt></ruby>", "<ruby>飛行機<rt>ひこうき</rt></ruby>", "<ruby>遊覧船<rt>ゆうらんせん</rt></ruby>"]},
+    {w:"taxi", a:"タクシー", c:["トラック", "バイク", "バス"]},
+    {w:"airplane", a:"<ruby>飛行機<rt>ひこうき</rt></ruby>", c:["<ruby>潜水艦<rt>せんすいかん</rt></ruby>", "<ruby>貨物船<rt>かもつせん</rt></ruby>", "<ruby>消防車<rt>しょうぼうしゃ</rt></ruby>"]},
+    {w:"plane", a:"<ruby>飛行機<rt>ひこうき</rt></ruby>", c:["ロケット", "<ruby>気球<rt>ききゅう</rt></ruby>", "ヘリ"]},
+    {w:"boat", a:"ボート", c:["シップ", "ヨット", "フェリー"]},
+    {w:"bridge", a:"<ruby>橋<rt>はし</rt></ruby>", c:["<ruby>道<rt>みち</rt></ruby>", "<ruby>川<rt>かわ</rt></ruby>", "<ruby>山<rt>やま</rt></ruby>"]},
+    {w:"supermarket", a:"スーパー", c:["デパート", "コンビニ", "モール"]},
+    {w:"café", a:"<ruby>喫茶店<rt>きっさてん</rt></ruby>、カフェ", c:["<ruby>食堂<rt>しょくどう</rt></ruby>、レストラン", "<ruby>酒場<rt>さかば</rt></ruby>、パブ", "<ruby>売店<rt>ばいてん</rt></ruby>、ショップ"]},
+    {w:"post office", a:"<ruby>郵便局<rt>ゆうびんきょく</rt></ruby>", c:["<ruby>銀行<rt>ぎんこう</rt></ruby>", "<ruby>病院<rt>びょういん</rt></ruby>", "<ruby>警察<rt>けいさつ</rt></ruby>"]},
+    {w:"stadium", a:"スタジアム、<ruby>競技場<rt>きょうぎじょう</rt></ruby>", c:["<ruby>公園<rt>こうえん</rt></ruby>、<ruby>広場<rt>ひろば</rt></ruby>", "<ruby>空港<rt>くうこう</rt></ruby>、<ruby>駅舎<rt>えきしゃ</rt></ruby>", "<ruby>農場<rt>のうじょう</rt></ruby>、<ruby>牧場<rt>ぼくじょう</rt></ruby>"]},
+    {w:"theater", a:"<ruby>劇場<rt>げきじょう</rt></ruby>、<ruby>映画館<rt>えいがかん</rt></ruby>", c:["<ruby>美術館<rt>びじゅつかん</rt></ruby>、<ruby>博物館<rt>はくぶつかん</rt></ruby>", "<ruby>図書館<rt>としょかん</rt></ruby>、<ruby>資料館<rt>しりょうかん</rt></ruby>", "<ruby>体育館<rt>たいいくかん</rt></ruby>、<ruby>競技場<rt>きょうぎじょう</rt></ruby>"]},
+    {w:"hall", a:"ホール、<ruby>廊下<rt>ろうか</rt></ruby>", c:["<ruby>階段<rt>かいだん</rt></ruby>、<ruby>出口<rt>でぐち</rt></ruby>", "<ruby>広場<rt>ひろば</rt></ruby>、<ruby>公園<rt>こうえん</rt></ruby>", "<ruby>客室<rt>きゃくしつ</rt></ruby>、<ruby>寝室<rt>しんしつ</rt></ruby>"]},
+    {w:"farm", a:"<ruby>農場<rt>のうじょう</rt></ruby>、<ruby>農園<rt>のうえん</rt></ruby>", c:["<ruby>工場<rt>こうじょう</rt></ruby>、<ruby>施設<rt>しせつ</rt></ruby>", "<ruby>会場<rt>かいじょう</rt></ruby>、<ruby>広場<rt>ひろば</rt></ruby>", "<ruby>庭園<rt>ていえん</rt></ruby>、<ruby>公園<rt>こうえん</rt></ruby>"]},
+    {w:"corner", a:"<ruby>角<rt>かど</rt></ruby>、<ruby>曲<rt>ま</rt></ruby>がり<ruby>角<rt>かど</rt></ruby>", c:["<ruby>端<rt>はし</rt></ruby>、はしっこ", "<ruby>奥<rt>おく</rt></ruby>、<ruby>行<rt>い</rt></ruby>き<ruby>止<rt>ど</rt></ruby>まり", "<ruby>横<rt>よこ</rt></ruby>、<ruby>通<rt>とお</rt></ruby>り<ruby>抜<rt>ぬ</rt></ruby>け"]},
+    {w:"hometown", a:"<ruby>故郷<rt>こきょう</rt></ruby>", c:["<ruby>都会<rt>とかい</rt></ruby>", "<ruby>海外<rt>かいがい</rt></ruby>", "<ruby>田舎<rt>いなか</rt></ruby>"]}
+];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    quizQueue = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    document.getElementById('word-text').textContent = current.w;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < quizQueue.length) { loadQuestion(); } else { showResult(); }
+        }, 500);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({w: quizQueue[currentIndex].w, a: quizQueue[currentIndex].a});
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item"><strong>${m.w}</strong><span>${m.a.replace(/<[^>]*>?/gm, '')}</span></div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p70-77 名詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・${m.w} (${m.a.replace(/<[^>]*>?/gm, '')})`).join("\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべて一発正解でした！すばらしい！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（p70-77 名詞）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
