@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2024-1 4A Dance Lesson 読解重要ワードクイズ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f4f8; 
+            --primary-blue: #2196f3; 
+            --accent-purple: #9c27b0; 
+            --text-dark: #333;
+            --white: #ffffff;
+            --success-green: #66bb6a;
+            --error-red: #ef5350;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        /* 英数字も含め、全ての要素にフォントを強制適用 */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            font-family: var(--base-font) !important;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 95%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .question-box {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            text-align: left;
+            padding: 20px;
+            background: #f8fbff;
+            border: 1px solid #d1e9ff;
+            border-radius: 12px;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--primary-blue);
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            width: 100%;
+        }
+
+        .choice-btn.correct { background-color: var(--success-green); border-color: var(--success-green); color: white; }
+        .choice-btn.wrong { background-color: var(--error-red); border-color: var(--error-red); color: white; }
+
+        #feedback-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            text-align: left;
+            background: #fff9c4;
+            border-left: 5px solid #fbc02d;
+        }
+
+        .action-btn { 
+            background-color: var(--accent-purple); 
+            color: white; 
+            border: none; 
+            padding: 15px; 
+            border-radius: 10px; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        #result-screen { display: none; }
+    </style>
+</head>
+<body>
+    <header><h1>2024-1 4A Dance Lesson 読解重要ワードクイズ</h1></header>
+    <div class="container" id="quiz-screen">
+        <div id="progress-text" style="font-weight:bold; color:var(--primary-blue); margin-bottom:10px;">Question 1 / 10</div>
+        <div class="question-box" id="question-text">Loading...</div>
+        <div class="choices-grid" id="choices-container"></div>
+        <div id="feedback-area">
+            <strong>【解説】</strong><br><span id="explanation-text"></span>
+            <button class="action-btn" onclick="nextQuestion()">次の問題へ</button>
+        </div>
+    </div>
+    <div class="container" id="result-screen">
+        <h2>完了！</h2>
+        <div style="font-size: 1.5rem; margin: 20px 0;">スコア: <span id="final-score">0</span> / 10</div>
+        <button class="action-btn" onclick="location.reload()">もう一度</button>
+    </div>
+    <script>
+        /* 前回のスクリプトをここに挿入 */
+        const quizData = [
+            {q:"文頭の 'There (will be) ~' の中での 'there' の役割は？", a:"人や物の存在を伝えるきっかけを作る", c:["特定の場所を指して「そこ」と伝える","過去に起きた出来事の時間を伝える","相手の所有している物について伝える"], ex:"新しい情報を出す合図です。「そこ」という意味はありません。"},
+            {q:"掲示板の見出しの 'Date' の意味は？", a:"日付", c:["場所","費用","氏名"], ex:"カレンダー上の日を指します。"},
+            {q:"'Fifteen students' の 'fifteen' の意味は？", a:"15人", c:["50人","15時","5人"], ex:"-teenは10台（13〜19）の数字です。"},
+            {q:"'Students must bring lunch.' の 'must' の意味は？", a:"～しなければならない", c:["～したほうがいい","～したいと思う","～することができる"], ex:"強いルール・義務を表します。"},
+            {q:"'gym shoes' の意味は？", a:"体育館履き", c:["運動場履き","通学用革靴","水泳用用品"], ex:"室内で使う運動用の靴です。"},
+            {q:"'at the end of the lesson' の 'end' の意味は？", a:"終わり", c:["始まり","途中","予約"], ex:"最後（終点）を指します。"},
+            {q:"'City Hall' の意味は？", a:"市役所", c:["体育館","図書館","博物館"], ex:"市の行政を行う建物です。"},
+            {q:"「～すべきだ」というアドバイスの語は？", a:"should", c:["would","could","might"], ex:"質問文でよく使われる重要語です。"},
+            {q:"'textbook' の意味は？", a:"教科書", c:["記念品","整理券","領収書"], ex:"勉強に使う本（教材）です。"},
+            {q:"動詞の 'clean' の意味は？", a:"掃除する", c:["修理する","訪問する","見学する"], ex:"場所をきれいにすることです。"}
+        ];
+        let currentIndex=0, score=0, answered=false;
+        function showQuestion(){
+            answered=false; const d=quizData[currentIndex];
+            document.getElementById('progress-text').textContent=`Question ${currentIndex+1} / 10`;
+            document.getElementById('question-text').textContent=d.q;
+            document.getElementById('feedback-area').style.display='none';
+            const cont=document.getElementById('choices-container'); cont.innerHTML='';
+            [d.a, ...d.c].sort(()=>Math.random()-0.5).forEach(choice=>{
+                const btn=document.createElement('button'); btn.className='choice-btn'; btn.innerHTML=choice;
+                btn.onclick=()=>{ if(answered)return; answered=true;
+                    if(choice===d.a){ score++; btn.classList.add('correct'); }
+                    else{ btn.classList.add('wrong'); Array.from(cont.children).forEach(b=>{if(b.innerHTML===d.a)b.classList.add('correct')});}
+                    document.getElementById('explanation-text').textContent=d.ex;
+                    document.getElementById('feedback-area').style.display='block';
+                }; cont.appendChild(btn);
+            });
+        }
+        function nextQuestion(){ currentIndex++; if(currentIndex<10) showQuestion(); else {document.getElementById('quiz-screen').style.display='none'; document.getElementById('result-screen').style.display='block'; document.getElementById('final-score').textContent=score;}}
+        window.onload=showQuestion;
+    </script>
+</body>
+</html>
