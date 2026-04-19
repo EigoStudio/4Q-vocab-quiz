@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2024-1 大問1 Vocabulary Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p1-bg: #f5f5f5; --p1-primary: #ff9800;
+            --p2-bg: #f0f4f8; --p2-primary: #2196f3;
+            --white: #ffffff; --text-dark: #212121;
+            --success: #4caf50; --error: #f44336;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", sans-serif;
+        }
+
+        body { font-family: var(--base-font); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
+        body.part1-mode { background-color: var(--p1-bg); }
+        body.part2-mode { background-color: var(--p2-bg); }
+
+        header { width: 100%; padding: 20px 0; text-align: center; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .part1-mode header { background-color: var(--p1-primary); }
+        .part2-mode header { background-color: var(--p2-primary); }
+
+        .tab-container { display: flex; width: 95%; max-width: 600px; margin: 15px 0; gap: 5px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 10px 10px 0 0; background: #ccc; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: var(--white); cursor: default; }
+        .part1-mode .tab-btn.active { color: var(--p1-primary); border-top: 4px solid var(--p1-primary); }
+        .part2-mode .tab-btn.active { color: var(--p2-primary); border-top: 4px solid var(--p2-primary); }
+
+        .container { max-width: 600px; width: 92%; background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; margin-bottom: 30px; }
+        .q-num { color: #888; margin-bottom: 10px; }
+        .question-text { font-size: 1.3rem; margin-bottom: 25px; font-weight: bold; line-height: 1.5; }
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .choice-btn { background: var(--white); border: 2px solid #e0e0e0; padding: 15px 5px; border-radius: 12px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; min-height: 60px; }
+        .choice-btn.correct { background-color: var(--success) !important; color: white; border-color: var(--success); }
+        .choice-btn.wrong { background-color: var(--error) !important; color: white; border-color: var(--error); opacity: 0.6; }
+
+        #feedback-area { margin-top: 20px; display: none; padding: 15px; border-radius: 10px; background: #f0fdf4; }
+        .next-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; background: var(--p1-primary); margin-top: 10px; }
+        .part2-mode .next-btn { background: var(--p2-primary); }
+        
+        /* Result Screen */
+        .report-btn { background-color: #e91e63; color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; width: 100%; margin-top: 10px; cursor: pointer; font-weight: bold; }
+        .bonus-box { background: #fffde7; border: 2px dashed #fbc02d; padding: 20px; border-radius: 15px; margin: 20px 0; }
+        ruby rt { font-size: 0.6em; }
+    </style>
+</head>
+<body class="part1-mode">
+
+<header>
+    <h1 style="margin:0; font-size: 1.3rem;">2024-1 大問1 Vocabulary Quiz</h1>
+</header>
+
+<div class="tab-container" id="tabs">
+    <button id="tab1" class="tab-btn active" onclick="switchPart(1)">Part 1: <ruby>和訳<rt>わやく</rt></ruby></button>
+    <button id="tab2" class="tab-btn" onclick="switchPart(2)">Part 2: <ruby>文法<rt>ぶんぽう</rt></ruby></button>
+</div>
+
+<div class="container" id="quiz-screen">
+    <div class="q-num" id="progress">Question 1 / 28</div>
+    <div class="question-text" id="question-display">Loading...</div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback-area">
+        <span style="color:var(--success); font-weight:bold; font-size:1.4rem;">Correct! ✨</span><br>
+        <button class="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<div class="container" id="result-screen" style="display:none;">
+    <h2>Training Complete!</h2>
+    <div class="bonus-box" id="bonus-message">
+        <h3 style="margin-top:0; color:#f57f17;">🎁 <ruby>特別<rt>とくべつ</rt></ruby>ボーナス</h3>
+        <p id="reward-text"></p>
+    </div>
+    <p style="font-size: 1.2rem;">一発正解スコア: <span id="final-score" style="font-weight:bold; color:var(--success);">0</span></p>
+    <button class="report-btn" onclick="sendReport()">Tamaki先生に報告する</button>
+    <button class="next-btn" style="background:#9e9e9e;" onclick="location.reload()">もう一度挑戦</button>
+</div>
+
+<script>
+// --- Data Structure ---
+const part1Data = [
+    {q:"thirsty", a:"のどがかわいた", c:["おなかがすいた", "つかれた", "ねむい"]},
+    {q:"dark", a:"暗い", c:["明るい", "広い", "重い"]},
+    {q:"left", a:"左の / 去った", c:["右の", "正しい", "真ん中の"]},
+    {q:"popular", a:"<ruby>人気<rt>にんき</rt></ruby>がある", c:["有名な", "親切な", "退屈な"]},
+    {q:"radio", a:"ラジオ", c:["テレビ", "電話", "時計"]},
+    {q:"sky", a:"空", c:["海", "山", "川"]},
+    {q:"computer", a:"コンピューター", c:["辞書", "教科書", "ノート"]},
+    {q:"airport", a:"<ruby>空港<rt>くうこう</rt></ruby>", c:["駅", "港", "バス停"]},
+    {q:"farm", a:"<ruby>農場<rt>のうじょう</rt></ruby>", c:["工場", "公園", "庭"]},
+    {q:"eraser", a:"消しゴム", c:["筆箱", "定規", "鉛筆"]},
+    {q:"boat", a:"ボート", c:["車", "飛行機", "電車"]},
+    {q:"mirror", a:"鏡", c:["窓", "ドア", "壁"]},
+    {q:"meet", a:"会う", c:["話す", "聞く", "見る"]},
+    {q:"eat", a:"食べる", c:["飲む", "料理する", "買う"]},
+    {q:"wash", a:"洗う", c:["磨く", "切る", "置く"]},
+    {q:"lose", a:"なくす / 負ける", c:["見つける", "勝つ", "作る"]},
+    {q:"ticket", a:"チケット", c:["お金", "財布", "カバン"]},
+    {q:"magazine", a:"<ruby>雑誌<rt>ざっし</rt></ruby>", c:["新聞", "絵本", "地図"]},
+    {q:"room", a:"部屋", c:["家", "店", "学校"]},
+    {q:"show", a:"ショー / 見せる", c:["ゲーム", "練習", "休み"]},
+    {q:"angry", a:"怒った", c:["悲しい", "幸せな", "怖い"]},
+    {q:"fast", a:"速い", c:["遅い", "高い", "安い"]},
+    {q:"excited", a:"わくわくした", c:["つかれた", "おどろいた", "ひまな"]},
+    {q:"beautiful", a:"美しい", c:["汚い", "古い", "新しい"]},
+    {q:"cloudy", a:"くもりの", c:["晴れの", "雨の", "雪の"]},
+    {q:"late", a:"遅れた", c:["早い", "近い", "遠い"]},
+    {q:"quiet", a:"しずかな", c:["うるさい", "にぎやかな", "危ない"]},
+    {q:"study", a:"勉強する", c:["遊ぶ", "走る", "寝る"]}
+];
+
+const part2Data = [
+    {q:"「例えば」という意味になるように選びなさい。<br>For ( )", a:"example", c:["action", "kitchen", "answer"]},
+    {q:"action の和訳を選びなさい。", a:"行動・動作", c:["答え", "台所", "例"]},
+    {q:"answer の和訳を選びなさい。", a:"答え", c:["質問", "理由", "行動"]},
+    {q:"How ( ) is the movie?<br>（その映画はどのくらいの長さですか？）", a:"long", c:["cheap", "big", "early"]},
+    {q:"early の和訳を選びなさい。", a:"早い / 早く", c:["遅い", "長い", "短い"]},
+    {q:"one and a half hours の和訳を選びなさい。", a:"1時間半", c:["1時間", "2時間", "30分"]},
+    {q:"「ケイトと話す」という意味になるように選びなさい。<br>speak ( ) Kate", a:"to", c:["under", "of", "in"]},
+    {q:"a cup of water の和訳を選びなさい。", a:"1杯の水", c:["1切れの水", "水のメニュー", "水のグループ"]},
+    {q:"a piece of cake の和訳を選びなさい。", a:"1切れのケーキ", c:["1杯のケーキ", "ケーキの箱", "ケーキの味"]},
+    {q:"for a minute の和訳を選びなさい。", a:"少しの間", c:["1分ごとに", "ずっと", "すぐに"]},
+    {q:"Let's sit ( ) on this bench.<br>（このベンチに座りましょう）", a:"down", c:["up", "on", "away"]},
+    {q:"stop ( )<br>「歩くのをやめる」", a:"walking", c:["walk", "walked", "to walk"]},
+    {q:"She ( ) dinner.<br>「彼女は夕食を作りました（過去）」", a:"made", c:["makes", "is making", "will make"]},
+    {q:"This book is ( ) than that one.<br>「この本はあれよりおもしろい」", a:"more interesting", c:["interestinger", "most interesting", "interest"]},
+    {q:"She is the ( ) interesting girl in my class.<br>「クラスで一番おもしろい」", a:"most", c:["more", "many", "much"]},
+    {q:"( ) I open the window?<br>「窓を開けましょうか？」", a:"Shall", c:["Could", "Can", "May"]}
+];
+
+// --- Logic ---
+let currentSet = [];
+let currentIndex = 0;
+let isAnswered = false;
+let firstTryCount = 0;
+let isFirstTryInQ = true;
+let currentPartName = "";
+
+function switchPart(partNum) {
+    currentPartName = (partNum === 1) ? "Part 1 (和訳)" : "Part 2 (文法)";
+    document.body.className = partNum === 1 ? 'part1-mode' : 'part2-mode';
+    document.getElementById('tab1').className = partNum === 1 ? 'tab-btn active' : 'tab-btn';
+    document.getElementById('tab2').className = partNum === 2 ? 'tab-btn active' : 'tab-btn';
+    
+    currentSet = partNum === 1 ? [...part1Data] : [...part2Data];
+    currentIndex = 0;
+    firstTryCount = 0;
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    showQuestion();
+}
+
+function showQuestion() {
+    isAnswered = false;
+    isFirstTryInQ = true;
+    document.getElementById('feedback-area').style.display = 'none';
+    const data = currentSet[currentIndex];
+    document.getElementById('progress').textContent = `Question ${currentIndex + 1} / ${currentSet.length}`;
+    document.getElementById('question-display').innerHTML = data.q;
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    
+    const choices = [data.a, ...data.c].sort(() => Math.random() - 0.5);
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => {
+            if (isAnswered) return;
+            if (choice === data.a) {
+                isAnswered = true;
+                if (isFirstTryInQ) firstTryCount++;
+                btn.classList.add('correct');
+                document.getElementById('feedback-area').style.display = 'block';
+            } else {
+                isFirstTryInQ = false;
+                btn.classList.add('wrong');
+            }
+        };
+        container.appendChild(btn);
+    });
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < currentSet.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = `${firstTryCount} / ${currentSet.length}`;
+    
+    const reward = document.getElementById('reward-text');
+    if (firstTryCount === currentSet.length) {
+        reward.innerHTML = "素晴らしい！全問一発正解です！🏅<br>Tamaki先生もきっと驚きますよ！";
+    } else if (firstTryCount >= currentSet.length * 0.8) {
+        reward.innerHTML = "合格圏内です！✨<br>この調子で英検本番も頑張りましょう！";
+    } else {
+        reward.innerHTML = "完走おめでとう！🌈<br>繰り返し解いて、満点を目指そう！";
+    }
+}
+
+function sendReport() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent(`英検4級 2024-1 大問1 学習報告 (${currentPartName})`);
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級 2024-1 大問1のクイズを完了しました！\n\n【結果】\nコース: ${currentPartName}\n一発正解数: ${firstTryCount} / ${currentSet.length}\n\n次は満点を目指して頑張ります！`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = () => switchPart(1);
+</script>
+</body>
+</html>
