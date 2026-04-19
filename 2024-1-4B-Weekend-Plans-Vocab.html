@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2024-1 4B Weekend Plans 読解重要ワードクイズ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f4f8; 
+            --primary-blue: #2196f3; 
+            --accent-purple: #9c27b0; 
+            --text-dark: #333;
+            --white: #ffffff;
+            --success-green: #66bb6a;
+            --error-red: #ef5350;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            font-family: var(--base-font);
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 92%;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .progress-text { color: var(--primary-blue); font-weight: bold; margin-bottom: 15px; }
+        
+        .question-box {
+            font-size: 1.15rem;
+            font-weight: bold;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 80px;
+            text-align: left;
+            border-left: 5px solid var(--accent-purple);
+            background: #f9f9f9;
+            padding: 15px;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .choice-btn.correct { background-color: var(--success-green) !important; color: white; border-color: var(--success-green); }
+        .choice-btn.wrong { background-color: var(--error-red) !important; color: white; border-color: var(--error-red); opacity: 0.7; }
+
+        #feedback-area {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .explanation { font-size: 0.95rem; color: #555; margin-top: 8px; line-height: 1.4; }
+
+        .next-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .report-btn { background-color: #e91e63; color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; width: 100%; margin-top: 20px; cursor: pointer; font-weight: bold; }
+
+        ruby rt { font-size: 0.6em; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="margin:0; font-size: 1.3rem;">2024-1 4B Weekend Plans クイズ</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-text" id="progress">Question 1 / 10</div>
+    <div class="question-box" id="question-text">Loading...</div>
+    <div class="choices-grid" id="choices-container"></div>
+    
+    <div id="feedback-area">
+        <div style="font-weight:bold; color:var(--primary-blue);">✨ Correct!</div>
+        <div class="explanation" id="explanation-text"></div>
+        <button class="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<div class="container" id="result-screen" style="display:none;">
+    <h2 style="color:var(--accent-purple);">Training Complete!</h2>
+    <p style="font-size: 1.4rem;">一発正解: <span id="final-score" style="color:var(--primary-blue); font-weight:bold;">0</span> / 10</p>
+    <div style="background:#fff9c4; padding:15px; border-radius:10px; margin-bottom:20px;" id="bonus-msg"></div>
+    <button class="report-btn" onclick="sendReport()">Tamaki先生に報告する</button>
+    <button class="next-btn" style="background:#9e9e9e;" onclick="location.reload()">もう一度挑戦</button>
+</div>
+
+<script>
+// 本文の順序に沿った固定の問題データ
+const quizData = [
+    {
+        q: "Thank you for inviting me to your house this weekend!<br>BethはCathyに何を感謝している？",
+        a: "家へ招待してくれたこと",
+        c: ["プレゼントをくれたこと", "宿題を手伝ってくれたこと", "傘を貸してくれたこと"],
+        ex: "inviteは「招待する」という意味です。週末にCathyの家に泊まりにいくことへのお礼ですね。"
+    },
+    {
+        q: "this weekend<br>この言葉の意味として最も適切なものは？",
+        a: "今週末",
+        c: ["先週末", "来週末", "毎週末"],
+        ex: "this weekendは「この週末＝今週末」を指します。"
+    },
+    {
+        q: "I'm excited about going skiing on Saturday afternoon and having a barbecue on Saturday evening.<br>Bethは何を楽しみにしている？",
+        a: "土曜午後のスキーと夜のBBQ",
+        c: ["土曜午前のハイキングと映画", "日曜のフェスティバルだけ", "山でキャンプをすること"],
+        ex: "本文ではgoing skiing（スキーに行くこと）とbarbecue（バーベキュー）を楽しみにしています。"
+    },
+    {
+        q: "Should I bring an umbrella?<br>この一文でBethは何を確認している？",
+        a: "傘を持っていくべきかどうか",
+        c: ["傘を借りられるかどうか", "雨が降っているかどうか", "いつ傘が必要になるか"],
+        ex: "Should I ~? は「私は〜すべきですか？」という確認の表現です。bringは「持っていく」です。"
+    },
+    {
+        q: "I can't wait to see you.<br>このフレーズの正しい意味は？",
+        a: "あなたに会うのが待ちきれません",
+        c: ["会うのを待ってください", "会うことができません", "どこで会えますか？"],
+        ex: "can't wait to ~ で「〜するのが待ち遠しい」という意味。楽しみな気持ちが伝わります。"
+    },
+    {
+        q: "We can go to the festival in my town on Sunday.<br>Cathyは何を提案している？",
+        a: "日曜日に地元のフェスティバルに行くこと",
+        c: ["土曜日に映画を見ること", "日曜日に山に登ること", "日曜日に家でパーティーをすること"],
+        ex: "Cathyの返信メールで、日曜日の最初のプランとして提案されています。"
+    },
+    {
+        q: "We can also go and watch a movie on Sunday evening.<br>いつ映画に行こうと言っている？",
+        a: "日曜日の晩（夕方）",
+        c: ["日曜日の昼間", "土曜日の夜", "日曜日の朝"],
+        ex: "eveningは「晩・夕方」を指します。日曜日の締めくくりの予定ですね。"
+    },
+    {
+        q: "What do you think?<br>この言葉でCathyは何を聞いている？",
+        a: "（私の提案について）どう思う？",
+        c: ["何を考えているの？", "何を持ってくるの？", "誰と行くつもり？"],
+        ex: "Cathyが立てた日曜日のプラン（お祭りや映画）がBethにとって良いかどうかを確認しています。"
+    },
+    {
+        q: "The weather will be hot and sunny all weekend.<br>週末の天気はどうなりそう？",
+        a: "週末ずっと暑くて晴れ",
+        c: ["雨が降りそう", "土曜だけ晴れ", "曇りで少し涼しい"],
+        ex: "all weekend（週末ずっと）hot（暑い）and sunny（晴れ）になると言っています。"
+    },
+    {
+        q: "You should bring your cap.<br>天気がいいため、Cathyはどんなアドバイスをしている？",
+        a: "ぼうしを持ってくるべき",
+        c: ["日傘を持ってくるべき", "水筒を持ってくるべき", "上着を持ってくるべき"],
+        ex: "暑くて晴れる予報なので、スキー（Bethのメール）や移動の時に必要なcap（帽子）を勧めています。"
+    }
+];
+
+// 選択肢シャッフル用関数
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+let currentIndex = 0;
+let score = 0;
+let isAnswered = false;
+let isFirstTry = true;
+
+function showQuestion() {
+    isAnswered = false;
+    isFirstTry = true;
+    document.getElementById('feedback-area').style.display = 'none';
+    const d = quizData[currentIndex];
+    document.getElementById('progress').textContent = `Question ${currentIndex + 1} / ${quizData.length}`;
+    document.getElementById('question-text').innerHTML = d.q;
+    
+    const cont = document.getElementById('choices-container');
+    cont.innerHTML = '';
+    
+    // 選択肢のみシャッフル
+    const choices = shuffleArray([d.a, ...d.c]);
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => {
+            if (isAnswered) return;
+            if (choice === d.a) {
+                isAnswered = true;
+                if (isFirstTry) score++;
+                btn.classList.add('correct');
+                document.getElementById('explanation-text').textContent = d.ex;
+                document.getElementById('feedback-area').style.display = 'block';
+            } else {
+                isFirstTry = false;
+                btn.classList.add('wrong');
+            }
+        };
+        cont.appendChild(btn);
+    });
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < quizData.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = score;
+    
+    const msg = document.getElementById('bonus-msg');
+    if (score === quizData.length) msg.innerHTML = "🎯 <b>Perfect!</b> 本文の流れを完璧に理解しています！Tamaki先生に報告しましょう！";
+    else if (score >= 8) msg.innerHTML = "✨ <b>Great Job!</b> かなりの読解力です。間違えた箇所の解説を読み直そう。";
+    else msg.innerHTML = "💪 <b>Keep it up!</b> 本文をもう一度ゆっくり読んで、再挑戦してみましょう！";
+}
+
+function sendReport() {
+    const email = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 4B Weekend Plans 読解クイズ結果");
+    const body = encodeURIComponent(`Tamaki先生へ\n\n「4B Weekend Plans」の読解クイズ（本文順）を完了しました！\n\n結果: 一発正解 ${score} / ${quizData.length}\n\nメールの流れに沿って、内容を正しく理解することができました！`);
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+}
+
+window.onload = showQuestion;
+</script>
+</body>
+</html>

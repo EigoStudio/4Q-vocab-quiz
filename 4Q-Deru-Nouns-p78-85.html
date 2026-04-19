@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 名詞 p78-85</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .word-display { 
+            font-size: 3.2rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            letter-spacing: 1px;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 85px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        ruby rt { font-size: 0.55em; font-weight: normal; color: #555; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.2rem;">英検4級でる順パス単 名詞 p78-85</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 54</div>
+    <div class="word-area">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 54</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル）</button>
+</div>
+
+<script>
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').textContent;
+    speak(word);
+}
+
+const quizData = [
+    // p78-79 趣味・休日 / 身体
+    {w:"vacation", a:"<ruby>休<rt>やす</rt></ruby>み、<ruby>休暇<rt>きゅうか</rt></ruby>", c:["<ruby>旅行<rt>りょこう</rt></ruby>", "<ruby>祭り<rt>まつり</rt></ruby>", "<ruby>宿題<rt>しゅくだい</rt></ruby>"]},
+    {w:"travel", a:"<ruby>旅行<rt>りょこう</rt></ruby>", c:["<ruby>散歩<rt>さんぽ</rt></ruby>", "<ruby>運動<rt>うんどう</rt></ruby>", "<ruby>帰宅<rt>きたく</rt></ruby>"]},
+    {w:"festival", a:"<ruby>祭<rt>まつ</rt></ruby>り、～<ruby>祭<rt>さい</rt></ruby>", c:["<ruby>式典<rt>しきてん</rt></ruby>", "<ruby>展覧会<rt>てんらんかい</rt></ruby>", "<ruby>劇場<rt>げきじょう</rt></ruby>"]},
+    {w:"homestay", a:"ホームステイ", c:["キャンプ", "ホテル", "テント"]},
+    {w:"tent", a:"テント", c:["バッグ", "ボート", "ベンチ"]},
+    {w:"painting", a:"<ruby>絵<rt>え</rt></ruby>、<ruby>絵画<rt>かいが</rt></ruby>", c:["<ruby>写真<rt>しゃしん</rt></ruby>", "<ruby>彫刻<rt>ちょうこく</rt></ruby>", "<ruby>楽器<rt>がっき</rt></ruby>"]},
+    {w:"comedy", a:"<ruby>喜劇<rt>きげき</rt></ruby>、コメディー", c:["<ruby>悲劇<rt>ひげき</rt></ruby>", "<ruby>小説<rt>しょうせつ</rt></ruby>", "<ruby>歴史<rt>れきし</rt></ruby>"]},
+    {w:"gift", a:"<ruby>贈<rt>おく</rt></ruby>り<ruby>物<rt>もの</rt></ruby>", c:["お<ruby>金<rt>かね</rt></ruby>", "<ruby>手紙<rt>てがみ</rt></ruby>", "<ruby>荷物<rt>にもつ</rt></ruby>"]},
+    {w:"stomachache", a:"<ruby>胃痛<rt>いつう</rt></ruby>、<ruby>腹痛<rt>ふくつう</rt></ruby>", c:["<ruby>頭痛<rt>ずつう</rt></ruby>", "<ruby>腰痛<rt>ようつう</rt></ruby>", "<ruby>歯痛<rt>しつう</rt></ruby>"]},
+    {w:"headache", a:"<ruby>頭痛<rt>ずつう</rt></ruby>", c:["<ruby>喉<rt>のど</rt></ruby>の<ruby>痛<rt>いた</rt></ruby>み", "<ruby>発熱<rt>はつねつ</rt></ruby>", "<ruby>目眩<rt>めまい</rt></ruby>"]},
+    
+    // p79-81 人・職業
+    {w:"people", a:"<ruby>人々<rt>ひとびと</rt></ruby>", c:["<ruby>子供<rt>こども</rt></ruby>たち", "<ruby>大人<rt>おとな</rt></ruby>", "<ruby>友達<rt>ともだち</rt></ruby>"]},
+    {w:"writer", a:"<ruby>筆者<rt>ひっしゃ</rt></ruby>、<ruby>作家<rt>さっか</rt></ruby>", c:["<ruby>画家<rt>がか</rt></ruby>", "<ruby>歌手<rt>かしゅ</rt></ruby>", "<ruby>読者<rt>どくしゃ</rt></ruby>"]},
+    {w:"artist", a:"<ruby>芸術家<rt>げいじゅつか</rt></ruby>、<ruby>画家<rt>がか</rt></ruby>", c:["<ruby>音楽家<rt>おんがくか</rt></ruby>", "<ruby>科学者<rt>かがくしゃ</rt></ruby>", "<ruby>写真家<rt>しゃしんか</rt></ruby>"]},
+    {w:"singer", a:"<ruby>歌手<rt>かしゅ</rt></ruby>", c:["<ruby>俳優<rt>はいゆう</rt></ruby>", "<ruby>監督<rt>かんとく</rt></ruby>", "<ruby>選手<rt>せんしゅ</rt></ruby>"]},
+    {w:"pianist", a:"ピアニスト", c:["ギタリスト", "ドラマー", "バイオリニスト"]},
+    {w:"driver", a:"<ruby>運転手<rt>うんてんしゅ</rt></ruby>、ドライバー", c:["<ruby>機長<rt>きちょう</rt></ruby>", "<ruby>船長<rt>せんちょう</rt></ruby>", "<ruby>車掌<rt>しゃしょう</rt></ruby>"]},
+    {w:"waiter", a:"ウエーター", c:["コック", "マネージャー", "レジ<ruby>係<rt>がかり</rt></ruby>"]},
+    {w:"farmer", a:"<ruby>農場主<rt>のうじょうぬし</rt></ruby>、<ruby>農場経営者<rt>のうじょうけいえいしゃ</rt></ruby>", c:["<ruby>漁師<rt>りょうし</rt></ruby>", "<ruby>大工<rt>だいく</rt></ruby>", "<ruby>職人<rt>しょくにん</rt></ruby>"]},
+    {w:"coach", a:"コーチ、<ruby>指導者<rt>しどうしゃ</rt></ruby>", c:["<ruby>選手<rt>せんしゅ</rt></ruby>", "<ruby>主将<rt>しゅしょう</rt></ruby>", "<ruby>審判<rt>しんぱん</rt></ruby>"]},
+    {w:"sir", a:"(<ruby>男性<rt>だんせい</rt></ruby>に<ruby>対<rt>たい</rt></ruby>して)お<ruby>客<rt>きゃく</rt></ruby>さま", c:["(<ruby>女性<rt>じょせい</rt></ruby>に<ruby>対<rt>たい</rt></ruby>して)お<ruby>客<rt>きゃく</rt></ruby>さま", "<ruby>主人<rt>しゅじん</rt></ruby>", "<ruby>先生<rt>せんせい</rt></ruby>"]},
+    {w:"visitor", a:"<ruby>訪問客<rt>ほうもんきゃく</rt></ruby>、<ruby>宿泊客<rt>しゅくはくきゃく</rt></ruby>", c:["<ruby>店員<rt>てんいん</rt></ruby>", "<ruby>従業員<rt>じゅうぎょういん</rt></ruby>", "<ruby>案内係<rt>あんないがかり</rt></ruby>"]},
+
+    // p81 家族
+    {w:"wife", a:"<ruby>妻<rt>つま</rt></ruby>", c:["<ruby>夫<rt>おっと</rt></ruby>", "<ruby>娘<rt>むすめ</rt></ruby>", "<ruby>母<rt>はは</rt></ruby>"]},
+    {w:"uncle", a:"おじ", c:["おば", "いとこ", "めい"]},
+    {w:"baby", a:"<ruby>赤<rt>あか</rt></ruby>ちゃん", c:["<ruby>幼児<rt>ようじ</rt></ruby>", "<ruby>若者<rt>わかもの</rt></ruby>", "<ruby>子供<rt>こども</rt></ruby>"]},
+    {w:"children", a:"<ruby>子供<rt>こども</rt></ruby>たち", c:["<ruby>大人<rt>おとな</rt></ruby>たち", "<ruby>兄弟<rt>きょうだい</rt></ruby>たち", "<ruby>孫<rt>まご</rt></ruby>たち"]},
+    {w:"daughter", a:"<ruby>娘<rt>むすめ</rt></ruby>", c:["<ruby>息子<rt>むすこ</rt></ruby>", "<ruby>姉<rt>あね</rt></ruby>", "<ruby>姪<rt>めい</rt></ruby>"]},
+    {w:"cousin", a:"いとこ", c:["おじ", "おば", "おい"]},
+    {w:"wedding", a:"<ruby>結婚式<rt>けっこんしき</rt></ruby>、<ruby>結婚記念日<rt>けっこんきねんび</rt></ruby>", c:["<ruby>誕生会<rt>たんじょうかい</rt></ruby>", "<ruby>祝賀会<rt>しゅくがい</rt></ruby>", "<ruby>葬儀<rt>そうぎ</rt></ruby>"]},
+
+    // p82-83 食べ物
+    {w:"dessert", a:"デザート", c:["スープ", "サラダ", "メインディッシュ"]},
+    {w:"ice cream", a:"アイスクリーム", c:["シャーベット", "ケーキ", "パフェ"]},
+    {w:"candy", a:"キャンディー", c:["チョコ", "ガム", "クッキー"]},
+    {w:"doughnut", a:"ドーナツ", c:["パン", "パイ", "マフィン"]},
+    {w:"cookie", a:"クッキー", c:["ビスケット", "せんべい", "あめ"]},
+    {w:"pie", a:"パイ", c:["タルト", "ピザ", "パンケーキ"]},
+    {w:"butter", a:"バター", c:["ジャム", "チーズ", "ソース"]},
+    {w:"bread", a:"パン", c:["ごはん", "めん", "ケーキ"]},
+    {w:"sandwich", a:"サンドイッチ", c:["バーガー", "トースト", "ピザ"]},
+    {w:"spaghetti", a:"スパゲッティ", c:["マカロニ", "ペンネ", "ラザニア"]},
+    {w:"pasta", a:"パスタ", c:["ピザ", "サラダ", "シチュー"]},
+    {w:"noodle", a:"めん<ruby>類<rt>るい</rt></ruby>、ヌードル", c:["ごはん", "スープ", "パン"]},
+    {w:"rice", a:"<ruby>米<rt>こめ</rt></ruby>、ごはん", c:["小麦粉", "トウモロコシ", "豆"]},
+    {w:"salt", a:"<ruby>塩<rt>しお</rt></ruby>", c:["<ruby>砂糖<rt>さとう</rt></ruby>", "<ruby>醤油<rt>しょうゆ</rt></ruby>", "<ruby>酢<rt>す</rt></ruby>"]},
+    {w:"beef", a:"<ruby>牛肉<rt>ぎゅうにく</rt></ruby>", c:["<ruby>豚肉<rt>ぶたにく</rt></ruby>", "<ruby>鶏肉<rt>とりにく</rt></ruby>", "<ruby>羊肉<rt>ようにく</rt></ruby>"]},
+    {w:"chicken", a:"トリ<ruby>肉<rt>にく</rt></ruby>、ニワトリ", c:["<ruby>卵<rt>たまご</rt></ruby>", "<ruby>魚<rt>さかな</rt></ruby>", "<ruby>野菜<rt>やさい</rt></ruby>"]},
+
+    // p84-85 食べ物（続き）
+    {w:"meat", a:"(<ruby>食用<rt>しょくよう</rt></ruby>の)<ruby>肉<rt>にく</rt></ruby>", c:["<ruby>魚<rt>さかな</rt></ruby>", "<ruby>野菜<rt>やさい</rt></ruby>", "<ruby>果物<rt>くだもの</rt></ruby>"]},
+    {w:"steak", a:"ステーキ", c:["ハンバーグ", "ロースト", "グリル"]},
+    {w:"sausage", a:"ソーセージ", c:["ハム", "ベーコン", "サラミ"]},
+    {w:"fruit", a:"<ruby>果物<rt>くだもの</rt></ruby>", c:["<ruby>野菜<rt>やさい</rt></ruby>", "<ruby>根菜<rt>こんさい</rt></ruby>", "<ruby>種子<rt>しゅし</rt></ruby>"]},
+    {w:"cherry", a:"サクランボ", c:["イチゴ", "ブドウ", "モモ"]},
+    {w:"strawberry", a:"イチゴ", c:["スイカ", "ナシ", "カキ"]},
+    {w:"pineapple", a:"パイナップル", c:["バナナ", "マンゴー", "リンゴ"]},
+    {w:"pumpkin", a:"カボチャ", c:["ナス", "キュウリ", "トマト"]},
+    {w:"onion", a:"タマネギ", c:["ジャガイモ", "ニンジン", "ピーマン"]},
+    {w:"snack", a:"スナック、<ruby>軽食<rt>けいしょく</rt></ruby>、おやつ", c:["<ruby>夕食<rt>ゆうしょく</rt></ruby>", "<ruby>朝食<rt>ちょうしょく</rt></ruby>", "<ruby>御馳走<rt>ごちそう</rt></ruby>"]}
+];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    quizQueue = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    document.getElementById('word-text').textContent = current.w;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < quizQueue.length) { loadQuestion(); } else { showResult(); }
+        }, 500);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({w: quizQueue[currentIndex].w, a: quizQueue[currentIndex].a});
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item"><strong>${m.w}</strong><span>${m.a.replace(/<[^>]*>?/gm, '')}</span></div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p78-85 名詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・${m.w} (${m.a.replace(/<[^>]*>?/gm, '')})`).join("\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべて一発正解でした！すばらしい！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（p78-85 名詞）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
