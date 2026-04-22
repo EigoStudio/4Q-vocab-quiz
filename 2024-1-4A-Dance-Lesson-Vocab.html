@@ -125,36 +125,72 @@
     <script>
         /* 前回のスクリプトをここに挿入 */
         const quizData = [
-            {q:"There will be a dance lesson at City Sports Center.<br>文頭の 'There (will be) ~' の中での 'there' の役割は？", a:"人や物の存在を伝えるきっかけを作る", c:["特定の場所を指して「そこ」と伝える","過去に起きた出来事の時間を伝える","相手の所有している物について伝える"], ex:"新しい情報を出す合図です。「そこ」という意味はありません。"},
-            {q:"掲示板の見出しの 'Date' の意味は？", a:"日付", c:["場所","費用","氏名"], ex:"カレンダー上の日を指します。"},
-            {q:"'Fifteen students' の 'fifteen' の意味は？", a:"15人", c:["50人","15時","5人"], ex:"-teenは10台（13〜19）の数字です。"},
-            {q:"'Students must bring lunch.' の 'must' の意味は？", a:"～しなければならない", c:["～したほうがいい","～したいと思う","～することができる"], ex:"強いルール・義務を表します。"},
-            {q:"'gym shoes' の意味は？", a:"体育館履き", c:["運動場履き","通学用革靴","水泳用用品"], ex:"室内で使う運動用の靴です。"},
-            {q:"'at the end of the lesson' の 'end' の意味は？", a:"終わり", c:["始まり","途中","予約"], ex:"最後（終点）を指します。"},
-            {q:"'City Hall' の意味は？", a:"市役所", c:["体育館","図書館","博物館"], ex:"市の行政を行う建物です。"},
-            {q:"「～すべきだ」というアドバイスの語は？", a:"should", c:["would","could","might"], ex:"質問文でよく使われる重要語です。"},
-            {q:"'textbook' の意味は？", a:"教科書", c:["記念品","整理券","領収書"], ex:"勉強に使う本（教材）です。"},
-            {q:"動詞の 'clean' の意味は？", a:"掃除する", c:["修理する","訪問する","見学する"], ex:"場所をきれいにすることです。"}
-        ];
-        let currentIndex=0, score=0, answered=false;
-        function showQuestion(){
-            answered=false; const d=quizData[currentIndex];
-            document.getElementById('progress-text').textContent=`Question ${currentIndex+1} / 10`;
-            document.getElementById('question-text').textContent=d.q;
-            document.getElementById('feedback-area').style.display='none';
-            const cont=document.getElementById('choices-container'); cont.innerHTML='';
-            [d.a, ...d.c].sort(()=>Math.random()-0.5).forEach(choice=>{
-                const btn=document.createElement('button'); btn.className='choice-btn'; btn.innerHTML=choice;
-                btn.onclick=()=>{ if(answered)return; answered=true;
-                    if(choice===d.a){ score++; btn.classList.add('correct'); }
-                    else{ btn.classList.add('wrong'); Array.from(cont.children).forEach(b=>{if(b.innerHTML===d.a)b.classList.add('correct')});}
-                    document.getElementById('explanation-text').textContent=d.ex;
-                    document.getElementById('feedback-area').style.display='block';
-                }; cont.appendChild(btn);
-            });
-        }
-        function nextQuestion(){ currentIndex++; if(currentIndex<10) showQuestion(); else {document.getElementById('quiz-screen').style.display='none'; document.getElementById('result-screen').style.display='block'; document.getElementById('final-score').textContent=score;}}
-        window.onload=showQuestion;
+    {q:"There will be a dance lesson at City Sports Center.<br>文頭の 'There (will be) ~' の中での 'there' の役割は？", a:"人や物の存在を伝えるきっかけを作る", c:["特定の場所を指して「そこ」と伝える","過去に起きた出来事の時間を伝える","相手の所有している物について伝える"], ex:"新しい情報を出す合図です。「そこ」という意味はありません。"},
+    {q:"掲示板の見出しの 'Date' の意味は？", a:"日付", c:["場所","費用","氏名"], ex:"カレンダー上の日を指します。"},
+    {q:"'Fifteen students' の 'fifteen' の意味は？", a:"15人", c:["50人","15時","5人"], ex:"-teenは10台（13〜19）の数字です。"},
+    {q:"'Students must bring lunch.' の 'must' の意味は？", a:"～しなければならない", c:["～したほうがいい","～したいと思う","～することができる"], ex:"強いルール・義務を表します。"},
+    {q:"'gym shoes' の意味は？", a:"体育館履き", c:["運動場履き","通学用革靴","水泳用用品"], ex:"室内で使う運動用の靴です。"},
+    {q:"'at the end of the lesson' の 'end' の意味は？", a:"終わり", c:["始まり","途中","予約"], ex:"最後（終点）を指します。"},
+    {q:"'City Hall' の意味は？", a:"市役所", c:["体育館","図書館","博物館"], ex:"市の行政を行う建物です。"},
+    {q:"「～すべきだ」というアドバイスの語は？", a:"should", c:["would","could","might"], ex:"質問文でよく使われる重要語です。"},
+    {q:"'textbook' の意味は？", a:"教科書", c:["記念品","整理券","領収書"], ex:"勉強に使う本（教材）です。"},
+    {q:"動詞の 'clean' の意味は？", a:"掃除する", c:["修理する","訪問する","見学する"], ex:"場所をきれいにすることです。"}
+];
+
+let currentIndex = 0, score = 0, answered = false;
+
+function showQuestion() {
+    answered = false; 
+    const d = quizData[currentIndex];
+    
+    document.getElementById('progress-text').textContent = `Question ${currentIndex + 1} / 10`;
+    
+    // ここを .innerHTML に変更しました
+    document.getElementById('question-text').innerHTML = d.q; 
+    
+    document.getElementById('feedback-area').style.display = 'none';
+    const cont = document.getElementById('choices-container'); 
+    cont.innerHTML = '';
+
+    [d.a, ...d.c].sort(() => Math.random() - 0.5).forEach(choice => {
+        const btn = document.createElement('button'); 
+        btn.className = 'choice-btn'; 
+        btn.innerHTML = choice; // 選択肢もタグを含める可能性があればinnerHTMLが正解です
+        
+        btn.onclick = () => { 
+            if (answered) return; 
+            answered = true;
+            
+            if (choice === d.a) { 
+                score++; 
+                btn.classList.add('correct'); 
+            } else { 
+                btn.classList.add('wrong'); 
+                Array.from(cont.children).forEach(b => {
+                    if (b.innerHTML === d.a) b.classList.add('correct');
+                });
+            }
+            
+            // 解説部分もHTMLとして解釈させるならここも innerHTML にすると改行が使えます
+            document.getElementById('explanation-text').innerHTML = d.ex;
+            document.getElementById('feedback-area').style.display = 'block';
+        }; 
+        cont.appendChild(btn);
+    });
+}
+
+function nextQuestion() { 
+    currentIndex++; 
+    if (currentIndex < 10) {
+        showQuestion(); 
+    } else {
+        document.getElementById('quiz-screen').style.display = 'none'; 
+        document.getElementById('result-screen').style.display = 'block'; 
+        document.getElementById('final-score').textContent = score;
+    }
+}
+
+window.onload = showQuestion;
     </script>
 </body>
 </html>
