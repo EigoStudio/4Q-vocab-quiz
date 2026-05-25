@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英検4級 でる順パス単 p114-130 熟語：句動詞</title>
+<style>
+  :root {
+    --primary-orange: #ff9800;
+    --text-brown: #5d4037;
+    --bg-color: #fff8f0;
+    --border-color: #d7ccc8;
+  }
+
+  body {
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HGMaruGothicMPRO", sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+  }
+
+  h2 {
+    color: #e65100;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .container {
+    background: white;
+    max-width: 750px;
+    width: 100%;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    min-height: 480px;
+    text-align: center;
+  }
+
+  .progress-container {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    height: 8px;
+  }
+  .progress-bar {
+    height: 100%;
+    background-color: var(--primary-orange);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  .translation-box {
+    color: #e65100;
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #fff3e0;
+    padding: 12px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary-orange);
+    text-align: left;
+  }
+
+  .question-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    min-height: 60px;
+  }
+
+  .question-box {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    font-weight: bold;
+    color: var(--text-brown);
+    margin: 0;
+  }
+
+  /* スピーカーボタンのデザイン */
+  .speaker-btn {
+    background: #e1f5fe;
+    border: 2px solid #03a9f4;
+    color: #03a9f4;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    box-shadow: 0 4px 0 #0288d1;
+  }
+  .speaker-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #0288d1;
+  }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .choice-card-btn {
+    padding: 20px 10px;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--text-brown);
+    transition: all 0.2s;
+    font-family: inherit;
+    font-weight: bold;
+  }
+
+  .choice-card-btn:hover {
+    border-color: var(--primary-orange);
+    background-color: #fffaf0;
+  }
+
+  .choice-card-btn.selected {
+    border-color: var(--primary-orange);
+    background-color: #fff3e0;
+  }
+
+  .correct-word {
+    color: #e74c3c;
+    font-weight: bold;
+    border-bottom: 3px solid #e74c3c;
+    padding: 0 4px;
+  }
+
+  .celebration-text {
+    font-size: 2.2rem;
+    color: #2e7d32;
+    font-weight: bold;
+    text-align: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    line-height: 1.4;
+    padding: 20px 0;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .action-btn {
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    background-color: #43a047;
+    color: white;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 0 #2e7d32;
+    display: block;
+    margin: 20px auto;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 20px; }
+    .question-box { font-size: 1.2rem; }
+    .choice-grid { grid-template-columns: 1fr; }
+    .choice-card-btn { padding: 15px; font-size: 1.1rem; }
+    .celebration-text { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<h2>英検4級 でる順パス単 p114-130 熟語：句動詞</h2>
+
+<div class="container">
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  
+  <div id="game-content">
+    <div class="translation-box" id="jaText"></div>
+    <div class="question-area">
+      <div class="question-box" id="qText"></div>
+      <button class="speaker-btn" id="speakerBtn" style="display:none;" onclick="speakCurrentQuestion()">🔊</button>
+    </div>
+    <div id="ui-area"></div>
+    <div id="feedback-area" style="text-align:center; min-height: 50px;"></div>
+    <button class="action-btn" id="checkBtn" style="display:none;" onclick="handleCheck()">答えをチェック</button>
+    <button class="action-btn" id="nextBtn" style="display:none; background-color: #ef6c00; box-shadow: 0 4px 0 #e65100;" onclick="nextQuestion()">次の問題へ</button>
+  </div>
+</div>
+
+<script>
+  // 音声を読み上げる基礎関数
+  function speak(txt, rate = 0.75) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+  }
+
+  // 安全に英文を読み上げる関数（バグ修正版）
+  function speakCurrentQuestion() {
+    const q = quizData[currentIdx];
+    
+    // HTMLを取り除いた素のテキストを作成
+    let tempDiv = document.createElement("div");
+    tempDiv.innerHTML = q.base;
+    let baseText = tempDiv.textContent || tempDiv.innerText || "";
+    
+    // 連続する空白文字を整える
+    baseText = baseText.replace(/[\u00A0\s]+/g, " ").trim(); 
+
+    let textToSpeak = "";
+    
+    // 2箇所に分かれる熟語（例: took ... to）の場合
+    if (q.ans.includes("...")) {
+      const parts = q.ans.split(" ... ");
+      textToSpeak = baseText.replace(/\(\s*\)/, parts[0]).replace(/\(\s*\)/, parts[1]);
+    } else {
+      // 通常の1箇所のカッコを置換
+      textToSpeak = baseText.replace(/\(\s*\)/, q.ans);
+    }
+    
+    // 最終クリーニング
+    textToSpeak = textToSpeak.replace(/\s+/g, " ").trim();
+    speak(textToSpeak);
+  }
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // 問題データ（全54問）
+  const originalQuizData = [
+    { ja: "私は今、家に帰らなければなりません。", base: "I have to <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> now.", choices: ["go home", "come home", "get home"], ans: "go home" },
+    { ja: "家に帰ったら私に電話をしてください。", base: "Call me when you <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["get home", "go home", "stay home"], ans: "get home" },
+    { ja: "5時までに帰宅しなさい。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> by five o'clock.", choices: ["Come home", "Go home", "Stay home"], ans: "Come home" },
+    { ja: "彼女は昨日、宿題をしませんでした。", base: "She didn't <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> her homework yesterday.", choices: ["do", "make", "take"], ans: "do" },
+    { ja: "彼女は息子を病院に連れて行きました。", base: "She <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> her son <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> the hospital.", choices: ["took ... to", "brought ... from", "moved ... to"], ans: "took ... to" },
+    { ja: "私は鍵を探しているところです。", base: "I'm <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> my key.", choices: ["looking for", "looking at", "looking around"], ans: "looking for" },
+    { ja: "私は火曜日に東京を発ってニューヨークへ向かいます。", base: "I'll <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> Tokyo <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> New York on Tuesday.", choices: ["leave ... for", "leave ... to", "move ... from"], ans: "leave ... for" },
+    { ja: "私たちは昨夜、パーティーで楽しい時間を過ごしました。", base: "We <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> at the party last night.", choices: ["had a good time", "had a good timing", "took a trip"], ans: "had a good time" },
+    { ja: "バス停であなたを待ちます。", base: "I'll <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> you at the bus stop.", choices: ["wait for", "wait to", "ask for"], ans: "wait for" },
+    { ja: "彼女はそのホテルに1週間滞在しました。", base: "She <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the hotel for a week.", choices: ["stayed at", "stayed to", "stayed with"], ans: "stayed at" },
+    { ja: "私は1週間、姉の家に滞在する予定です。", base: "I'm going to <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> my sister for a week.", choices: ["stay with", "stay at", "stay home"], ans: "stay with" },
+    { ja: "起きなさい！もう8時半ですよ！", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>! It's already eight thirty!", choices: ["Get up", "Wake to", "Slow down"], ans: "Get up" },
+    { ja: "彼女は今朝7時に目が覚めました。", base: "She <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> at seven this morning.", choices: ["woke up", "got up", "stood up"], ans: "woke up" },
+    { ja: "その街へ旅行しませんか。", base: "Why don't we <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> to the city?", choices: ["take a trip", "take a travel", "go out"], ans: "take a trip" },
+    { ja: "私はオーストラリアへ旅行に行きたいです。", base: "I want to <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> to Australia.", choices: ["go on a trip", "go to a trip", "take a walk"], ans: "go on a trip" },
+    { ja: "私たちは昼休みの間、新入生に話しかけました。", base: "We <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the new students during lunchtime.", choices: ["spoke to", "spoke for", "heard about"], ans: "spoke to" },
+    { ja: "私はあとでチームメイトと話すつもりです。", base: "I will <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> my teammates later.", choices: ["talk to", "talk for", "write to"], ans: "talk to" },
+    { ja: "私は彼の新しい車について聞きました。", base: "I <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> his new car.", choices: ["heard about", "heard from", "thought of"], ans: "heard about" },
+    { ja: "私の英語の先生はカナダに帰りました。", base: "My English teacher <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> to Canada.", choices: ["went back", "came back", "called back"], ans: "went back" },
+    { ja: "私の叔父が私たちの町に戻ってくるでしょう。", base: "My uncle will <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> our town.", choices: ["come back to", "come back from", "get back from"], ans: "come back to" },
+    { ja: "私たちはすぐ戻ります。", base: "We'll <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> soon.", choices: ["get back", "go back", "comes back"], ans: "get back" },
+    { ja: "彼は来週、アメリカから戻ってくるでしょう。", base: "He will <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the U.S. next week.", choices: ["come back from", "come back to", "go back to"], ans: "come back from" },
+    { ja: "飛行機が空港に到着しました。", base: "The plane <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the airport.", choices: ["arrived at", "arrived in", "arrived on"], ans: "arrived at" },
+    { ja: "彼らは夜にその国に到着するでしょう。", base: "They will <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the country at night.", choices: ["arrive in", "arrive at", "arrive on"], ans: "arrive in" },
+    { ja: "私たちはちょうど今日の午後、ロサンゼルスに到着しました。", base: "We just <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> Los Angeles this afternoon.", choices: ["got to", "got at", "got over"], ans: "got to" },
+    { ja: "一緒に写真を撮りましょう。", base: "Let's <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> together.", choices: ["take a picture", "make a picture", "play catch"], ans: "take a picture" },
+    { ja: "晴れた日には、彼はたいてい歩いて学校に行きます。", base: "He usually <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> school on sunny days.", choices: ["walks to", "walks by", "moves to"], ans: "walks to" },
+    { ja: "私たちは先生に助けを求めます。", base: "We ask our teacher <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> help.", choices: ["for", "to", "with"], ans: "for" },
+    { ja: "彼は時々、私の宿題を手伝ってくれます。", base: "He sometimes <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> me <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> my homework.", choices: ["helps ... with", "helps ... for", "asks ... for"], ans: "helps ... with" },
+    { ja: "彼女は助けを求めました。", base: "She <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> help.", choices: ["asked for", "asked with", "waited for"], ans: "asked for" },
+    { ja: "彼は風邪をひいています。", base: "He <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["has a cold", "is a cold", "feels better"], ans: "has a cold" },
+    { ja: "彼はお風呂に長く入りました。", base: "He <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> long <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["took a ... bath", "took a ... shower", "had a ... cold"], ans: "took a ... bath" },
+    { ja: "私は普通、朝にシャワーを浴びます。", base: "I usually <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> in the morning.", choices: ["take a shower", "make a shower", "take a walk"], ans: "take a shower" },
+    { ja: "公園を散歩しましょう。", base: "Let's <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> in the park.", choices: ["take a walk", "go a walk", "go out"], ans: "take a walk" },
+    { ja: "夕食に出かけましょう。", base: "Let's <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> for dinner.", choices: ["go out", "go outside", "go around"], ans: "go out" },
+    { ja: "私は友達にさよならを言いたくありません。", base: "I don't want to <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> my friends.", choices: ["say goodbye to", "say goodbye for", "talk to"], ans: "say goodbye to" },
+    { ja: "私は家にいるのが好きです。", base: "I like to <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["stay home", "stay house", "stay with"], ans: "stay home" },
+    { ja: "この写真についてどう思いますか。", base: "What do you <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> this picture?", choices: ["think of", "think to", "worry about"], ans: "think of" },
+    { ja: "彼はその少年と友達になりました。", base: "He <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the boy.", choices: ["became friends with", "became a friend with", "looks like"], ans: "became friends with" },
+    { ja: "私は先週、風邪をひきました。", base: "I <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> last week.", choices: ["caught a cold", "catched a cold", "made a cold"], ans: "caught a cold" },
+    { ja: "どこでバスを降りればいいですか。", base: "Where should I <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the bus?", choices: ["get off", "get down", "get back"], ans: "get off" },
+    { ja: "諦めないで。もう一度やってみて！", base: "Don't <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>. Try again!", choices: ["give up", "give down", "slow down"], ans: "give up" },
+    { ja: "この問題については、さっぱり分かりません。", base: "I <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> on this problem.", choices: ["have no idea", "have not idea", "think of"], ans: "have no idea" },
+    { ja: "月は地球の周りを回っています。", base: "The moon <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the earth.", choices: ["goes around", "goes about", "goes out"], ans: "goes around" },
+    { ja: "彼は立ち上がって、辺りを見回しました。", base: "He stood up and <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["looked around", "looked about", "looked for"], ans: "looked around" },
+    { ja: "彼は2年前にニューヨークから東京へ引っ越しました。", base: "He <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> Tokyo <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> New York two years ago.", choices: ["moved to ... from", "moved from ... to", "moved to ... off"], ans: "moved to ... from" },
+    { ja: "カナダからあなたに手紙を書きますね。", base: "I'll <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> you from Canada.", choices: ["write to", "write for", "speak to"], ans: "write to" },
+    { ja: "彼はロンドンの友達に返事を書きました。", base: "He <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> to his friend in London.", choices: ["wrote back", "written back", "talked to"], ans: "wrote back" },
+    { ja: "話すのが速すぎます。スピードを落としてください。", base: "You are speaking too fast. Please <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["slow down", "slow off", "give up"], ans: "slow down" },
+    { ja: "テストのことは心配しないで。", base: "Don't <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the test.", choices: ["worry about", "worry for", "think of"], ans: "worry about" },
+    { ja: "彼は本当にお兄さんにそっくりです。", base: "He really <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> his brother.", choices: ["looks like", "looks as", "looks for"], ans: "looks like" },
+    { ja: "あなたはサンタクロースを信じていますか。", base: "Do you <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> Santa Claus?", choices: ["believe in", "believe to", "worry about"], ans: "believe in" },
+    { ja: "お父さん、おいでよ。キャッチボールをしよう！", base: "Come on, Dad. Let's <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>!", choices: ["play catch", "play ball", "take a walk"], ans: "play catch" },
+    { ja: "すぐに気分が良くなりますよ。", base: "You will <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> soon.", choices: ["feel better", "feel worse", "get up"], ans: "feel better" }
+  ];
+
+  let quizData = []; 
+  let currentIdx = 0;
+  let selectedChoice = null;
+  let firstTryCorrect = 0; 
+  let isFirstTry = true;
+
+  function initGame() {
+    quizData = shuffle([...originalQuizData]);
+    currentIdx = 0;
+    firstTryCorrect = 0;
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    const q = quizData[currentIdx];
+    const ui = document.getElementById('ui-area');
+    const qText = document.getElementById('qText');
+    const jaText = document.getElementById('jaText');
+    const feedback = document.getElementById('feedback-area');
+    
+    document.getElementById('progressBar').style.width = `${(currentIdx / quizData.length) * 100}%`;
+    document.getElementById('nextBtn').style.display = "none";
+    document.getElementById('checkBtn').style.display = "none";
+    
+    // スピーカーボタンを隠し、音声をキャンセル
+    document.getElementById('speakerBtn').style.display = "none";
+    window.speechSynthesis.cancel();
+    
+    feedback.innerHTML = "";
+    selectedChoice = null;
+    isFirstTry = true;
+
+    jaText.textContent = q.ja;
+    qText.innerHTML = q.base;
+
+    const currentChoices = shuffle([...q.choices]);
+
+    ui.innerHTML = "";
+    const grid = document.createElement('div');
+    grid.className = 'choice-grid';
+    
+    currentChoices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-card-btn';
+      btn.textContent = c;
+      btn.onclick = () => {
+        document.querySelectorAll('.choice-card-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedChoice = c;
+        document.getElementById('checkBtn').style.display = "block";
+      };
+      grid.appendChild(btn);
+    });
+    ui.appendChild(grid);
+  }
+
+  function handleCheck() {
+    const q = quizData[currentIdx];
+    if (selectedChoice === q.ans) {
+      if (isFirstTry) {
+        firstTryCorrect++;
+      }
+      
+      if (q.ans.includes("...")) {
+        const parts = q.ans.split(" ... ");
+        document.getElementById('blank').innerHTML = `<span class="correct-word">${parts[0]}</span>`;
+        if (document.getElementById('blank2')) {
+          document.getElementById('blank2').innerHTML = `<span class="correct-word">${parts[1]}</span>`;
+        }
+      } else {
+        document.getElementById('blank').innerHTML = `<span class="correct-word">${q.ans}</span>`;
+      }
+      
+      document.getElementById('feedback-area').innerHTML = "<span style='color:#2e7d32; font-weight:bold; font-size:1.2rem;'>Excellent! ✨</span>";
+      
+      // 正解した時だけ、スピーカーボタンを「どうぞ押してね」と表示
+      document.getElementById('speakerBtn').style.display = "flex";
+      
+      showSuccess();
+    } else {
+      isFirstTry = false;
+      document.getElementById('feedback-area').innerHTML = "<span style='color:#e74c3c; font-weight:bold; font-size:1.2rem;'>Try again! 🤫</span>";
+    }
+  }
+
+  function showSuccess() {
+    document.getElementById('checkBtn').style.display = "none";
+    document.getElementById('nextBtn').style.display = "block";
+  }
+
+  function nextQuestion() {
+    currentIdx++;
+    if (currentIdx < quizData.length) {
+      loadQuestion();
+    } else {
+      document.getElementById('progressBar').style.width = "100%";
+      document.getElementById('game-content').innerHTML = `
+        <div class='celebration-text'>🎉 全${quizData.length}問クリア！ 🎉</div>
+        <div style='font-size:1.3rem; font-weight:bold; margin-bottom:30px; color:#5d4037;'>
+          結果：${quizData.length}問中、<span style='color:#e65100; font-size:1.8rem;'>${firstTryCorrect}</span> 問に一発正解しました！
+        </div>
+        <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+        <button class="action-btn" style="background-color: #ff9800; box-shadow: 0 4px 0 #e65100;" onclick="initGame()">もう一度チャレンジする</button>
+      `;
+    }
+  }
+
+  function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p114-130 熟語：句動詞 トレーニング結果");
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級の熟語（句動詞）トレーニングを完了しました！\n\n結果: ${quizData.length}問中 ${firstTryCorrect} 問を開発一発正解できました！`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+  }
+
+  window.onload = initGame;
+</script>
+</body>
+</html>

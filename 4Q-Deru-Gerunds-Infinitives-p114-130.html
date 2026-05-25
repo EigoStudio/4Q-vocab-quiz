@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英検4級 でる順パス単　p114-130 熟語：動名詞と不定詞</title>
+<style>
+  :root {
+    --primary-orange: #ff9800;
+    --text-brown: #5d4037;
+    --bg-color: #fff8f0;
+    --border-color: #d7ccc8;
+  }
+
+  body {
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HGMaruGothicMPRO", sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+  }
+
+  h2 {
+    color: #e65100;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .container {
+    background: white;
+    max-width: 750px;
+    width: 100%;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    min-height: 450px;
+    text-align: center;
+  }
+
+  .progress-container {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    height: 8px;
+  }
+  .progress-bar {
+    height: 100%;
+    background-color: var(--primary-orange);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  .question-box {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    text-align: center;
+    min-height: 80px;
+    font-weight: bold;
+    color: var(--text-brown);
+  }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .choice-card-btn {
+    padding: 20px 10px;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--text-brown);
+    transition: all 0.2s;
+    font-family: inherit;
+    font-weight: bold;
+  }
+
+  .choice-card-btn:hover {
+    border-color: var(--primary-orange);
+    background-color: #fffaf0;
+  }
+
+  .choice-card-btn.selected {
+    border-color: var(--primary-orange);
+    background-color: #fff3e0;
+  }
+
+  .correct-word {
+    color: #e74c3c;
+    font-weight: bold;
+    border-bottom: 3px solid #e74c3c;
+    padding: 0 4px;
+  }
+
+  .celebration-text {
+    font-size: 2.2rem;
+    color: #2e7d32;
+    font-weight: bold;
+    text-align: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    line-height: 1.4;
+    padding: 40px 0;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .action-btn {
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    background-color: #43a047;
+    color: white;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 0 #2e7d32;
+    display: block;
+    margin: 20px auto;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 20px; }
+    .question-box { font-size: 1.2rem; }
+    .choice-grid { grid-template-columns: 1fr; }
+    .choice-card-btn { padding: 15px; font-size: 1.1rem; }
+    .celebration-text { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<h2>英検4級 でる順パス単　p114-130 熟語：動名詞と不定詞</h2>
+
+<div class="container">
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  
+  <div id="game-content">
+    <div class="question-box" id="qText"></div>
+    <div id="ui-area"></div>
+    <div id="feedback-area" style="text-align:center; min-height: 50px;"></div>
+    <button class="action-btn" id="checkBtn" style="display:none;" onclick="handleCheck()">答えをチェック</button>
+    <button class="action-btn" id="nextBtn" style="display:none; background-color: #ef6c00; box-shadow: 0 4px 0 #e65100;" onclick="nextQuestion()">次の問題へ</button>
+  </div>
+</div>
+
+<script>
+  // 配列をランダムに並び替える関数
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  const CHOICE_BOTH = "どちらもOK";
+
+  // 元の問題データ
+  const originalQuizData = [
+    { 
+      base: "What do you want <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> for lunch?", 
+      vIng: "eating", vTo: "to eat",
+      displayAns: "to eat", ansType: "to" 
+    },
+    { 
+      base: "The girls like <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> cookies.", 
+      vIng: "making", vTo: "to make",
+      displayAns: "making / to make", ansType: "both" 
+    },
+    { 
+      base: "I wanted <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> a pilot when I was young.", 
+      vIng: "being", vTo: "to be",
+      displayAns: "to be", ansType: "to" 
+    },
+    { 
+      base: "You need <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> lunch.", 
+      vIng: "bringing", vTo: "to bring",
+      displayAns: "to bring", ansType: "to" 
+    },
+    { 
+      base: "I have <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> home now.", 
+      vIng: "going", vTo: "to go",
+      displayAns: "to go", ansType: "to" 
+    },
+    { 
+      base: "I'll go <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> with my friends next Saturday.", 
+      vIng: "swimming", vTo: "to swim",
+      displayAns: "swimming", ansType: "ing" 
+    },
+    { 
+      base: "She finished <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the book.", 
+      vIng: "reading", vTo: "to read",
+      displayAns: "reading", ansType: "ing" 
+    },
+    { 
+      base: "She enjoys <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> dinner with her family.", 
+      vIng: "having", vTo: "to have",
+      displayAns: "having", ansType: "ing" 
+    },
+    { 
+      base: "She started <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> at a music college last month.", 
+      vIng: "studying", vTo: "to study",
+      displayAns: "studying / to study", ansType: "both" 
+    },
+    { 
+      base: "My father stopped <span id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> five years ago.", 
+      vIng: "smoking", vTo: "to smoke",
+      displayAns: "smoking", ansType: "ing" 
+    }
+  ];
+
+  let quizData = []; // シャッフル後のデータを格納する配列
+  let currentIdx = 0;
+  let selectedChoice = null;
+  let correctChoiceText = ""; 
+
+  // クイズの初期化関数
+  function initGame() {
+    // 元のデータを壊さないようにコピーしてシャッフル
+    quizData = shuffle([...originalQuizData]);
+    currentIdx = 0;
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    const q = quizData[currentIdx];
+    const ui = document.getElementById('ui-area');
+    const qText = document.getElementById('qText');
+    const feedback = document.getElementById('feedback-area');
+    
+    document.getElementById('progressBar').style.width = `${(currentIdx / quizData.length) * 100}%`;
+    document.getElementById('nextBtn').style.display = "none";
+    document.getElementById('checkBtn').style.display = "none";
+    feedback.innerHTML = "";
+    selectedChoice = null;
+
+    qText.innerHTML = q.base;
+
+    // 選択肢の並び順は「-ing形、to＋原形、どちらもOK」で固定（見やすさ優先）
+    const currentChoices = [q.vIng, q.vTo, CHOICE_BOTH];
+
+    if (q.ansType === "ing") correctChoiceText = q.vIng;
+    else if (q.ansType === "to") correctChoiceText = q.vTo;
+    else if (q.ansType === "both") correctChoiceText = CHOICE_BOTH;
+
+    ui.innerHTML = "";
+    const grid = document.createElement('div');
+    grid.className = 'choice-grid';
+    
+    currentChoices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-card-btn';
+      btn.textContent = c;
+      btn.onclick = () => {
+        document.querySelectorAll('.choice-card-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedChoice = c;
+        document.getElementById('checkBtn').style.display = "block";
+      };
+      grid.appendChild(btn);
+    });
+    ui.appendChild(grid);
+  }
+
+  function handleCheck() {
+    const q = quizData[currentIdx];
+    if (selectedChoice === correctChoiceText) {
+      document.getElementById('blank').innerHTML = `<span class="correct-word">${q.displayAns}</span>`;
+      showSuccess();
+    } else {
+      alert("もう一度考えてみよう！");
+    }
+  }
+
+  function showSuccess() {
+    document.getElementById('checkBtn').style.display = "none";
+    document.getElementById('nextBtn').style.display = "block";
+  }
+
+  function nextQuestion() {
+    currentIdx++;
+    if (currentIdx < quizData.length) {
+      loadQuestion();
+    } else {
+      document.getElementById('game-content').innerHTML = `
+        <div class='celebration-text'>🎉 全10問クリア！素晴らしい！ 🎉</div>
+        <button class="action-btn" style="background-color: #ff9800; box-shadow: 0 4px 0 #e65100;" onclick="initGame()">もう一度チャレンジする</button>
+      `;
+      document.getElementById('progressBar').style.width = "100%";
+    }
+  }
+
+  // ページ読み込み時に初期化関数を動かす
+  window.onload = initGame;
+</script>
+</body>
+</html>
