@@ -85,7 +85,6 @@
     margin: 0;
   }
 
-  /* スピーカーボタンのデザイン */
   .speaker-btn {
     background: #e1f5fe;
     border: 2px solid #03a9f4;
@@ -205,7 +204,6 @@
 </div>
 
 <script>
-  // 音声を読み上げる基礎関数
   function speak(txt, rate = 0.75) {
     window.speechSynthesis.cancel();
     let u = new SpeechSynthesisUtterance(txt);
@@ -214,30 +212,21 @@
     window.speechSynthesis.speak(u);
   }
 
-  // 安全に英文を読み上げる関数（バグ修正版）
   function speakCurrentQuestion() {
     const q = quizData[currentIdx];
-    
-    // HTMLを取り除いた素のテキストを作成
     let tempDiv = document.createElement("div");
     tempDiv.innerHTML = q.base;
     let baseText = tempDiv.textContent || tempDiv.innerText || "";
-    
-    // 連続する空白文字を整える
     baseText = baseText.replace(/[\u00A0\s]+/g, " ").trim(); 
 
     let textToSpeak = "";
-    
-    // 2箇所に分かれる熟語（例: took ... to）の場合
     if (q.ans.includes("...")) {
       const parts = q.ans.split(" ... ");
       textToSpeak = baseText.replace(/\(\s*\)/, parts[0]).replace(/\(\s*\)/, parts[1]);
     } else {
-      // 通常の1箇所のカッコを置換
       textToSpeak = baseText.replace(/\(\s*\)/, q.ans);
     }
     
-    // 最終クリーニング
     textToSpeak = textToSpeak.replace(/\s+/g, " ").trim();
     speak(textToSpeak);
   }
@@ -250,7 +239,6 @@
     return array;
   }
 
-  // 問題データ（全54問）
   const originalQuizData = [
     { ja: "私は今、家に帰らなければなりません。", base: "I have to <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> now.", choices: ["go home", "come home", "get home"], ans: "go home" },
     { ja: "家に帰ったら私に電話をしてください。", base: "Call me when you <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["get home", "go home", "stay home"], ans: "get home" },
@@ -313,6 +301,7 @@
   let selectedChoice = null;
   let firstTryCorrect = 0; 
   let isFirstTry = true;
+  let hasScoredThisQuestion = false; // ★バグ対応のフラグを追加
 
   function initGame() {
     quizData = shuffle([...originalQuizData]);
@@ -332,13 +321,13 @@
     document.getElementById('nextBtn').style.display = "none";
     document.getElementById('checkBtn').style.display = "none";
     
-    // スピーカーボタンを隠し、音声をキャンセル
     document.getElementById('speakerBtn').style.display = "none";
     window.speechSynthesis.cancel();
     
     feedback.innerHTML = "";
     selectedChoice = null;
     isFirstTry = true;
+    hasScoredThisQuestion = false; // 各問題で初期化
 
     jaText.textContent = q.ja;
     qText.innerHTML = q.base;
@@ -358,6 +347,16 @@
         btn.classList.add('selected');
         selectedChoice = c;
         document.getElementById('checkBtn').style.display = "block";
+        
+        // ★【修正点】タップした瞬間に一発正解かどうかをガチっと記憶
+        if (!hasScoredThisQuestion) {
+          if (selectedChoice === q.ans) {
+            isFirstTry = true;
+          } else {
+            isFirstTry = false;
+          }
+          hasScoredThisQuestion = true;
+        }
       };
       grid.appendChild(btn);
     });
@@ -367,8 +366,10 @@
   function handleCheck() {
     const q = quizData[currentIdx];
     if (selectedChoice === q.ans) {
+      // ★選択時点のフラグをベースに点数を追加
       if (isFirstTry) {
         firstTryCorrect++;
+        isFirstTry = false; // 重複加算防止
       }
       
       if (q.ans.includes("...")) {
@@ -382,10 +383,7 @@
       }
       
       document.getElementById('feedback-area').innerHTML = "<span style='color:#2e7d32; font-weight:bold; font-size:1.2rem;'>Excellent! ✨</span>";
-      
-      // 正解した時だけ、スピーカーボタンを「どうぞ押してね」と表示
       document.getElementById('speakerBtn').style.display = "flex";
-      
       showSuccess();
     } else {
       isFirstTry = false;
@@ -418,7 +416,7 @@
   function sendEmail() {
     const teacherEmail = "tamaki@eigostudio-stepforward.com";
     const subject = encodeURIComponent("英検4級 p114-130 熟語：句動詞 トレーニング結果");
-    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級の熟語（句動詞）トレーニングを完了しました！\n\n結果: ${quizData.length}問中 ${firstTryCorrect} 問を開発一発正解できました！`);
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級の熟語（句動詞）トレーニングを完了しました！\n\n結果: ${quizData.length}問中 ${firstTryCorrect} 問を一発正解できました！`);
     window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
   }
 
