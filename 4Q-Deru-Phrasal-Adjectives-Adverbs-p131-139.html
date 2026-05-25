@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英検4級 でる順パス単 p131-139 形容詞・副詞の働きをする熟語</title>
+<style>
+  :root {
+    --primary-orange: #ff9800;
+    --text-brown: #5d4037;
+    --bg-color: #fff8f0;
+    --border-color: #d7ccc8;
+  }
+
+  body {
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HGMaruGothicMPRO", sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+  }
+
+  h2 {
+    color: #e65100;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .container {
+    background: white;
+    max-width: 750px;
+    width: 100%;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    min-height: 480px;
+    text-align: center;
+  }
+
+  .progress-container {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    height: 8px;
+  }
+  .progress-bar {
+    height: 100%;
+    background-color: var(--primary-orange);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  .translation-box {
+    color: #e65100;
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #fff3e0;
+    padding: 12px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary-orange);
+    text-align: left;
+  }
+
+  .question-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    min-height: 60px;
+  }
+
+  .question-box {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    font-weight: bold;
+    color: var(--text-brown);
+    margin: 0;
+  }
+
+  .speaker-btn {
+    background: #e1f5fe;
+    border: 2px solid #03a9f4;
+    color: #03a9f4;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    box-shadow: 0 4px 0 #0288d1;
+  }
+  .speaker-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #0288d1;
+  }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .choice-card-btn {
+    padding: 20px 10px;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--text-brown);
+    transition: all 0.2s;
+    font-family: inherit;
+    font-weight: bold;
+  }
+
+  .choice-card-btn:hover {
+    border-color: var(--primary-orange);
+    background-color: #fffaf0;
+  }
+
+  .choice-card-btn.selected {
+    border-color: var(--primary-orange);
+    background-color: #fff3e0;
+  }
+
+  .correct-word {
+    color: #e74c3c;
+    font-weight: bold;
+    border-bottom: 3px solid #e74c3c;
+    padding: 0 4px;
+  }
+
+  .celebration-text {
+    font-size: 2.2rem;
+    color: #2e7d32;
+    font-weight: bold;
+    text-align: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    line-height: 1.4;
+    padding: 20px 0;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .action-btn {
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    background-color: #43a047;
+    color: white;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 0 #2e7d32;
+    display: block;
+    margin: 20px auto;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 20px; }
+    .question-box { font-size: 1.2rem; }
+    .choice-grid { grid-template-columns: 1fr; }
+    .choice-card-btn { padding: 15px; font-size: 1.1rem; }
+    .celebration-text { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<h2>英検4級 でる順パス単 p131-139 形容詞・副詞の働きをする熟語</h2>
+
+<div class="container">
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  
+  <div id="game-content">
+    <div class="translation-box" id="jaText"></div>
+    <div class="question-area">
+      <div class="question-box" id="qText"></div>
+      <button class="speaker-btn" id="speakerBtn" style="display:none;" onclick="speakCurrentQuestion()">🔊</button>
+    </div>
+    <div id="ui-area"></div>
+    <div id="feedback-area" style="text-align:center; min-height: 50px;"></div>
+    <button class="action-btn" id="checkBtn" style="display:none;" onclick="handleCheck()">答えをチェック</button>
+    <button class="action-btn" id="nextBtn" style="display:none; background-color: #ef6c00; box-shadow: 0 4px 0 #e65100;" onclick="nextQuestion()">次の問題へ</button>
+  </div>
+</div>
+
+<script>
+  function speak(txt, rate = 0.75) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+  }
+
+  function speakCurrentQuestion() {
+    const q = quizData[currentIdx];
+    let tempDiv = document.createElement("div");
+    tempDiv.innerHTML = q.base;
+    let baseText = tempDiv.textContent || tempDiv.innerText || "";
+    baseText = baseText.replace(/[\u00A0\s]+/g, " ").trim(); 
+
+    let textToSpeak = "";
+    if (q.ans.includes("...")) {
+      const parts = q.ans.split(" ... ");
+      textToSpeak = baseText.replace(/\(\s*\)/, parts[0]).replace(/\(\s*\)/, parts[1]);
+    } else {
+      textToSpeak = baseText.replace(/\(\s*\)/, q.ans);
+    }
+    
+    textToSpeak = textToSpeak.replace(/\s+/g, " ").trim();
+    speak(textToSpeak);
+  }
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  const originalQuizData = [
+    { ja: "彼はたくさんの英語の本を持っています。", base: "He has <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> English books.", choices: ["a lot of", "much of", "a lots of"], ans: "a lot of" },
+    { ja: "彼女はまた学校に遅刻しました。", base: "She <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> school again.", choices: ["was late for", "was late to", "late for"], ans: "was late for" },
+    { ja: "運転するときは気をつけなさい。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> when you drive.", choices: ["Be careful", "Do careful", "Is careful"], ans: "Be careful" },
+    { ja: "あなたは映画に興味がありますか。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> you <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> movies?", choices: ["Are ... interested in", "Do ... interest in", "Are ... interesting in"], ans: "Are ... interested in" },
+    { ja: "どんな種類の食べ物が好きですか。", base: "What <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> food do you like?", choices: ["kind of", "kinds", "sort with"], ans: "kind of" },
+    { ja: "彼女は毎朝コップ1杯の牛乳を飲みます。", base: "She drinks <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> milk every morning.", choices: ["a glass of", "a cup of", "a glass with"], ans: "a glass of" },
+    { ja: "私はお茶を1杯飲みたいです。", base: "I want to drink <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> tea.", choices: ["a cup of", "a glass of", "a cup with"], ans: "a cup of" },
+    { ja: "私たちは午前中に数学の授業があります。", base: "We have a math class <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["in the morning", "on the morning", "at the morning"], ans: "in the morning" },
+    { ja: "彼らは午後に試験の勉強をしました。", base: "They studied for the exam <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["in the afternoon", "on the afternoon", "at the afternoon"], ans: "in the afternoon" },
+    { ja: "私は将来、先生になりたいです。", base: "I want to be a teacher <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["in the future", "on the future", "at the future"], ans: "in the future" },
+    { ja: "その街にどのくらい滞在する予定ですか。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> are you going to stay in the city?", choices: ["How long", "How many", "How much"], ans: "How long" },
+    { ja: "彼は一日中テレビゲームをしました。", base: "He played video games <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["all day long", "all over day", "all days long"], ans: "all day long" },
+    { ja: "私は長い間彼女を待ちました。", base: "I waited for her <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["for a long time", "during a long time", "with a long time"], ans: "for a long time" },
+    { ja: "私は先週、祖父母を訪ねました。", base: "I visited my grandparents <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["last week", "at last week", "on last week"], ans: "last week" },
+    { ja: "彼女は仕事の後に彼へのプレゼントを買うでしょう。", base: "She will get a present for him <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["after work", "after jobs", "behind work"], ans: "after work" },
+    { ja: "私はイタリア料理が好きです。例えばスパゲッティです。", base: "I like Italian food. <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>, spaghetti.", choices: ["For example", "By example", "An example"], ans: "For example" },
+    { ja: "彼女は先生と同じくらい早く学校に着きました。", base: "She got to school <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> early <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> her teacher.", choices: ["as ... as", "so ... as", "too ... to"], ans: "as ... as" },
+    { ja: "昨日、雨がたくさん降りました。", base: "It rained <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> yesterday.", choices: ["a lot", "a lot of", "very much of"], ans: "a lot" },
+    { ja: "ここからその街までは車で約2時間かかります。", base: "It takes about two hours <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> here <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> the city.", choices: ["from ... to", "since ... to", "between ... and"], ans: "from ... to" },
+    { ja: "彼は来月、20歳になります。", base: "He will be 20 <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> next month.", choices: ["years old", "year old", "years older"], ans: "years old" },
+    { ja: "本屋の前で会いましょう。", base: "I'll see you <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the bookstore.", choices: ["in front of", "at front of", "by front with"], ans: "in front of" },
+    { ja: "その家族は私たちの学校の隣に住んでいます。", base: "The family lives <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> our school.", choices: ["next to", "next by", "near to"], ans: "next to" },
+    { ja: "彼は部屋の外へ出ました。", base: "He went <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> the room.", choices: ["out of", "outside to", "out off"], ans: "out of" },
+    { ja: "彼女はフランス語と英語の両方を話します。", base: "She speaks <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> French <span class='blank' id='blank2'>( &nbsp;&nbsp;&nbsp;&nbsp; )</span> English.", choices: ["both ... and", "between ... and", "either ... or"], ans: "both ... and" },
+    { ja: "ある日、豚とクマはその街へ旅行に出かけました。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>, the pig and the bear took a trip to the city.", choices: ["One day", "Once day", "First day"], ans: "One day" },
+    { ja: "パリでの初日に、私たちは美術館に行きました。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> in Paris, we went to the museum.", choices: ["On the first day", "At the first day", "In the first day"], ans: "On the first day" },
+    { ja: "彼らは休暇中に素敵なホテルに滞在しました。", base: "They stayed at a nice hotel <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["on vacation", "in vacation", "at vacation"], ans: "on vacation" },
+    { ja: "私たちは歩いて公園に行きました。", base: "We went to the park <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["on foot", "by foot", "with feet"], ans: "on foot" },
+    { ja: "私の家はすぐそこの角を曲がったところにあります。", base: "My house is <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["just around the corner", "just on the corner", "right under the corner"], ans: "just around the corner" },
+    { ja: "ところで、あの本は読みましたか。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>, did you read that book?", choices: ["By the way", "On the way", "In the way"], ans: "By the way" },
+    { ja: "今日、ますます多くの人々がコンピュータを使っています。", base: "<span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span> people use computers today.", choices: ["More and more", "Many and many", "Much and much"], ans: "More and more" },
+    { ja: "ピザを1枚買うと、もう1枚無料で もらえます。", base: "If you buy one pizza, you'll get another <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["for free", "with free", "by free"], ans: "for free" },
+    { ja: "今すぐ行く必要はありません。", base: "You don't need to go <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["right now", "just now", "right here"], ans: "right now" },
+    { ja: "彼は世界中で有名です。", base: "He is famous <span class='blank' id='blank'>( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>.", choices: ["all over the world", "all around world", "all through world"], ans: "all over the world" }
+  ];
+
+  let quizData = []; 
+  let currentIdx = 0;
+  let selectedChoice = null;
+  let firstTryCorrect = 0; 
+  let isFirstTry = true;
+  let hasScoredThisQuestion = false; // ★バグ修正用の新変数
+
+  function initGame() {
+    quizData = shuffle([...originalQuizData]);
+    currentIdx = 0;
+    firstTryCorrect = 0;
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    const q = quizData[currentIdx];
+    const ui = document.getElementById('ui-area');
+    const qText = document.getElementById('qText');
+    const jaText = document.getElementById('jaText');
+    const feedback = document.getElementById('feedback-area');
+    
+    document.getElementById('progressBar').style.width = `${(currentIdx / quizData.length) * 100}%`;
+    document.getElementById('nextBtn').style.display = "none";
+    document.getElementById('checkBtn').style.display = "none";
+    
+    document.getElementById('speakerBtn').style.display = "none";
+    window.speechSynthesis.cancel();
+    
+    feedback.innerHTML = "";
+    selectedChoice = null;
+    isFirstTry = true;
+    hasScoredThisQuestion = false; // 初期化
+
+    jaText.textContent = q.ja;
+    qText.innerHTML = q.base;
+
+    const currentChoices = shuffle([...q.choices]);
+
+    ui.innerHTML = "";
+    const grid = document.createElement('div');
+    grid.className = 'choice-grid';
+    
+    currentChoices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-card-btn';
+      btn.textContent = c;
+      btn.onclick = () => {
+        document.querySelectorAll('.choice-card-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedChoice = c;
+        document.getElementById('checkBtn').style.display = "block";
+        
+        // ★【ここが修正ポイント】最初にタップした時に、それが正解かどうかを即座に記憶します。
+        if (!hasScoredThisQuestion) {
+          if (selectedChoice === q.ans) {
+            isFirstTry = true;
+          } else {
+            isFirstTry = false;
+          }
+          hasScoredThisQuestion = true;
+        }
+      };
+      grid.appendChild(btn);
+    });
+    ui.appendChild(grid);
+  }
+
+  function handleCheck() {
+    const q = quizData[currentIdx];
+    if (selectedChoice === q.ans) {
+      // ★チェック時ではなく、選択時のフラグを見て加算します
+      if (isFirstTry) {
+        firstTryCorrect++;
+        isFirstTry = false; // 連続加算防止
+      }
+      
+      if (q.ans.includes("...")) {
+        const parts = q.ans.split(" ... ");
+        document.getElementById('blank').innerHTML = `<span class="correct-word">${parts[0]}</span>`;
+        if (document.getElementById('blank2')) {
+          document.getElementById('blank2').innerHTML = `<span class="correct-word">${parts[1]}</span>`;
+        }
+      } else {
+        document.getElementById('blank').innerHTML = `<span class="correct-word">${q.ans}</span>`;
+      }
+      
+      document.getElementById('feedback-area').innerHTML = "<span style='color:#2e7d32; font-weight:bold; font-size:1.2rem;'>Excellent! ✨</span>";
+      document.getElementById('speakerBtn').style.display = "flex";
+      showSuccess();
+    } else {
+      // 間違えたら次からのチェックは一発正解対象外
+      isFirstTry = false;
+      document.getElementById('feedback-area').innerHTML = "<span style='color:#e74c3c; font-weight:bold; font-size:1.2rem;'>Try again! 🤫</span>";
+    }
+  }
+
+  function showSuccess() {
+    document.getElementById('checkBtn').style.display = "none";
+    document.getElementById('nextBtn').style.display = "block";
+  }
+
+  function nextQuestion() {
+    currentIdx++;
+    if (currentIdx < quizData.length) {
+      loadQuestion();
+    } else {
+      document.getElementById('progressBar').style.width = "100%";
+      document.getElementById('game-content').innerHTML = `
+        <div class='celebration-text'>🎉 全${quizData.length}問クリア！ 🎉</div>
+        <div style='font-size:1.3rem; font-weight:bold; margin-bottom:30px; color:#5d4037;'>
+          結果：${quizData.length}問中、<span style='color:#e65100; font-size:1.8rem;'>${firstTryCorrect}</span> 問に一発正解しました！
+        </div>
+        <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+        <button class="action-btn" style="background-color: #ff9800; box-shadow: 0 4px 0 #e65100;" onclick="initGame()">もう一度チャレンジする</button>
+      `;
+    }
+  }
+
+  function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p131-139 熟語（形容詞・副詞句）トレーニング結果");
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級の熟語（形容詞・副詞句）トレーニングを完了しました！\n\n結果: ${quizData.length}問中 ${firstTryCorrect} 問を一発正解できました！`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+  }
+
+  window.onload = initGame;
+</script>
+</body>
+</html>
