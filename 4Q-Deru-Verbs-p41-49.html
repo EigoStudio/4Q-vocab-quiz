@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 動詞 p41-49</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .word-display { 
+            font-size: 3.2rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            letter-spacing: 1px;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 85px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        ruby rt { font-size: 0.55em; font-weight: normal; color: #555; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.2rem;">英検4級でる順パス単 動詞 p41-49</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 69</div>
+    <div class="word-area">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 69</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル）</button>
+</div>
+
+<script>
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').textContent;
+    speak(word);
+}
+
+const quizData = [
+    // p41-43 基本的な動詞
+    {w:"go", a:"行く", c:["来る", "見る", "買う"]},
+    {w:"like", a:"～が好きである", c:["～を愛する", "～を楽しむ", "～を欲しがる"]},
+    {w:"buy", a:"～を買う", c:["～を売る", "～を持ってくる", "～を作る"]},
+    {w:"get", a:"～を手に入れる", c:["～を失う", "～を見つける", "～を忘れる"]},
+    {w:"visit", a:"～を<ruby>訪<rt>おとず</rt></ruby>れる", c:["～に滞在する", "～に住む", "～に到着する"]},
+    {w:"come", a:"来る", c:["行く", "去る", "戻る"]},
+    {w:"see", a:"〜が見える", c:["～を話す", "～を聴く", "～を呼ぶ"]},
+    {w:"take", a:"〜を取る", c:["～を作る", "～を運ぶ", "～を終える"]},
+    {w:"make", a:"～を作る", c:["～を買う", "～を売る", "～を壊す"]},
+    {w:"look", a:"（注意して）見る", c:["～が見える", "～を話す", "～と言う"]},
+    
+    // p43-44 認識・コミュニケーション
+    {w:"watch", a:"～を見る", c:["～を歌う", "～を泳ぐ", "～を走る"]},
+    {w:"meet", a:"～に会う", c:["～を誘う", "～を訪ねる", "～を呼ぶ"]},
+    {w:"talk", a:"話し合う", c:["（言語）を話す", "～に伝える", "〜と言う"]},
+    {w:"say", a:"～と言う", c:["答える", "演説する", "～を聴く"]},
+    {w:"tell", a:"～に伝える", c:["～に答える", "～を尋ねる", "質問する"]},
+    {w:"speak", a:"（言語を）話す", c:["～を言う", "～に伝える", "～を聴く"]},
+    {w:"listen", a:"（意識して）聴く", c:["～が聞こえる", "～を見る", "～を言う"]},
+    {w:"hear", a:"（自然に）聞こえる", c:["（意識して）聴く", "～を見る", "～を話す"]},
+    {w:"ask", a:"～を尋ねる", c:["～に答える", "～に伝える", "～を考える"]},
+    {w:"answer", a:"～に答える", c:["～を尋ねる", "～に伝える", "～を言う"]},
+
+    // p44-45 生活・仕事
+    {w:"stay", a:"滞在する", c:["出発する", "～に住む", "～に到着する"]},
+    {w:"live", a:"住む", c:["滞在する", "働く", "目覚める"]},
+    {w:"wake", a:"目覚める", c:["眠る", "働く", "休む"]},
+    {w:"work", a:"働く", c:["遊ぶ", "眠る", "楽しむ"]},
+    {w:"eat", a:"～を食べる", c:["～を飲む", "～を作る", "～を買う"]},
+    {w:"drink", a:"～を飲む", c:["～を食べる", "～を注ぐ", "～を買う"]},
+    {w:"give", a:"～を与える", c:["～を手に入れる", "～を持ってくる", "～を買う"]},
+    {w:"bring", a:"～を持ってくる", c:["～を忘れる", "～を買う", "～を与える"]},
+    {w:"love", a:"～が大好きである", c:["～を急がせる", "～を変える", "～を欲しがる"]},
+    {w:"find", a:"～を見つける", c:["～をなくす", "～を忘れる", "～を手に入れる"]},
+
+    // p45-46 感情・状態
+    {w:"need", a:"～を必要とする", c:["～を好む", "～を楽しむ", "～を終わらせる"]},
+    {w:"feel", a:"～と感じる", c:["～を考える", "～を望む", "～を心配する"]},
+    {w:"enjoy", a:"～を楽しむ", c:["～を好む", "～を終わらせる", "～を必要とする"]},
+    {w:"finish", a:"～を終える", c:["～を始める", "～を続ける", "～を試みる"]},
+    {w:"lose", a:"～をなくす", c:["～を見つける", "～に勝つ", "～を手に入れる"]},
+    {w:"write", a:"～を書く", c:["～を読む", "～を言う", "～を話す"]},
+    {w:"forget", a:"～を忘れる", c:["～を覚えている", "～を見つける", "～を考える"]},
+    {w:"swim", a:"泳ぐ", c:["走る", "跳ぶ", "歩く"]},
+    {w:"read", a:"～を読む", c:["～を書く", "～を言う", "～を聴く"]},
+    {w:"paint", a:"（絵を）描く", c:["写真を撮る", "～を歌う", "～を演奏する"]},
+
+    // p46-48 行動・移動
+    {w:"cut", a:"～を切る", c:["～を貼る", "～を壊す", "～を折る"]},
+    {w:"run", a:"走る", c:["歩く", "泳ぐ", "跳ぶ"]},
+    {w:"call", a:"～に電話をかける", c:["～を訪ねる", "～に答える", "～を誘う"]},
+    {w:"drive", a:"～を運転する", c:["～に乗る", "歩く", "旅行する"]},
+    {w:"ride", a:"～に乗る", c:["運転する", "歩く", "飛ぶ"]},
+    {w:"join", a:"～に参加する", c:["～を去る", "～を訪ねる", "～を誘う"]},
+    {w:"invite", a:"～を招待する", c:["～を訪ねる", "～に会う", "～を歓迎する"]},
+    {w:"know", a:"～を知っている", c:["～を考える", "～を忘れる", "～を覚えている"]},
+    {w:"show", a:"～を見せる", c:["見る", "探す", "隠す"]},
+    {w:"wash", a:"～を洗う", c:["～を汚す", "～を拭く", "～を掃除する"]},
+
+    // p48-49 思考・その他の動詞
+    {w:"teach", a:"～を教える", c:["～を学ぶ", "～を伝える", "～を尋ねる"]},
+    {w:"think", a:"～と思う", c:["～を知っている", "～を忘れる", "～と感じる"]},
+    {w:"hope", a:"～を望む", c:["～を心配する", "～を考える", "～と感じる"]},
+    {w:"worry", a:"心配する", c:["～を望む", "～を考える", "～を楽しむ"]},
+    {w:"try", a:"～を試みる", c:["～を終える", "～を始める", "～を急ぐ"]},
+    {w:"hurry", a:"急ぐ", c:["遅れる", "止まる", "走る"]},
+    {w:"arrive", a:"到着する", c:["出発する", "滞在する", "去る"]},
+    {w:"wear", a:"～を身につけている", c:["～を脱ぐ", "～を買う", "～を洗う"]},
+    {w:"change", a:"～を変える", c:["～を続ける", "～を始める", "～を終える"]},
+    {w:"become", a:"～になる", c:["～を始める", "～にとどまる", "～を去る"]},
+
+    // p49 動詞（続き）
+    {w:"catch", a:"～を捕まえる", c:["～を投げる", "～を落とす", "～をなくす"]},
+    {w:"put", a:"～を置く", c:["～を取る", "～を持つ", "～を拾う"]},
+    {w:"order", a:"～を注文する", c:["～を食べる", "～を料理する", "～を支払う"]},
+    {w:"sell", a:"～を売る", c:["～を買う", "～を与える", "～を借りる"]},
+    {w:"stop", a:"止まる", c:["始める", "動く", "急ぐ"]},
+    {w:"sing", a:"～を歌う", c:["～を聴く", "踊る", "～を話す"]},
+    {w:"break", a:"～を壊す", c:["～を作る", "～を直す", "～を切る"]},
+    {w:"fall", a:"落ちる", c:["跳ぶ", "登る", "起き上がる"]},
+    {w:"turn", a:"曲がる", c:["進む", "止まる", "走る"]}
+];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    quizQueue = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    document.getElementById('word-text').textContent = current.w;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < quizQueue.length) { loadQuestion(); } else { showResult(); }
+        }, 500);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({w: quizQueue[currentIndex].w, a: quizQueue[currentIndex].a});
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item"><strong>${m.w}</strong><span>${m.a.replace(/<[^>]*>?/gm, '')}</span></div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p41-49 動詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・${m.w} (${m.a.replace(/<[^>]*>?/gm, '')})`).join("\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべて一発正解でした！すばらしい！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（p41-49 動詞）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
