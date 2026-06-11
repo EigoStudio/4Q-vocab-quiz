@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 名詞 p14-22 (70問)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        /* 単語とボタンの並びを調整 */
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .word-display { 
+            font-size: 3.5rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            letter-spacing: 1px;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        /* スピーカーボタンのスタイル */
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        ruby rt { font-size: 0.6em; font-weight: normal; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.2rem;">英検4級でる順パス単 名詞 p14-22</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 70</div>
+    <div class="word-area">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 85</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル）</button>
+</div>
+
+<script>
+// 音声読み上げ関数
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+// 現在の単語を読み上げる関数
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').textContent;
+    speak(word);
+}
+
+const quizData = [
+    {w:"picture", a:"写真、絵", c:["手紙、本","机、椅子","窓、扉"]},
+    {w:"computer", a:"コンピューター", c:["雑誌","机","時計"]},
+    {w:"magazine", a:"雑誌", c:["教科書","手紙","ノート"]},
+    {w:"letter", a:"手紙", c:["雑誌","本","絵"]},
+    {w:"table", a:"テーブル", c:["台所","部屋","窓"]},
+    {w:"kitchen", a:"台所、キッチン", c:["寝室、居間","庭、公園","駅、病院"]},
+    {w:"chopstick", a:"箸", c:["茶碗","皿","机"]},
+    {w:"bedroom", a:"寝室", c:["居間","台所","浴室"]},
+    {w:"brush", a:"ブラシ、筆", c:["鉛筆、ペン","消しゴム、定規","カバン、靴"]},
+    {w:"video", a:"ビデオ", c:["ラジオ","テレビ","写真"]},
+    {w:"suitcase", a:"スーツケース", c:["リュックサック","財布","買い物袋"]},
+    {w:"key", a:"かぎ", c:["窓","ドア","机"]},
+    {w:"window", a:"窓", c:["床","壁","天井"]},
+    {w:"pet", a:"ペット", c:["植物","人形","おもちゃ"]},
+    {w:"yesterday", a:"昨日", c:["明日","今日","今"]},
+    {w:"tomorrow", a:"明日", c:["昨日","今日","さっき"]},
+    {w:"now", a:"今", c:["昨日","明日","後で"]},
+    {w:"hour", a:"時間", c:["分","秒","日"]},
+    {w:"minute", a:"分", c:["時","秒","週"]},
+    {w:"month", a:"月", c:["年","週","日"]},
+    {w:"year", a:"年", c:["月","週","時間"]},
+    {w:"lunchtime", a:"昼食の時間", c:["夕食の時間","朝食の時間","休み時間"]},
+    {w:"homework", a:"宿題", c:["授業","試験","練習"]},
+    {w:"test", a:"テスト、試験", c:["授業、クラス","教科、科目","練習、試合"]},
+    {w:"class", a:"授業、クラス", c:["教科、科目","宿題、試験","図書、学校"]},
+    {w:"classmate", a:"クラスメート", c:["先生","家族","近所の人"]},
+    {w:"lessons", a:"授業、レッスン", c:["教科書、ノート","宿題、試験","活動、行事"]},
+    {w:"subject", a:"教科、科目", c:["試験、テスト","授業、クラス","学校、大学"]},
+    {w:"math", a:"数学", c:["理科","歴史","英語"]},
+    {w:"science", a:"理科、科学", c:["歴史、社会","数学、英語","音楽、体育"]},
+    {w:"history", a:"歴史", c:["数学","理科","地理"]},
+    {w:"speech", a:"スピーチ", c:["会話","読書","筆記"]},
+    {w:"report", a:"レポート、報告", c:["スピーチ、演説","教科書、ノート","手紙、はがき"]},
+    {w:"textbook", a:"教科書", c:["ノート","雑誌","新聞"]},
+    {w:"notebook", a:"ノート", c:["教科書","ペン","消しゴム"]},
+    {w:"page", a:"ページ", c:["章","行","文字"]},
+    {w:"cafeteria", a:"カフェテリア", c:["体育館","図書館","教室"]},
+    {w:"library", a:"図書館", c:["博物館","美術館","映画館"]},
+    {w:"gym", a:"体育館", c:["校庭","教室","食堂"]},
+    {w:"club", a:"クラブ、部", c:["授業、課","行事、祭","会社、局"]},
+    {w:"college", a:"大学", c:["高校","中学校","小学校"]},
+    {w:"university", a:"大学", c:["会社","役所","病院"]},
+    {w:"course", a:"コース、講座", c:["旅行、遠足","試合、大会","会議、会合"]},
+    {w:"contest", a:"コンテスト、競技会", c:["コンサート、音楽会","フェスティバル、祭り","パーティー、祝宴"]},
+    {w:"group", a:"グループ、集団", c:["メンバー、会員","リーダー、指導者","パートナー、仲間"]},
+    {w:"member", a:"メンバー、会員", c:["グループ、集団","リーダー、指導者","オーナー、所有者"]},
+    {w:"park", a:"公園", c:["店","街","駅"]},
+    {w:"restaurant", a:"レストラン", c:["病院","銀行","学校"]},
+    {w:"store", a:"店", c:["道","家","池"]},
+    {w:"bookstore", a:"本屋", c:["花屋","八百屋","パン屋"]},
+    {w:"museum", a:"博物館、美術館", c:["映画館、劇場","図書館、書店","競技場、体育館"]},
+    {w:"station", a:"駅", c:["空港","港","道"]},
+    {w:"train", a:"電車、列車", c:["自転車、バイク","飛行機、船","バス、車"]},
+    {w:"airport", a:"空港", c:["駅","港","停留所"]},
+    {w:"bike", a:"自転車", c:["車","電車","バス"]},
+    {w:"street", a:"通り、街路", c:["場所、地点","公園、庭園","店、商店"]},
+    {w:"road", a:"道、道路", c:["山、丘","海、川","空、雲"]},
+    {w:"place", a:"場所", c:["時間","理由","方法"]},
+    {w:"hospital", a:"病院", c:["銀行","郵便局","消防署"]},
+    {w:"hotel", a:"ホテル", c:["アパート","家","会社"]},
+    {w:"pool", a:"プール", c:["海","川","湖"]},
+    {w:"apartment", a:"アパート、マンション", c:["デパート、売店","オフィス、事務所","ホテル、旅館"]},
+    {w:"garden", a:"庭", c:["森","山","谷"]},
+    {w:"zoo", a:"動物園", c:["遊園地","水族館","植物園"]},
+    {w:"town", a:"町", c:["国","州","村"]},
+    {w:"building", a:"建物、ビル", c:["公園、庭","道路、道","線路、駅"]},
+    {w:"company", a:"会社", c:["学校","病院","家庭"]},
+    {w:"office", a:"事務所、オフィス", c:["台所、キッチン","寝室、ベッドルーム","浴室、バスルーム"]},
+    {w:"bank", a:"銀行", c:["店","駅","家"]},
+    {w:"ship", a:"船", c:["車","自転車","飛行機"]}
+];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    quizQueue = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    document.getElementById('word-text').textContent = current.w;
+    document.getElementById('feedback').textContent = "";
+    
+    // 自動読み上げ（speak）を削除しました！
+
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < quizQueue.length) { loadQuestion(); } else { showResult(); }
+        }, 500);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({w: quizQueue[currentIndex].w, a: quizQueue[currentIndex].a});
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item"><strong>${m.w}</strong><span>${m.a.replace(/<[^>]*>?/gm, '')}</span></div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p14-22 名詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・${m.w} (${m.a.replace(/<[^>]*>?/gm, '')})`).join("\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべて一発正解でした！すばらしい！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（p14-22 名詞）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
