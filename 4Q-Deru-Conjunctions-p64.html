@@ -229,6 +229,7 @@ function speakCurrentWord() {
 }
 
 // 全15問のデータ
+// カモフラージュのため、ステップ1用の表記（text_ox）にはすべてあらかじめカッコを埋め込んでいます
 const quizData = [
     {
         status: "wrong",
@@ -236,11 +237,11 @@ const quizData = [
         text_4choice: "I like many vegetables. For example, broccoli, cabbage, ( &nbsp;&nbsp;&nbsp;&nbsp; ) tomatoes.",
         text_correct: "I like many vegetables. For example, broccoli, cabbage, and tomatoes.",
         ans: "and",
-        mean: "私はたくさんの野菜が好きです。例えば、ブロッコリー、キャベツ、工してトマトです。"
+        mean: "私はたくさんの野菜が好きです。例えば、ブロッコリー、キャベツ、そしてトマトです。"
     },
     {
         status: "correct",
-        text_ox: "I was tired because I played tennis for three hours.",
+        text_ox: "I was tired (because) I played tennis for three hours.",
         text_4choice: "",
         text_correct: "I was tired because I played tennis for three hours.",
         ans: "because",
@@ -256,7 +257,7 @@ const quizData = [
     },
     {
         status: "correct",
-        text_ox: "Which do you like better, tea or coffee?",
+        text_ox: "Which do you like better, tea (or) coffee?",
         text_4choice: "",
         text_correct: "Which do you like better, tea or coffee?",
         ans: "or",
@@ -272,7 +273,7 @@ const quizData = [
     },
     {
         status: "correct",
-        text_ox: "I was watching TV when my mother came home.",
+        text_ox: "I was watching TV (when) my mother came home.",
         text_4choice: "",
         text_correct: "I was watching TV when my mother came home.",
         ans: "when",
@@ -288,7 +289,7 @@ const quizData = [
     },
     {
         status: "correct",
-        text_ox: "Hurry up, or you will be late for school.",
+        text_ox: "Hurry up, (or) you will be late for school.",
         text_4choice: "",
         text_correct: "Hurry up, or you will be late for school.",
         ans: "or",
@@ -304,7 +305,7 @@ const quizData = [
     },
     {
         status: "correct",
-        text_ox: "I always do my homework after I come home.",
+        text_ox: "I always do my homework (after) I come home.",
         text_4choice: "",
         text_correct: "I always do my homework after I come home.",
         ans: "after",
@@ -320,7 +321,7 @@ const quizData = [
     },
     {
         status: "correct",
-        text_ox: "I want to buy a new bike, but I don't have enough money.",
+        text_ox: "I want to buy a new bike, (but) I don't have enough money.",
         text_4choice: "",
         text_correct: "I want to buy a new bike, but I don't have enough money.",
         ans: "but",
@@ -336,7 +337,7 @@ const quizData = [
     },
     {
         status: "correct",
-        text_ox: "You can watch TV if you finish your dinner.",
+        text_ox: "You can watch TV (if) you finish your dinner.",
         text_4choice: "",
         text_correct: "You can watch TV if you finish your dinner.",
         ans: "if",
