@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 接続詞</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --dark-orange: #e65100; /* 濃いオレンジ色 */
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        .instruction-area {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+            background: #e3f2fd;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .word-display { 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            line-height: 1.4;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        /* 正解した時の濃いオレンジスタイル */
+        .word-display.correct-glow {
+            color: var(--dark-orange);
+            border-bottom: 5px solid var(--primary-orange);
+        }
+
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .choices-marubatsu { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 400px; margin: 0 auto; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        .btn-correct-ox { border-color: #4caf50; color: #4caf50; font-size: 1.5rem; }
+        .btn-wrong-ox { border-color: #f44336; color: #f44336; font-size: 1.5rem; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #translation-display {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 5px solid var(--dark-orange);
+            display: none;
+            text-align: left;
+        }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { padding: 10px 0; border-bottom: 1px solid #ddd; font-size: 0.95rem; line-height: 1.4; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+
+        .next-btn {
+            background-color: var(--dark-orange);
+            color: var(--white);
+            box-shadow: 0 4px 0 #b33b00;
+        }
+        .next-btn:hover {
+            background-color: #ff6f00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.1rem; margin: 0; padding: 0 10px;">英検4級でる順パス単 接続詞 (and, but, because, if, or, when, after)</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 15</div>
+    <div class="instruction-area" id="instruction">ステップ1: この接続詞の使い方は正しい？</div>
+    <div class="word-area">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" id="audio-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
+    <div id="translation-display"></div>
+    <div id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 15</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル）</button>
+</div>
+
+<script>
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let voiceTxt = txt.replace(/&nbsp;/g, "").replace(/\(\s*\)/g, " blank ").replace(/\(\s*_\s*\)/g, " blank ");
+    let u = new SpeechSynthesisUtterance(voiceTxt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').innerText;
+    speak(word);
+}
+
+// 全15問のデータ
+const quizData = [
+    {
+        status: "wrong",
+        text_ox: "I like many vegetables. For example, broccoli, cabbage, (or) tomatoes.",
+        text_4choice: "I like many vegetables. For example, broccoli, cabbage, ( &nbsp;&nbsp;&nbsp;&nbsp; ) tomatoes.",
+        text_correct: "I like many vegetables. For example, broccoli, cabbage, and tomatoes.",
+        ans: "and",
+        mean: "私はたくさんの野菜が好きです。例えば、ブロッコリー、キャベツ、工してトマトです。"
+    },
+    {
+        status: "correct",
+        text_ox: "I was tired because I played tennis for three hours.",
+        text_4choice: "",
+        text_correct: "I was tired because I played tennis for three hours.",
+        ans: "because",
+        mean: "3時間テニスをしたので、私は疲れました。"
+    },
+    {
+        status: "wrong",
+        text_ox: "He is very smart, (after) he doesn't study at all.",
+        text_4choice: "He is very smart, ( &nbsp;&nbsp;&nbsp;&nbsp; ) he doesn't study at all.",
+        text_correct: "He is very smart, but he doesn't study at all.",
+        ans: "but",
+        mean: "彼はとても頭が良いけれど、全く勉強しません。"
+    },
+    {
+        status: "correct",
+        text_ox: "Which do you like better, tea or coffee?",
+        text_4choice: "",
+        text_correct: "Which do you like better, tea or coffee?",
+        ans: "or",
+        mean: "紅茶とコーヒー、どちらが（どちらを）より好きですか。"
+    },
+    {
+        status: "wrong",
+        text_ox: "I wash my hands, (but) I eat dinner.",
+        text_4choice: "I wash my hands ( &nbsp;&nbsp;&nbsp;&nbsp; ) I eat dinner.",
+        text_correct: "I wash my hands before I eat dinner.",
+        ans: "before",
+        mean: "私は夕食を食べる前に、手を洗います。"
+    },
+    {
+        status: "correct",
+        text_ox: "I was watching TV when my mother came home.",
+        text_4choice: "",
+        text_correct: "I was watching TV when my mother came home.",
+        ans: "when",
+        mean: "母が帰ってきたとき、私はテレビを見ていました。"
+    },
+    {
+        status: "wrong",
+        text_ox: "We cannot go on a picnic (and) it rains tomorrow.",
+        text_4choice: "We cannot go on a picnic ( &nbsp;&nbsp;&nbsp;&nbsp; ) it rains tomorrow.",
+        text_correct: "We cannot go on a picnic if it rains tomorrow.",
+        ans: "if",
+        mean: "もし明日雨が降れば、私たちはピクニックに行けません。"
+    },
+    {
+        status: "correct",
+        text_ox: "Hurry up, or you will be late for school.",
+        text_4choice: "",
+        text_correct: "Hurry up, or you will be late for school.",
+        ans: "or",
+        mean: "急ぎなさい、さもないと学校に遅刻しますよ。"
+    },
+    {
+        status: "wrong",
+        text_ox: "I studied English (if) watched TV last night.",
+        text_4choice: "I studied English ( &nbsp;&nbsp;&nbsp;&nbsp; ) watched TV last night.",
+        text_correct: "I studied English and watched TV last night.",
+        ans: "and",
+        mean: "私は昨夜、英語を勉強して、そしてテレビを見ました。"
+    },
+    {
+        status: "correct",
+        text_ox: "I always do my homework after I come home.",
+        text_4choice: "",
+        text_correct: "I always do my homework after I come home.",
+        ans: "after",
+        mean: "私は家に帰った後で、いつも宿題をします。"
+    },
+    {
+        status: "wrong",
+        text_ox: "You should wear a coat (but) it is very cold outside.",
+        text_4choice: "You should wear a coat ( &nbsp;&nbsp;&nbsp;&nbsp; ) it is very cold outside.",
+        text_correct: "You should wear a coat because it is very cold outside.",
+        ans: "because",
+        mean: "外はとても寒いので、コートを着るべきです。"
+    },
+    {
+        status: "correct",
+        text_ox: "I want to buy a new bike, but I don't have enough money.",
+        text_4choice: "",
+        text_correct: "I want to buy a new bike, but I don't have enough money.",
+        ans: "but",
+        mean: "新しい自転車を買いたいけれど、十分なお金がありません。"
+    },
+    {
+        status: "wrong",
+        text_ox: "Tom ran fast, (when) he missed the last bus.",
+        text_4choice: "Tom ran fast, ( &nbsp;&nbsp;&nbsp;&nbsp; ) he missed the last bus.",
+        text_correct: "Tom ran fast, but he missed the last bus.",
+        ans: "but",
+        mean: "トムは速く走ったけれど、最終バスを逃してしまいました。"
+    },
+    {
+        status: "correct",
+        text_ox: "You can watch TV if you finish your dinner.",
+        text_4choice: "",
+        text_correct: "You can watch TV if you finish your dinner.",
+        ans: "if",
+        mean: "もし夕食を食べ終えたなら、テレビを見てもいいですよ。"
+    },
+    {
+        status: "wrong",
+        text_ox: "I like basketball (after) I don't like soccer.",
+        text_4choice: "I like basketball, ( &nbsp;&nbsp;&nbsp;&nbsp; ) I don't like soccer.",
+        text_correct: "I like basketball, but I don't like soccer.",
+        ans: "but",
+        mean: "私はバスケットボールが好きですが、サッカーは好きではありません。"
+    }
+];
+
+const allConjunctions = ["and", "but", "because", "if", "or", "when", "after", "before"];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    quizQueue = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    isFirstTry = true;
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    
+    const wordDisplay = document.getElementById('word-text');
+    wordDisplay.classList.remove('correct-glow');
+    document.getElementById('translation-display').style.display = 'none';
+    
+    showStep1();
+}
+
+function showStep1() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('instruction').textContent = "ステップ1: この接続詞の使い方は正しい？";
+    document.getElementById('instruction').style.backgroundColor = "#e3f2fd";
+    document.getElementById('word-text').innerHTML = current.text_ox;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.className = "choices-marubatsu";
+    container.innerHTML = '';
+
+    const btnO = document.createElement('button');
+    btnO.className = 'choice-btn btn-correct-ox';
+    btnO.innerHTML = "〇 Correct!";
+    btnO.onclick = () => checkStep1("correct", current.status, btnO);
+
+    const btnX = document.createElement('button');
+    btnX.className = 'choice-btn btn-wrong-ox';
+    btnX.innerHTML = "✕ Wrong!";
+    btnX.onclick = () => checkStep1("wrong", current.status, btnX);
+
+    container.appendChild(btnO);
+    container.appendChild(btnX);
+}
+
+function checkStep1(selected, correctStatus, btn) {
+    if (selected === correctStatus) {
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        
+        if (correctStatus === "correct") {
+            if (isFirstTry) { firstTryCorrectCount++; }
+            document.getElementById('feedback').textContent = "Excellent! ✨";
+            showCorrectState();
+        } else {
+            document.getElementById('feedback').textContent = "Good! 次は正しい接続詞を選ぼう！";
+            setTimeout(() => {
+                showStep2();
+            }, 800);
+        }
+    } else {
+        if (isFirstTry) {
+            recordMistake();
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showStep2() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('instruction').textContent = "ステップ2: (  ) に入る正しい接続詞は？";
+    document.getElementById('instruction').style.backgroundColor = "#fff3e0";
+    document.getElementById('word-text').innerHTML = current.text_4choice;
+    document.getElementById('feedback').textContent = "";
+
+    const container = document.getElementById('choices-container');
+    container.className = "choices-grid";
+    container.innerHTML = '';
+
+    let dummies = allConjunctions.filter(c => c !== current.ans);
+    dummies = dummies.sort(() => Math.random() - 0.5).slice(0, 3);
+    const choices = [current.ans, ...dummies].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => checkStep2(choice, current.ans, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkStep2(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        showCorrectState();
+    } else {
+        if (isFirstTry) {
+            recordMistake();
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showCorrectState() {
+    const current = quizQueue[currentIndex];
+    
+    const wordDisplay = document.getElementById('word-text');
+    wordDisplay.innerHTML = current.text_correct;
+    wordDisplay.classList.add('correct-glow');
+    
+    const transDisplay = document.getElementById('translation-display');
+    transDisplay.innerHTML = current.mean;
+    transDisplay.style.display = 'block';
+    
+    const container = document.getElementById('choices-container');
+    container.className = "";
+    container.innerHTML = '';
+    
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'action-btn next-btn';
+    nextBtn.innerHTML = "Next ➔";
+    nextBtn.onclick = () => {
+        currentIndex++;
+        if (currentIndex < quizQueue.length) { 
+            loadQuestion(); 
+        } else { 
+            showResult(); 
+        }
+    };
+    container.appendChild(nextBtn);
+}
+
+function recordMistake() {
+    const current = quizQueue[currentIndex];
+    if (!mistakes.some(m => m.text === current.text_ox)) {
+        mistakes.push({
+            text: current.text_ox,
+            correct_text: current.text_correct,
+            ans: current.ans
+        });
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item">
+                <div style="font-weight:bold; color:var(--error-red);">${m.text}</div>
+                <div style="margin-top: 2px;">👉 正しい文: <span style="color:var(--dark-orange); font-weight:bold;">${m.correct_text}</span></div>
+            </div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 接続詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・元の文: ${m.text}\n  👉 正しい文: ${m.correct_text}`).join("\n\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべての接続詞問題を一発正解できました！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（接続詞）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
