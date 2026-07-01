@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 動詞 p98-100</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .word-display { 
+            font-size: 3.2rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            letter-spacing: 1px;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        .sentence-display {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            text-align: left;
+            background: #fffde7;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-orange);
+        }
+
+        .japanese-hint {
+            font-size: 1.1rem;
+            color: #555;
+            margin-top: 8px;
+            font-weight: normal;
+        }
+
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 85px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        ruby rt { font-size: 0.55em; font-weight: normal; color: #555; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; font-size: 0.95rem; line-height: 1.4; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+        .section-title {
+            font-size: 1.2rem;
+            background-color: var(--text-dark);
+            color: var(--accent-yellow);
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.2rem;">英検4級でる順パス単 動詞 p98-100</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 29</div>
+    <div id="section-header" class="section-title">単語トレーニング</div>
+    
+    <!-- 単語問題用エリア -->
+    <div class="word-area" id="word-block">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
+
+    <!-- ミニテスト問題用エリア -->
+    <div class="sentence-display" id="sentence-block" style="display: none;">
+        <div id="sentence-text"></div>
+        <div class="japanese-hint" id="sentence-hint"></div>
+    </div>
+
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！🎉</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 29</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する 📨</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル） 🔄</button>
+</div>
+
+<script>
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').textContent;
+    speak(word);
+}
+
+// 単語データ
+const wordData = [
+    {w:"cook", a:"（を）料理する", c:["（を）洗う", "作る", "食べる"], type:"word"},
+    {w:"leave", a:"（を）出発する・去る", c:["来る", "到着する", "住む"], type:"word"},
+    {w:"clean", a:"（を）きれいにする・そうじする", c:["（を）洗う", "を動かす", "壊す"], type:"word"},
+    {w:"sleep", a:"眠る", c:["目覚める", "休む", "座る"], type:"word"},
+    {w:"begin", a:"を始める・始まる", c:["を終える", "曲がる", "落ちる"], type:"word"},
+    {w:"send", a:"を送る", c:["を持ってくる", "を与える", "を手に入れる"], type:"word"},
+    {w:"learn", a:"（を）学ぶ・習う", c:["を教える", "思い出す", "理解する"], type:"word"},
+    {w:"dance", a:"踊る", c:["走る", "泳ぐ", "歌う"], type:"word"},
+    {w:"move", a:"を動かす・動く", c:["止まる", "座る", "運ぶ"], type:"word"},
+    {w:"sit", a:"すわる", c:["立つ", "眠る", "曲がる"], type:"word"},
+    {w:"win", a:"（に）勝つ", c:["負ける", "捕まえる", "落ちる"], type:"word"},
+    {w:"carry", a:"を運ぶ", c:["を置く", "を投げる", "切る"], type:"word"},
+    {w:"draw", a:"（線を）引く・（絵を）かく", c:["（絵の具で）描く", "歌う", "洗う"], type:"word"},
+    {w:"surprise", a:"を驚かせる", c:["心配する", "楽しむ", "と感じる"], type:"word"},
+    {w:"happen", a:"（偶然）起こる", c:["始める", "出発する", "変わる"], type:"word"},
+    {w:"smile", a:"ほほえむ", c:["驚く", "歌う", "踊る"], type:"word"},
+    {w:"relax", a:"くつろぐ", c:["急ぐ", "働く", "心配する"], type:"word"},
+    {w:"check", a:"をチェックする・点検する", c:["を洗う", "を置く", "を直す"], type:"word"},
+    {w:"remember", a:"（を）覚えている・思い出す", c:["を忘れる", "を理解する", "を考える"], type:"word"},
+    {w:"understand", a:"（を）理解する", c:["を知っている", "を教える", "を覚えている"], type:"word"},
+    {w:"enter", a:"に入る", c:["を出発する", "に到着する", "を去る"], type:"word"},
+    {w:"share", a:"を共有する・分け合う", c:["を与える", "を注文する", "を売る"], type:"word"},
+    {w:"miss", a:"をのがす・さびしく思う", c:["を捕まえる", "を忘れる", "を落とす"], type:"word"}
+];
+
+// ミニテストデータ（適切な意味の動詞を選ぶ問題に変更）
+const miniTestData = [
+    {
+        w: "clean (ミニテスト)",
+        q_text: "He will ( &nbsp; &nbsp; &nbsp; &nbsp; ) his room in the morning.",
+        hint: "彼は午前中に部屋をそうじするつもりです。",
+        a: "clean",
+        c: ["cook", "leave", "send"],
+        type: "text"
+    },
+    {
+        w: "learn (ミニテスト)",
+        q_text: "My father wants to ( &nbsp; &nbsp; &nbsp; &nbsp; ) cooking.",
+        hint: "私の父は料理を習いたがっています。（原形に調整）",
+        a: "learn",
+        c: ["dance", "sit", "smile"],
+        type: "text"
+    },
+    {
+        w: "sleep (ミニテスト)",
+        q_text: "I want to ( &nbsp; &nbsp; &nbsp; &nbsp; ) for eight hours.",
+        hint: "私は8時間眠りたいです。（原形に調整）",
+        a: "sleep",
+        c: ["win", "begin", "happen"],
+        type: "text"
+    },
+    {
+        w: "move (ミニテスト)",
+        q_text: "Please ( &nbsp; &nbsp; &nbsp; &nbsp; ) these boxes to the kitchen.",
+        hint: "これらの箱を台所に動かしてください。（原形に調整）",
+        a: "move",
+        c: ["check", "enter", "miss"],
+        type: "text"
+    },
+    {
+        w: "remember (ミニテスト)",
+        q_text: "Do you ( &nbsp; &nbsp; &nbsp; &nbsp; ) the festival?",
+        hint: "そのお祭りのことを覚えていますか。",
+        a: "remember",
+        c: ["understand", "surprise", "relax"],
+        type: "text"
+    },
+    {
+        w: "carry (ミニテスト)",
+        q_text: "This car can ( &nbsp; &nbsp; &nbsp; &nbsp; ) a lot of things.",
+        hint: "この車はたくさんのものを運ぶことができます。",
+        a: "carry",
+        c: ["draw", "share", "sit"],
+        type: "text"
+    }
+];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    const shuffledWords = [...wordData].sort(() => Math.random() - 0.5);
+    quizQueue = [...shuffledWords, ...miniTestData];
+    
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    if (current.type === "word") {
+        document.getElementById('section-header').textContent = "単語トレーニング 💡";
+        document.getElementById('word-block').style.display = 'flex';
+        document.getElementById('sentence-block').style.display = 'none';
+        document.getElementById('word-text').textContent = current.w;
+        
+        const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+        choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.innerHTML = choice;
+            btn.onclick = () => checkAnswer(choice, current.a, btn);
+            container.appendChild(btn);
+        });
+        
+        // 自動読み上げをストップしました（スピーカーボタンのみで再生）
+
+    } else {
+        document.getElementById('section-header').textContent = "ミニテストにチャレンジ！ 🔥";
+        document.getElementById('word-block').style.display = 'none';
+        document.getElementById('sentence-block').style.display = 'block';
+        document.getElementById('sentence-text').innerHTML = current.q_text;
+        document.getElementById('sentence-hint').textContent = current.hint;
+        
+        const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+        choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.innerHTML = choice;
+            btn.onclick = () => checkAnswer(choice, current.a, btn);
+            container.appendChild(btn);
+        });
+    }
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        
+        // ミニテスト正解時の自動読み上げもオフにしました
+
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < quizQueue.length) { loadQuestion(); } else { showResult(); }
+        }, 1200);
+    } else {
+        if (isFirstTry) {
+            const currentItem = quizQueue[currentIndex];
+            let mistakeDisplay = currentItem.type === "word" ? currentItem.w : currentItem.hint;
+            let correctDisplay = currentItem.a;
+            mistakes.push({w: mistakeDisplay, a: correctDisplay});
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item"><strong>${m.w}</strong><span>正解: ${m.a}</span></div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p98-100 動詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・${m.w} (正解: ${m.a})`).join("\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべて一発正解でした！すばらしい！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（p98-100 動詞・ミニテスト）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
