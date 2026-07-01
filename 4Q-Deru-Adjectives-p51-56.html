@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>英検4級でる順パス単 形容詞 p51-56 (完全版)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f5; 
+            --primary-orange: #ff9800; 
+            --accent-yellow: #ffeb3b; 
+            --text-dark: #212121;
+            --white: #ffffff;
+            --gray-main: #9e9e9e;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--text-dark);
+            color: var(--primary-orange);
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 4px solid var(--primary-orange);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 3px solid var(--gray-main);
+        }
+
+        .progress-bar { font-size: 1.1rem; color: var(--primary-orange); margin-bottom: 15px; font-weight: bold; }
+        
+        .word-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .word-display { 
+            font-size: 3.2rem; 
+            font-weight: 700; 
+            color: var(--text-dark); 
+            letter-spacing: 1px;
+            border-bottom: 5px solid var(--accent-yellow);
+            display: inline-block;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        .speaker-btn {
+            background: #e1f5fe;
+            border: 2px solid #03a9f4;
+            color: #03a9f4;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0288d1;
+        }
+        .speaker-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0288d1;
+        }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            padding: 15px 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            font-family: var(--base-font);
+            min-height: 85px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        ruby rt { font-size: 0.55em; font-weight: normal; color: #555; }
+
+        .choice-btn:hover { background-color: var(--accent-yellow); border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 4rem; color: var(--primary-orange); font-weight: 700; }
+        .mistake-list { text-align: left; background: #fafafa; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid var(--gray-main); max-height: 300px; overflow-y: auto; }
+        .mistake-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; font-size: 0.95rem; line-height: 1.4; }
+
+        .action-btn { 
+            background-color: var(--primary-orange); 
+            color: var(--text-dark); 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            width: 100%;
+            font-family: var(--base-font);
+            box-shadow: 0 4px 0 #e68a00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="font-size: 1.2rem;">英検4級でる順パス単 形容詞 p51-56 (完全版)</h1>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 46</div>
+    <div class="word-area">
+        <div class="word-display" id="word-text">Loading...</div>
+        <button class="speaker-btn" onclick="speakCurrentWord()">🔊</button>
+    </div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:20px; height: 1.2em; font-weight: bold; font-size: 1.3rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2 style="font-size: 1.5rem;">トレーニング終了！🎉</h2>
+    <div style="font-size: 1.2rem;">一発正解：<span class="score-num" id="final-score">0</span> / 46</div>
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--primary-orange); margin-top:25px;">要確認リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に報告する 📨</button>
+    <button class="action-btn" style="background-color: var(--gray-main); box-shadow: 0 4px 0 #757575;" onclick="location.reload()">もう一度（シャッフル） 🔄</button>
+</div>
+
+<script>
+function speak(txt, rate = 0.7) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(txt);
+    u.lang = "en-US"; 
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+}
+
+function speakCurrentWord() {
+    const word = document.getElementById('word-text').textContent;
+    speak(word);
+}
+
+const quizData = [
+    // p51-52
+    {w:"last", a:"<ruby>最後<rt>さいご</rt></ruby>の・この前の", c:["最初の", "次の", "遅い"]},
+    {w:"first", a:"第1の・<ruby>最初<rt>さいしょ</rt></ruby>の", c:["最後の", "速い", "遅い"]},
+    {w:"good", a:"よい・おいしい", c:["悪い", "遅い", "病気の"]},
+    {w:"bad", a:"悪い", c:["よい", "幸福な", "晴れた"]},
+    {w:"late", a:"遅い・遅れた", c:["早い", "速い", "おいしい"]},
+    {w:"early", a:"早い・初期の", c:["遅い", "ゆっくりと", "近い"]},
+    {w:"fast", a:"速い", c:["遅い・のろい", "近い", "おいしい"]},
+    {w:"slow", a:"遅い・のろい", c:["速い", "早い", "遠い"]},
+    {w:"favorite", a:"大好きな・お気に入りの", c:["有名な", "幸福な", "美味しい"]},
+    {w:"happy", a:"幸福な・楽しい", c:["悪い", "病気の", "すまないと思って"]},
+
+    // p52-53
+    {w:"lucky", a:"運のよい・幸運な", c:["悪い", "危険な", "高価な"]},
+    {w:"free", a:"自由な・ひまな・無料の", c:["忙しい", "遅れた", "病気の"]},
+    {w:"next", a:"次の・今度の", c:["この前の", "最初の", "遠い"]},
+    {w:"all", a:"すべての", c:["半分の", "別の", "ちがった"]},
+    {w:"half", a:"半分の", c:["すべての", "別の", "自身の"]},
+    {w:"fine", a:"すばらしい・晴れた・健康で", c:["病気の", "空腹の", "悪い"]},
+    {w:"sick", a:"病気の・病気で", c:["健康な", "幸福な", "用意ができて"]},
+    {w:"hungry", a:"空腹の・おなかがすいた", c:["満腹の", "健康な", "親愛なる"]},
+    {w:"sorry", a:"すまないと思って", c:["幸福な", "楽しい", "有名な"]},
+    {w:"near", a:"近い", c:["遠い", "遅い", "自由な"]},
+
+    // p54 (追加分)
+    {w:"popular", a:"人気のある・流行の", c:["有名な", "特別な", "大好きな"]},
+    {w:"small", a:"小さい", c:["大きい", "長い", "短い"]},
+    {w:"short", a:"短い・背の低い", c:["長い・背の高い", "小さい", "開いた"]},
+    {w:"beautiful", a:"美しい・すばらしい", c:["悪い", "暗い", "難しい"]},
+    {w:"cute", a:"かわいい", c:["美しい", "難しい", "怖い"]},
+    // p54 (お天気マーク周辺の修正)
+    {w:"sunny", a:"太陽の照っている", c:["くもった", "雨の降る", "風の強い"]},
+    {w:"cloudy", a:"くもった", c:["晴れた", "雪の降る", "寒い"]},
+    {w:"snowy", a:"雪の降る・雪の積もった", c:["くもった", "暑い", "涼しい"]},
+    {w:"warm", a:"暖かい", c:["涼しい", "暑い", "寒い"]},
+    {w:"quiet", a:"静かな", c:["うるさい", "暗い", "短い"]},
+    {w:"dark", a:"暗い・（色が）濃い", c:["明るい", "静かな", "薄い"]},
+    {w:"interesting", a:"おもしろい・興味深い", c:["退屈な", "難しい", "幸福な"]},
+    {w:"special", a:"特別の", c:["有名な", "普通の", "お気に入りの"]},
+    {w:"useful", a:"役に立つ", c:["役に立たない", "難しい", "簡単な"]},
+    {w:"careful", a:"注意深い", c:["不注意な", "静かな", "危ない"]},
+    {w:"difficult", a:"難しい", c:["やさしい", "熱心な", "役に立つ"]},
+
+    // p53-56
+    {w:"ready", a:"用意ができて", c:["忙しい", "自由な", "ちがった"]},
+    {w:"open", a:"開いた", c:["閉じた", "自由な", "新しい"]},
+    {w:"famous", a:"有名な", c:["大好きな", "別の", "親愛なる"]},
+    {w:"hard", a:"難しい・かたい・熱心な", c:["易しい", "美味しい", "開いた"]},
+    {w:"expensive", a:"高価な", c:["安価な", "ちがった", "古い"]},
+    {w:"delicious", a:"非常においしい", c:["まずい", "遅い", "かたい"]},
+    {w:"own", a:"自分自身の", c:["他の・別の", "ちがった", "すべての"]},
+    {w:"other", a:"他の・別の", c:["自分自身の", "すべての", "同じ"]},
+    {w:"different", a:"ちがった・異なる", c:["同じ", "別の", "新しい"]},
+    {w:"dear", a:"いとしい・親愛なる", c:["有名な", "悪い", "難しい"]}
+];
+
+let quizQueue = [];
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function initQuiz() {
+    quizQueue = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    firstTryCorrectCount = 0;
+    mistakes = [];
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const current = quizQueue[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizQueue.length}`;
+    document.getElementById('word-text').textContent = current.w;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) { firstTryCorrectCount++; }
+        document.getElementById('feedback').style.color = "var(--success-green)";
+        document.getElementById('feedback').textContent = "Excellent! ✨";
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < quizQueue.length) { loadQuestion(); } else { showResult(); }
+        }, 500);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({w: quizQueue[currentIndex].w, a: quizQueue[currentIndex].a});
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div class="mistake-item"><strong>${m.w}</strong><span>${m.a.replace(/<[^>]*>?/gm, '')}</span></div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("英検4級 p51-56 形容詞トレーニング結果");
+    const cleanMistakes = mistakes.map(m => `・${m.w} (${m.a.replace(/<[^>]*>?/gm, '')})`).join("\n");
+    let mistakeText = mistakes.length > 0 ? "\n\n■要復習リスト:\n" + cleanMistakes : "\n\nすべて一発正解でした！すばらしい！";
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級トレーニング（p51-56 形容詞）を完了しました！\n\n結果: ${quizQueue.length}問中 ${firstTryCorrectCount} 問を一発正解。${mistakeText}`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
