@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2022-2 大問2 Vocabulary Quiz</title>
+<script src="auth.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p1-bg: #f5f5f5; --p1-primary: #ff9800;
+            --p2-bg: #f0f4f8; --p2-primary: #2196f3;
+            --white: #ffffff; --text-dark: #212121;
+            --success: #4caf50; --error: #f44336;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", sans-serif;
+        }
+
+        body { font-family: var(--base-font); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
+        body.part1-mode { background-color: var(--p1-bg); }
+        body.part2-mode { background-color: var(--p2-bg); }
+
+        header { width: 100%; padding: 20px 0; text-align: center; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .part1-mode header { background-color: var(--p1-primary); }
+        .part2-mode header { background-color: var(--p2-primary); }
+
+        .tab-container { display: flex; width: 95%; max-width: 600px; margin: 15px 0; gap: 5px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 10px 10px 0 0; background: #ccc; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: var(--white); cursor: default; }
+        .part1-mode .tab-btn.active { color: var(--p1-primary); border-top: 4px solid var(--p1-primary); }
+        .part2-mode .tab-btn.active { color: var(--p2-primary); border-top: 4px solid var(--p2-primary); }
+
+        .container { max-width: 600px; width: 92%; background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; margin-bottom: 30px; }
+        .q-num { color: #888; margin-bottom: 10px; }
+        
+        .question-box { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 25px; }
+        .question-text { font-size: 1.2rem; font-weight: bold; line-height: 1.6; text-align: left; margin: 0; flex-grow: 1; }
+        
+        .speaker-btn {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(255, 152, 0, 0.4);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+        .speaker-btn:active { transform: scale(0.92); }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .choice-btn { background: var(--white); border: 2px solid #e0e0e0; padding: 15px 10px; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: 0.2s; min-height: 60px; display: flex; align-items: center; justify-content: center; text-align: center; word-break: break-word; }
+        .choice-btn.correct { background-color: var(--success) !important; color: white; border-color: var(--success); }
+        .choice-btn.wrong { background-color: var(--error) !important; color: white; border-color: var(--error); opacity: 0.6; }
+
+        #feedback-area { margin-top: 20px; display: none; padding: 15px; border-radius: 10px; background: #f0fdf4; }
+        .next-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; background: var(--p1-primary); margin-top: 10px; }
+        .part2-mode .next-btn { background: var(--p2-primary); }
+        
+        .report-btn { background-color: #e91e63; color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; width: 100%; margin-top: 10px; cursor: pointer; font-weight: bold; }
+        .bonus-box { background: #fffde7; border: 2px dashed #fbc02d; padding: 20px; border-radius: 15px; margin: 20px 0; }
+        ruby rt { font-size: 0.6em; }
+        .sentence-gap { text-decoration: underline; font-weight: bold; color: #2196f3; padding: 0 10px; }
+        .dialogue-speaker { font-weight: bold; color: #444; }
+    </style>
+</head>
+<body class="part1-mode">
+
+<header>
+    <h1 style="margin:0; font-size: 1.3rem;">2022-2 大問2 Vocabulary Quiz</h1>
+</header>
+
+<div class="tab-container" id="tabs">
+    <button id="tab1" class="tab-btn active" onclick="switchPart(1)">Part 1: 単語・表現</button>
+    <button id="tab2" class="tab-btn" onclick="switchPart(2)">Part 2: 会話文穴埋め</button>
+</div>
+
+<div class="container" id="quiz-screen">
+    <div class="q-num" id="progress">Question 1 / --</div>
+    <div class="question-box">
+        <div class="question-text" id="question-display">Loading...</div>
+        <button class="speaker-btn" id="speaker-btn" onclick="playAudio()" style="display: none;" title="音声を聴く">🔊</button>
+    </div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback-area">
+        <span style="color:var(--success); font-weight:bold; font-size:1.4rem;">Correct! ✨</span><br>
+        <button class="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<div class="container" id="result-screen" style="display:none;">
+    <h2>Training Complete!</h2>
+    <div class="bonus-box" id="bonus-message">
+        <h3 style="margin-top:0; color:#f57f17;">🎁 <ruby>特別<rt>とくべつ</rt></ruby>ボーナス</h3>
+        <p id="reward-text"></p>
+    </div>
+    <p style="font-size: 1.2rem;">一発正解スコア: <span id="final-score" style="font-weight:bold; color:var(--success);">0</span></p>
+    <button class="report-btn" onclick="sendReport()">Tamaki先生に報告する</button>
+    <button class="next-btn" style="background:#9e9e9e;" onclick="location.reload()">もう一度挑戦</button>
+</div>
+
+<script>
+// --- Data Structure ---
+const part1Data = [
+    {q:"dining room", a:"食堂・ダイニングルーム", c:["寝室・プライベートルーム", "台所・キッチンスペース", "居間・リビングルーム"]},
+    {q:"swimming race", a:"水泳レース（水泳大会）", c:["長距離走（マラソン大会）", "自転車競技（ロードレース）", "球技大会（サッカーの試合）"]},
+    {q:"soon", a:"すぐに・まもなく", c:["ゆっくり・のんびり", "あらかじめ・事前に", "ふだんは・いつも"]},
+    {q:"in five minutes", a:"5分後に（5分経ったら）", c:["5分間で（5分を使って）", "5分前に（5分より前）", "5分ごとに（5分おきに）"]},
+    {q:"during your summer vacation", a:"夏休みの間に", c:["冬休みの前に", "春休みの終わりに", "週末の後に"]},
+    {q:"lake", a:"湖", c:["海", "川", "池"]},
+    {q:"for five days", a:"5日間", c:["5日前に", "5日後に", "5日おきに"]},
+    {q:"there", a:"そこに・あそこに", c:["ここに・こちらに", "どこに・どちらに", "どこでも・どの場所でも"]},
+    {q:"There were 30 people.", a:"30人いました。", c:["30人見ました。", "30人呼びました。", "30人来ました。"]},
+    {q:"forgot", a:"忘れた", c:["覚えている", "持ってきた", "買った"]},
+    {q:"gift", a:"贈り物・プレゼント", c:["手紙・メッセージ", "カード・案内状", "切符・チケット"]},
+    {q:"with us", a:"私たちと一緒に", c:["私のおかげで", "私たちについて", "私たちなしで"]},
+    {q:"How about ～?", a:"～はどうですか？", c:["～はなぜですか？", "～はどこですか？", "～はいくらですか？"]},
+    {q:"need to [do]", a:"～する必要がある（必要性）", c:["～したい（希望）", "～できる（能力）", "～してはいけない（禁止）"]},
+    {q:"It's not for you.", a:"これはあなた用ではありません。", c:["これはあなた用です。", "これしかありません。", "これは簡単です。"]},
+    {q:"Lunch is ready.", a:"昼食の準備ができました。", c:["夕食の準備ができました。", "朝食の準備ができました。", "夜食の準備ができました。"]},
+    {q:"Good luck.", a:"頑張ってね！（幸運を祈る）", c:["おめでとう！（祝福する）", "気を付けてね！（注意する）", "問題ないよ！（安心させる）"]},
+    {q:"Not this time.", a:"今回は違います。（見送り）", c:["次回にしましょう。（延期）", "いつもそうです。（常習）", "今回は成功です。（達成）"]},
+    {q:"You, too.", a:"あなたもね。", c:["私ではありません。", "誰でしょうか。", "どういたしまして。"]},
+    {q:"That's a lot.", a:"とても多いですね！（驚き）", c:["大きすぎますね！（驚き）", "安すぎますね！（驚き）", "速すぎますね！（驚き）"]},
+    {q:"Just a minute.", a:"ちょっと待ってください。", c:["少し急いでください。", "もうすぐ終わります。", "時間がありません。"]}
+];
+
+const part2Data = [
+    {
+        q: "<span class='dialogue-speaker'>Father:</span> Come to the dining room, Tim. ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> )<br><span class='dialogue-speaker'>Son:</span> OK, Dad. I'm coming.",
+        a: "Lunch is ready.",
+        c: ["It's a new house.", "I like your bedroom.", "It's not for you."]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Girl 1:</span> Does our swimming race start soon?<br><span class='dialogue-speaker'>Girl 2:</span> Yes, in five minutes. ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> )<br><span class='dialogue-speaker'>Girl 1:</span> Thanks. You, too.",
+        a: "Good luck.",
+        c: ["That's fast.", "Not this time.", "In the pool."]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Student:</span> Where did you go during your summer vacation, Ms. Richards?<br><span class='dialogue-speaker'>Teacher:</span> ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ) I go fishing there every summer.",
+        a: "To Lake Belmore.",
+        c: ["In my living room.", "In spring.", "For five days."]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Girl 1:</span> How was your sister's birthday party?<br><span class='dialogue-speaker'>Girl 2:</span> It was fun. ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> )<br><span class='dialogue-speaker'>Girl 1:</span> Wow! That's a lot.",
+        a: "There were 30 people there.",
+        c: ["It started late.", "I forgot my gift.", "You can come with us."]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Mother:</span> Jenny, can you help me in the kitchen?<br><span class='dialogue-speaker'>Daughter:</span> ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ) Mom. I just need to send this e-mail first.",
+        a: "Just a minute,",
+        c: ["It's your computer,", "We had dinner,", "I like it,"]
+    }
+];
+
+// --- Speech Synthesis Setup ---
+let preferredVoice = null;
+
+function loadVoices() {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length === 0) return;
+    // 女性の英語声を優先的に選ぶ設定
+    preferredVoice = 
+        voices.find(v => v.lang === "en-US" && v.name.includes("Google US English")) ||
+        voices.find(v => v.lang === "en-US" && v.name.includes("Samantha")) ||
+        voices.find(v => v.lang === "en-US" && (v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Victoria"))) ||
+        voices.find(v => v.lang.startsWith("en-US")) ||
+        voices.find(v => v.lang.startsWith("en"));
+}
+
+if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+}
+
+function speak(text) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    
+    // 読み上げ用のテキスト整形（記号やプレースホルダーの除外）
+    let cleanedText = text.replace(/\[do\]/g, "do").replace(/～/g, "").replace(/["'?!.,“]/g, "");
+
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
+    if (preferredVoice) utterance.voice = preferredVoice;
+    utterance.rate = 0.75;
+    utterance.pitch = 1.15; // 女性らしい少し高めのトーン
+    window.speechSynthesis.speak(utterance);
+}
+
+// --- Logic ---
+let currentSet = [];
+let currentIndex = 0;
+let isAnswered = false;
+let firstTryCount = 0;
+let isFirstTryInQ = true;
+let currentPartName = "";
+let currentPartNum = 1;
+
+function switchPart(partNum) {
+    currentPartNum = partNum;
+    currentPartName = (partNum === 1) ? "Part 1 (単語・表現)" : "Part 2 (会話文穴埋め)";
+    document.body.className = partNum === 1 ? 'part1-mode' : 'part2-mode';
+    document.getElementById('tab1').className = partNum === 1 ? 'tab-btn active' : 'tab-btn';
+    document.getElementById('tab2').className = partNum === 2 ? 'tab-btn active' : 'tab-btn';
+    
+    let rawData = partNum === 1 ? [...part1Data] : [...part2Data];
+    currentSet = rawData.sort(() => Math.random() - 0.5);
+    
+    currentIndex = 0;
+    firstTryCount = 0;
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    showQuestion();
+}
+
+function showQuestion() {
+    isAnswered = false;
+    isFirstTryInQ = true;
+    document.getElementById('feedback-area').style.display = 'none';
+    const data = currentSet[currentIndex];
+    document.getElementById('progress').textContent = `Question ${currentIndex + 1} / ${currentSet.length}`;
+    document.getElementById('question-display').innerHTML = data.q;
+    
+    const speakerBtn = document.getElementById('speaker-btn');
+    if (currentPartNum === 1) {
+        speakerBtn.style.display = 'flex';
+        setTimeout(() => playAudio(), 300);
+    } else {
+        speakerBtn.style.display = 'none';
+    }
+
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    
+    const choices = [data.a, ...data.c].sort(() => Math.random() - 0.5);
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => {
+            if (isAnswered) return;
+            if (choice === data.a) {
+                isAnswered = true;
+                if (isFirstTryInQ) firstTryCount++;
+                btn.classList.add('correct');
+                document.getElementById('feedback-area').style.display = 'block';
+            } else {
+                isFirstTryInQ = false;
+                btn.classList.add('wrong');
+            }
+        };
+        container.appendChild(btn);
+    });
+}
+
+function playAudio() {
+    if (currentPartNum === 1 && currentSet[currentIndex]) {
+        speak(currentSet[currentIndex].q);
+    }
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < currentSet.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = `${firstTryCount} / ${currentSet.length}`;
+    
+    const reward = document.getElementById('reward-text');
+    const percent = firstTryCount / currentSet.length;
+    if (percent === 1) {
+        reward.innerHTML = "完璧です！全問一発正解！🏅<br>この表現力があれば 2022-2 の大問2はばっちりクリアできます！";
+    } else if (percent >= 0.8) {
+        reward.innerHTML = "素晴らしい！合格圏内です！✨<br>間違えたところをもう一度復習してみよう！";
+    } else {
+        reward.innerHTML = "ナイスファイト！🌈<br>繰り返しチャレンジして満点を目指しましょう！";
+    }
+}
+
+function sendReport() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent(`英検4級 2022-2 大問2 学習報告 (${currentPartName})`);
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級 2022-2 大問2 Vocabulary Quizを完了しました！\n\n【今回の結果】\nコース: ${currentPartName}\n一発正解数: ${firstTryCount} / ${currentSet.length}\n\nこれからも頑張ります！`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+window.onload = () => switchPart(1);
+</script>
+</body>
+</html>
