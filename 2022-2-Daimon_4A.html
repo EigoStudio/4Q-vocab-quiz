@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2022-2 4A - Soccer Day Camp - Vocabulary Quiz</title>
+<script src="auth.js"></script>
+    <style>
+        :root {
+            --bg-color: #fdf8f0;
+            --primary-orange: #ff9800; /* 1つ目のHTMLのアクティビティカラー */
+            --primary-dark: #f57c00;
+            --accent-orange: #e65100;
+            --text-dark: #2c3e50;
+            --white: #ffffff;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-orange);
+            color: var(--white);
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            padding: 0 10px;
+        }
+
+        .print-trigger-btn {
+            background: rgba(255, 255, 255, 0.25);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .print-trigger-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .container {
+            max-width: 750px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .progress-bar {
+            font-size: 1rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .instruction {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: bold;
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-orange);
+        }
+
+        .sentence-display {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin: 10px 0 25px 0;
+            padding: 18px;
+            background-color: #fafafa;
+            border-left: 5px solid var(--primary-orange);
+            border-radius: 5px;
+            text-align: left;
+            white-space: pre-line;
+        }
+
+        .choices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .choices-grid { grid-template-columns: 1fr; }
+        }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid #e0e0e0;
+            padding: 14px 8px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .choice-btn:hover { background-color: #fff8e1; border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            25% {transform: translateX(-5px);}
+            75% {transform: translateX(5px);}
+        }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 3rem; color: var(--accent-orange); font-weight: bold; }
+
+        .mistake-list {
+            text-align: left;
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ffcdd2;
+        }
+
+        .action-btn {
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        @media print {
+            header, .container, .print-trigger-btn { display: none !important; }
+            #print-worksheet { display: block !important; width: 100%; }
+            .print-q-block { break-inside: avoid; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+            .print-sentence { font-style: italic; margin: 5px 0; border-left: 2px solid #000; padding-left: 10px; }
+        }
+
+        @media screen { #print-worksheet { display: none; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>2022-2 4A - Soccer Day Camp - Vocabulary Quiz</h1>
+    <button class="print-trigger-btn" onclick="window.print()">🖨️ 全問題を印刷/PDF保存</button>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 16</div>
+    <div class="instruction" id="instruction-text">指示文</div>
+    <div class="sentence-display" id="sentence-text">問題文</div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:15px; height: 1.2em; font-weight: bold;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2>Result</h2>
+    <div>Score: <span class="score-num" id="final-score">0</span> / <span id="total-count">16</span></div>
+    <div id="mistake-container" style="display:none;">
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に結果を送信</button>
+    <button class="action-btn" style="background-color: #95a5a6;" onclick="location.reload()">もう一度挑戦</button>
+</div>
+
+<div id="print-worksheet"></div>
+
+<script>
+const quizList = [
+    { id: 1, instruction: "「if you are interested」の意味を選びなさい。", sentence: "Come to our camp if you are interested in soccer!", a: "興味があれば", c: ["時間があれば", "経験があれば", "時間があれば"] },
+    { id: 2, instruction: "「Dates」の意味を選びなさい。", sentence: "Dates: July 12 to July 16", a: "日程", c: ["時間", "場所", "費用"] },
+    { id: 3, instruction: "「Time」の意味を選びなさい。", sentence: "Time: 10:30 to 15:00", a: "時間", c: ["日程", "場所", "費用"] },
+    { id: 4, instruction: "「Place」の意味を選びなさい。", sentence: "Place: Silverton Junior High School", a: "場所", c: ["日程", "時間", "費用"] },
+    { id: 5, instruction: "「junior high school」の意味を選びなさい。", sentence: "This camp is for junior high school students.", a: "中学校", c: ["小学校", "高等学校", "専門学校"] },
+    { id: 6, instruction: "「Cost」の意味を選びなさい。", sentence: "Cost: $30", a: "費用", c: ["日程", "時間", "場所"] },
+    { id: 7, instruction: "「famous」の意味を選びなさい。", sentence: "You'll meet two famous soccer players at the camp.", a: "有名な", c: ["強い", "若い", "親切な"] },
+    { 
+        id: 8, 
+        instruction: "「To join」の意味を選びなさい。", 
+        sentence: "To join, send an e-mail to Mike Webb.", 
+        a: "参加するためには", 
+        c: ["見学するためには", "連絡するためには", "準備するためには"] 
+    },
+    { id: 9, instruction: "「June」の意味を選びなさい。", sentence: "Please send an e-mail before June 12.", a: "6月", c: ["5月", "7月", "8月"] },
+    { id: 10, instruction: "「July」の意味を選びなさい。", sentence: "The camp will start on July 12.", a: "7月", c: ["6月", "8月", "9月"] },
+    { id: 11, instruction: "「last day」の意味を選びなさい。", sentence: "When is the last day of the soccer day camp?", a: "最終日（最後の日）", c: ["初日（最初の日）", "休日（休みの日）", "平日（会社の日）"] },
+    { id: 12, instruction: "「first day」の意味を選びなさい。", sentence: "The first day of the camp is July 12.", a: "初日（最初の日）", c: ["最終日（最後の日）", "休日（休みの日）", "平日（会社の日）"] },
+    { id: 13, instruction: "「receive e-mails」の意味を選びなさい。", sentence: "Students will receive e-mails from the coach.", a: "メールを受け取る", c: ["メールを送る", "メールを消す", "メールを書く"] },
+    { id: 14, instruction: "「send an e-mail」の意味を選びなさい。", sentence: "To join the camp, you must send an e-mail.", a: "メールを送る", c: ["メールを受け取る", "メールを消す", "メールを書く"] },
+    { id: 15, instruction: "「with Mike Webb」の意味を選びなさい。", sentence: "Students will watch a movie with Mike Webb.", a: "マイクと一緒に", c: ["マイクの代わりに", "マイクの向かいで", "マイクの近くで"] },
+    { id: 16, instruction: "「get a free soccer ball」の意味を選びなさい。", sentence: "Students can get a free soccer ball at the camp.", a: "無料でボールをもらう", c: ["安くボールを買う", "自分でボールを持ってくる", "新しくボールを借りる"] }
+];
+
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function loadQuestion() {
+    if (currentIndex >= quizList.length) {
+        showResult();
+        return;
+    }
+    const current = quizList[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizList.length}`;
+    document.getElementById('instruction-text').textContent = current.instruction;
+    document.getElementById('sentence-text').textContent = current.sentence;
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    const choices = [current.a, ...current.c].sort(() => Math.random() - 0.5);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) {
+            firstTryCorrectCount++;
+            document.getElementById('feedback').style.color = "var(--success-green)";
+            document.getElementById('feedback').textContent = "Correct!";
+        }
+        setTimeout(() => {
+            currentIndex++;
+            loadQuestion();
+        }, 600);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({ num: currentIndex + 1, instruction: quizList[currentIndex].instruction, correct: quizList[currentIndex].a });
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    document.getElementById('total-count').textContent = quizList.length;
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        document.getElementById('mistake-list').innerHTML = mistakes.map(m => `
+            <div style="margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
+                <strong>Q${m.num}: ${m.instruction}</strong><br>
+                Correct: <span style="color:var(--success-green); font-weight:bold;">${m.correct}</span>
+            </div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("【2022-2 4A】Soccer Day Camp クイズ結果");
+    const body = encodeURIComponent(`Tamaki先生へ\n\n「2022-2 4A - Soccer Day Camp」語彙クイズの結果です。\n\n正答数: ${firstTryCorrectCount} / ${quizList.length}\n\n間違えた箇所を復習して、長文読解に活かします！`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+function setupPrint() {
+    const container = document.getElementById('print-worksheet');
+    let html = `<h2>2022-2 4A - Soccer Day Camp - Vocabulary Quiz</h2>`;
+    quizList.forEach((q, i) => {
+        const choices = [q.a, ...q.c].sort();
+        html += `
+            <div class="print-q-block">
+                <strong>Q${i+1}. ${q.instruction}</strong>
+                <div class="print-sentence">${q.sentence}</div>
+                <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                    ${choices.map((c, idx) => `<span>(${idx+1}) ${c}</span>`).join('')}
+                </div>
+            </div>`;
+    });
+    container.innerHTML = html;
+}
+
+window.onload = () => { 
+    document.getElementById('total-count').textContent = quizList.length;
+    loadQuestion(); 
+    setupPrint(); 
+};
+</script>
+
+</body>
+</html>
