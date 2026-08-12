@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2022-2 4C - Piano Lessons - Vocabulary & Grammar Quiz</title>
+<script src="auth.js"></script>
+    <style>
+        :root {
+            --bg-color: #fdf8f0;
+            --primary-orange: #ff9800;
+            --primary-dark: #f57c00;
+            --accent-orange: #e65100;
+            --text-dark: #2c3e50;
+            --white: #ffffff;
+            --error-red: #f44336;
+            --success-green: #4caf50;
+            --base-font: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+        }
+
+        body {
+            font-family: var(--base-font);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-orange);
+            color: var(--white);
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            padding: 0 10px;
+        }
+
+        .print-trigger-btn {
+            background: rgba(255, 255, 255, 0.25);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .print-trigger-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .container {
+            max-width: 750px;
+            width: 90%;
+            margin: 20px 0;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .progress-bar {
+            font-size: 1rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .instruction {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: bold;
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-orange);
+            text-align: left;
+        }
+
+        .sentence-display {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin: 10px 0 25px 0;
+            padding: 18px;
+            background-color: #fafafa;
+            border-left: 5px solid var(--primary-orange);
+            border-radius: 5px;
+            text-align: left;
+            white-space: pre-line;
+        }
+
+        .choices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .choices-grid { grid-template-columns: 1fr; }
+        }
+
+        .choice-btn {
+            background: var(--white);
+            border: 2px solid #e0e0e0;
+            padding: 14px 8px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+        }
+
+        .choice-btn:hover { background-color: #fff8e1; border-color: var(--primary-orange); }
+        .choice-btn.wrong { background-color: #ffebee; border-color: var(--error-red); color: var(--error-red); animation: shake 0.3s; }
+
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            25% {transform: translateX(-5px);}
+            75% {transform: translateX(5px);}
+        }
+
+        #result-screen { display: none; }
+        .score-num { font-size: 3rem; color: var(--accent-orange); font-weight: bold; }
+
+        .mistake-list {
+            text-align: left;
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ffcdd2;
+        }
+
+        .mistake-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #ffebee;
+            font-size: 0.95rem;
+        }
+
+        .action-btn {
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm 12mm;
+            }
+
+            html, body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                font-family: "Hiragino Mincho ProN", "Yu Mincho", "Georgia", serif !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                display: block !important;
+                height: auto !important;
+                min-height: 0 !important;
+                overflow: visible !important;
+                width: 100% !important;
+            }
+
+            header, .container, #quiz-screen, #result-screen, .print-trigger-btn {
+                display: none !important;
+            }
+
+            #print-worksheet {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .print-header {
+                text-align: center;
+                border-bottom: 2px solid #000000;
+                padding-bottom: 6px;
+                margin-bottom: 12px;
+            }
+
+            .print-header h2 {
+                margin: 0 0 6px 0;
+                font-size: 1.2rem;
+                color: #000000;
+            }
+
+            .print-meta {
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.85rem;
+                font-weight: bold;
+            }
+
+            .print-q-block {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+                border-bottom: 1px dashed #cccccc;
+            }
+
+            .print-q-num {
+                font-weight: bold;
+                font-size: 0.9rem;
+                color: #000000;
+                margin-bottom: 3px;
+            }
+
+            .print-sentence {
+                border-left: 3px solid #000000;
+                padding: 3px 8px;
+                margin: 3px 0 5px 0;
+                background: #ffffff !important;
+                font-size: 0.82rem;
+                line-height: 1.35;
+                white-space: pre-line;
+                color: #000000;
+            }
+
+            .print-choices {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 3px 12px;
+            }
+
+            .print-choice-item {
+                font-size: 0.82rem;
+                color: #000000;
+            }
+
+            .print-choice-label {
+                font-weight: bold;
+            }
+
+            * {
+                -webkit-print-color-adjust: economy !important;
+                color-adjust: economy !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+        }
+
+        @media screen { #print-worksheet { display: none; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>2022-2 4C - Piano Lessons - Vocabulary & Grammar Quiz</h1>
+    <button class="print-trigger-btn" onclick="window.print()">🖨️ 全20問をPDF保存 / 印刷</button>
+</header>
+
+<div class="container" id="quiz-screen">
+    <div class="progress-bar" id="progress">1 / 20</div>
+    <div class="instruction" id="instruction-text">指示文</div>
+    <div class="sentence-display" id="sentence-text">問題文がここに表示されます</div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback" style="margin-top:15px; height: 1.2em; font-weight: bold; font-size: 1.2rem;"></div>
+</div>
+
+<div class="container" id="result-screen">
+    <h2>Result</h2>
+    <div>一度で正解：<span class="score-num" id="final-score">0</span> / <span id="total-count">20</span>問</div>
+    
+    <div id="mistake-container" style="display:none;">
+        <h3 style="color: var(--error-red); margin-top:20px; text-align: left;">要復習リスト</h3>
+        <div class="mistake-list" id="mistake-list"></div>
+    </div>
+
+    <button class="action-btn" onclick="sendEmail()">Tamaki先生に結果を送信</button>
+    <button class="action-btn" style="background-color: #27ae60;" onclick="window.print()">🖨️ 全問題をPDF保存 / 印刷</button>
+    <button class="action-btn" style="background-color: #95a5a6;" onclick="location.reload()">もう一度挑戦する</button>
+</div>
+
+<div id="print-worksheet"></div>
+
+<script>
+const quizList = [
+    {
+        id: 1,
+        instruction: "空欄に入る最も適切なものを選びなさい。（和訳：キャサリンは行くことができませんでした）",
+        sentence: "Katherine (  ?  ) go.",
+        a: "couldn't",
+        c: ["can't", "shouldn't", "won't"]
+    },
+    {
+        id: 2,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "She stayed at her grandmother's house.",
+        a: "彼女はおばあちゃんの家に滞在しました。",
+        c: ["彼女はおばあちゃんの家を訪れる予定です。", "彼女はおばあちゃんの家で掃除をしました。", "彼女はおばあちゃんの家を出発しました。"]
+    },
+    {
+        id: 3,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "for one week",
+        a: "1週間",
+        c: ["1か月間", "1日のあいだ", "1週末"]
+    },
+    {
+        id: 4,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "on the first day",
+        a: "初日に",
+        c: ["翌日に", "最終日に", "ある日に"]
+    },
+    {
+        id: 5,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "She missed her parents.",
+        a: "彼女は両親に会えなくて寂しかったです。",
+        c: ["彼女は両親を見失いました。", "彼女は両親を迎えに行きました。", "彼女は両親に手紙を書きました。"]
+    },
+    {
+        id: 6,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "She felt sad.",
+        a: "彼女は悲しく感じました。",
+        c: ["彼女は嬉しく感じました。", "彼女は疲れていました。", "彼女は怒っていました。"]
+    },
+    {
+        id: 7,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "Her grandmother's house didn't have the Internet.",
+        a: "彼女のおばあちゃんの家にはインターネットがありませんでした。",
+        c: ["彼女のおばあちゃんの家はインターネットを使っていませんでした。", "彼女のおばあちゃんの家にはテレビがありませんでした。", "彼女のおばあちゃんの家はインターネットに繋がりました。"]
+    },
+    {
+        id: 8,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "Katherine heard music.",
+        a: "キャサリンは音楽が聞こえました。",
+        c: ["キャサリンは音楽を聴いていました。", "キャサリンは音楽を演奏しました。", "キャサリンは音楽を選びました。"]
+    },
+    {
+        id: 9,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "It was coming from the living room.",
+        a: "それはリビングルームから聞こえてきました。",
+        c: ["それはリビングルームへ運ばれていました。", "それはリビングルームを通過していました。", "それはリビングルームで始まっていました。"]
+    },
+    {
+        id: 10,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "Her grandmother looked very excited.",
+        a: "彼女のおばあちゃんはとてもワクワクしているように見えました。",
+        c: ["彼女のおばあちゃんはとても疲れているように見えました。", "彼女のおばあちゃんはとても驚いた顔をしました。", "彼女のおばあちゃんはとても忙しそうでした。"]
+    },
+    {
+        id: 11,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "many years ago",
+        a: "何年も前に",
+        c: ["数日前に", "何年も後に", "数年前に"]
+    },
+    {
+        id: 12,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "I taught your mother to play the piano.",
+        a: "私はあなたのお母さんにピアノを弾くことを教えました。",
+        c: ["私はあなたのお母さんとピアノを弾きました。", "私はお母さんからピアノを教わりました。", "私はお母さんにピアノを買ってあげました。"]
+    },
+    {
+        id: 13,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "They practiced for three hours every day.",
+        a: "彼女たちは毎日3時間練習しました。",
+        c: ["彼女たちは3日ごとに練習しました。", "彼女たちは毎日3回練習しました。", "彼女たちは3日間連続で練習しました。"]
+    },
+    {
+        id: 14,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "She learned four songs.",
+        a: "彼女は4曲弾けるようになりました。",
+        c: ["彼女は4曲聴きました。", "彼女は4曲作曲しました。", "彼女は4曲教えてあげました。"]
+    },
+    {
+        id: 15,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "Katherine's parents came back from their trip.",
+        a: "キャサリンの両親が旅行から帰ってきました。",
+        c: ["キャサリンの両親が旅行に出かけました。", "キャサリンの両親が旅行の計画を立てました。", "キャサリンの両親が旅行を楽しんでいました。"]
+    },
+    {
+        id: 16,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "They gave Katherine's grandmother some souvenirs.",
+        a: "彼らはキャサリンのおばあちゃんにお土産をいくつか渡しました。",
+        c: ["彼らはキャサリンのおばあちゃんからお土産をもらいました。", "彼らはキャサリンのおばあちゃんにお土産を買いに行きました。", "彼らはキャサリンにお土産をあげました。"]
+    },
+    {
+        id: 17,
+        instruction: "正しい和訳を選びなさい。",
+        sentence: "She played two songs for them.",
+        a: "彼女は彼らのために2曲演奏しました。",
+        c: ["彼女は彼らと一緒に2曲歌いました。", "彼女は彼らに2曲聴かせてもらいました。", "彼女は彼らと2曲練習しました。"]
+    },
+    {
+        id: 18,
+        instruction: "空欄に入る最も適切なものを選びなさい。（和訳：あなたはおばあちゃんをより頻繁に訪ねるべきです）",
+        sentence: "You (  ?  ) visit your grandmother more often.",
+        a: "should",
+        c: ["mustn't", "couldn't", "would"]
+    },
+    {
+        id: 19,
+        instruction: "空欄に入る最も適切なものを選びなさい。（和訳：彼女はもっと多くの曲を習いたがっています）",
+        sentence: "She wants (  ?  ) more songs.",
+        a: "to learn",
+        c: ["learning", "learned", "learn"]
+    },
+    {
+        id: 20,
+        instruction: "空欄に入る最も適切なものを選びなさい。（和訳：彼女は来月もおばあちゃんを訪ねる予定です）",
+        sentence: "She (  ?  ) visit her grandmother next month, too.",
+        a: "will",
+        c: ["did", "was", "has"]
+    }
+];
+
+// 配列をランダムに並び替える関数（フィッシャー–イェーツのシャッフル）
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+let currentIndex = 0;
+let firstTryCorrectCount = 0;
+let isFirstTry = true;
+let mistakes = [];
+
+function loadQuestion() {
+    if (currentIndex >= quizList.length) {
+        showResult();
+        return;
+    }
+    const current = quizList[currentIndex];
+    document.getElementById('progress').textContent = `${currentIndex + 1} / ${quizList.length}`;
+    document.getElementById('instruction-text').textContent = current.instruction;
+    
+    const sentenceBox = document.getElementById('sentence-text');
+    if (!current.sentence) {
+        sentenceBox.style.display = 'none';
+    } else {
+        sentenceBox.style.display = 'block';
+        sentenceBox.textContent = current.sentence;
+    }
+
+    document.getElementById('feedback').textContent = "";
+    
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    isFirstTry = true;
+
+    // 毎回確実にランダム化
+    const choices = shuffleArray([current.a, ...current.c]);
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = choice;
+        btn.onclick = () => checkAnswer(choice, current.a, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected, correct, btn) {
+    if (selected === correct) {
+        if (isFirstTry) {
+            firstTryCorrectCount++;
+            document.getElementById('feedback').style.color = "var(--success-green)";
+            document.getElementById('feedback').textContent = "Correct!";
+        }
+        
+        setTimeout(() => {
+            currentIndex++;
+            loadQuestion();
+        }, 600);
+    } else {
+        if (isFirstTry) {
+            mistakes.push({
+                num: currentIndex + 1,
+                instruction: quizList[currentIndex].instruction,
+                correct: quizList[currentIndex].a
+            });
+            isFirstTry = false;
+        }
+        btn.classList.add('wrong');
+        document.getElementById('feedback').style.color = "var(--error-red)";
+        document.getElementById('feedback').textContent = "Try again!";
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = firstTryCorrectCount;
+    document.getElementById('total-count').textContent = quizList.length;
+
+    if (mistakes.length > 0) {
+        document.getElementById('mistake-container').style.display = 'block';
+        const listDiv = document.getElementById('mistake-list');
+        listDiv.innerHTML = mistakes.map(m => `
+            <div class="mistake-item">
+                <strong>問${m.num}: ${m.instruction}</strong><br>
+                正解: <span style="color:var(--success-green); font-weight:bold;">${m.correct}</span>
+            </div>
+        `).join('');
+    }
+}
+
+function sendEmail() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent("【2022-2 4C】Piano Lessons 語彙・文法クイズ結果");
+    
+    let mistakeText = mistakes.length > 0 
+        ? "\n\n■要復習問題:\n" + mistakes.map(m => `・問${m.num} (${m.instruction}) → 正解: ${m.correct}`).join("\n")
+        : "\n\n全問一度で正解できました！";
+
+    const body = encodeURIComponent(`Tamaki先生へ\n\n語彙・文法クイズ「2022-2 4C - Piano Lessons - Vocabulary & Grammar Quiz」（${quizList.length}問）を完了しました。\n\n結果: ${quizList.length}問中 ${firstTryCorrectCount}問を一度で正解しました。${mistakeText}\n\nしっかり復習して語彙力・読解構文力を高めます！`);
+    
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+function setupPrintWorksheet() {
+    const printContainer = document.getElementById('print-worksheet');
+    if (!printContainer) return;
+
+    let html = `
+        <div class="print-header">
+            <h2>2022-2 4C - Piano Lessons - Vocabulary & Grammar Quiz</h2>
+            <div class="print-meta">
+                <span>Name: ______________________</span>
+                <span>Date: ____________</span>
+                <span>Score: ______ / ${quizList.length}</span>
+            </div>
+        </div>
+    `;
+
+    quizList.forEach((q, index) => {
+        // 印刷用プリントの選択肢も毎回シャッフル
+        const shuffledChoices = shuffleArray([q.a, ...q.c]);
+
+        html += `
+            <div class="print-q-block">
+                <div class="print-q-num">Q${index + 1}. ${q.instruction}</div>
+                ${q.sentence ? `<div class="print-sentence">${q.sentence}</div>` : ''}
+                <div class="print-choices">
+                    ${shuffledChoices.map((choice, i) => `
+                        <div class="print-choice-item">
+                            <span class="print-choice-label">(${String.fromCharCode(65 + i)})</span> ${choice}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+
+    printContainer.innerHTML = html;
+}
+
+window.onload = () => {
+    document.getElementById('total-count').textContent = quizList.length;
+    loadQuestion();
+    setupPrintWorksheet();
+};
+</script>
+
+</body>
+</html>
