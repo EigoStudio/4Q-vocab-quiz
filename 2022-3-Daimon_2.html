@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2022-3 大問2 Vocabulary Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p1-bg: #f5f5f5; --p1-primary: #ff9800;
+            --p2-bg: #f0f4f8; --p2-primary: #2196f3;
+            --white: #ffffff; --text-dark: #212121;
+            --success: #4caf50; --error: #f44336;
+            --base-font: 'Andika', "Hiragino Maru Gothic ProN", sans-serif;
+        }
+
+        body { font-family: var(--base-font); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
+        body.part1-mode { background-color: var(--p1-bg); }
+        body.part2-mode { background-color: var(--p2-bg); }
+
+        header { width: 100%; padding: 15px 0; text-align: center; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative; }
+        .part1-mode header { background-color: var(--p1-primary); }
+        .part2-mode header { background-color: var(--p2-primary); }
+
+        .audio-toggle-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid white;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+        .audio-toggle-btn:hover { background: rgba(255, 255, 255, 0.4); }
+        .audio-toggle-btn.off { opacity: 0.7; background: rgba(0, 0, 0, 0.2); }
+
+        .tab-container { display: flex; width: 95%; max-width: 600px; margin: 15px 0; gap: 5px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 10px 10px 0 0; background: #ccc; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: var(--white); cursor: default; }
+        .part1-mode .tab-btn.active { color: var(--p1-primary); border-top: 4px solid var(--p1-primary); }
+        .part2-mode .tab-btn.active { color: var(--p2-primary); border-top: 4px solid var(--p2-primary); }
+
+        .container { max-width: 600px; width: 92%; background: var(--white); padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; margin-bottom: 30px; box-sizing: border-box; }
+        .q-num { color: #888; margin-bottom: 10px; }
+        
+        .question-box { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 25px; }
+        .question-text { font-size: 1.2rem; font-weight: bold; line-height: 1.6; text-align: left; margin: 0; flex-grow: 1; }
+        
+        .speaker-btn {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(255, 152, 0, 0.4);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+        .speaker-btn:active { transform: scale(0.92); }
+
+        .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .choice-btn { background: var(--white); border: 2px solid #e0e0e0; padding: 15px 10px; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: 0.2s; min-height: 60px; display: flex; align-items: center; justify-content: center; text-align: center; word-break: break-word; }
+        .choice-btn.correct { background-color: var(--success) !important; color: white; border-color: var(--success); }
+        .choice-btn.wrong { background-color: var(--error) !important; color: white; border-color: var(--error); opacity: 0.6; }
+
+        #feedback-area { margin-top: 20px; display: none; padding: 15px; border-radius: 10px; background: #f0fdf4; }
+        .next-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; background: var(--p1-primary); margin-top: 10px; }
+        .part2-mode .next-btn { background: var(--p2-primary); }
+        
+        .report-btn { background-color: #e91e63; color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; width: 100%; margin-top: 10px; cursor: pointer; font-weight: bold; }
+        .sentence-gap { text-decoration: underline; font-weight: bold; color: #2196f3; padding: 0 10px; }
+        .dialogue-speaker { font-weight: bold; color: #444; }
+
+        /* 印刷設定 (Cmd+P / Ctrl+P 時) */
+        #print-area { display: none; }
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 12mm 15mm;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 11pt;
+            }
+            header, .tab-container, #quiz-screen, #result-screen {
+                display: none !important;
+            }
+            #print-area {
+                display: block !important;
+                width: 100%;
+            }
+            .print-title {
+                text-align: center;
+                font-size: 16pt;
+                font-weight: bold;
+                border-bottom: 2px solid #000;
+                padding-bottom: 5px;
+                margin-bottom: 15px;
+            }
+            .print-section-title {
+                font-size: 13pt;
+                font-weight: bold;
+                margin: 15px 0 8px 0;
+                border-left: 4px solid #333;
+                padding-left: 6px;
+            }
+            .print-q-item {
+                margin-bottom: 12px;
+                page-break-inside: avoid;
+            }
+            .print-q-text {
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+            .print-choices {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 5px;
+                padding-left: 15px;
+            }
+            .print-choice-item {
+                font-size: 10pt;
+            }
+        }
+    </style>
+</head>
+<body class="part1-mode">
+
+<header>
+    <h1 style="margin:0; font-size: 1.3rem;">2022-3 大問2 Vocabulary Quiz</h1>
+    <button class="audio-toggle-btn" id="audio-toggle" onclick="toggleAutoPlaySetting()">
+        <span id="audio-icon">🔊</span> Auto Play: <span id="audio-status">ON</span>
+    </button>
+</header>
+
+<div class="tab-container" id="tabs">
+    <button id="tab1" class="tab-btn active" onclick="switchPart(1)">Part 1: 単語・表現</button>
+    <button id="tab2" class="tab-btn" onclick="switchPart(2)">Part 2: 会話文穴埋め</button>
+</div>
+
+<div class="container" id="quiz-screen">
+    <div class="q-num" id="progress">Question 1 / --</div>
+    <div class="question-box">
+        <div class="question-text" id="question-display">Loading...</div>
+        <button class="speaker-btn" id="speaker-btn" onclick="playAudio(true)" style="display: none;" title="音声を聴く">🔊</button>
+    </div>
+    <div class="choices-grid" id="choices-container"></div>
+    <div id="feedback-area">
+        <span style="color:var(--success); font-weight:bold; font-size:1.4rem;">Correct! ✨</span><br>
+        <button class="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<div class="container" id="result-screen" style="display:none;">
+    <h2>Quiz Complete!</h2>
+    <p style="font-size: 1.3rem; margin: 20px 0;">一発正解スコア: <span id="final-score" style="font-weight:bold; color:var(--success);">0</span></p>
+    <button class="report-btn" onclick="sendReport()">Tamaki先生に報告する</button>
+    <button class="next-btn" style="background:#9e9e9e;" onclick="location.reload()">もう一度挑戦</button>
+</div>
+
+<!-- 印刷用ワークシート生成領域 -->
+<div id="print-area">
+    <div class="print-title">英検4級 2022-3 大問2 ワークシート</div>
+    <div id="print-content"></div>
+</div>
+
+<script>
+// --- Auto Play Settings ---
+let isAutoPlayEnabled = true;
+
+function toggleAutoPlaySetting() {
+    isAutoPlayEnabled = !isAutoPlayEnabled;
+    const toggleBtn = document.getElementById('audio-toggle');
+    const statusText = document.getElementById('audio-status');
+    const iconText = document.getElementById('audio-icon');
+
+    if (isAutoPlayEnabled) {
+        toggleBtn.classList.remove('off');
+        statusText.textContent = "ON";
+        iconText.textContent = "🔊";
+        playAudio(false);
+    } else {
+        toggleBtn.classList.add('off');
+        statusText.textContent = "OFF";
+        iconText.textContent = "🔇";
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+    }
+}
+
+// --- Data Structure ---
+const part1Data = [
+    {q:"difficult", a:"難しい", c:["簡単な", "忙しい", "大切な"]},
+    {q:"I know.", a:"知っています・そうですね。", c:["わかりません。", "違いますよ。", "知りませんでした。"]},
+    {q:"Do you want to do it together?", a:"一緒にやりたいですか？", c:["一人でやりたいですか？", "すぐに終わらせますか？", "誰に頼みたいですか？"]},
+    {q:"Are there many students?", a:"たくさんの生徒がいますか？", c:["たくさんの先生がいますか？", "たくさんの学校がありますか？", "たくさんの部屋がありますか？"]},
+    {q:"Did you find the teacher?", a:"先生を見つけましたか？", c:["友達を呼びましたか？", "宿題を終わらせましたか？", "車を見つけましたか？"]},
+    {q:"There's a rainbow!", a:"虹が出ています！", c:["雨が降っています！", "星が見えています！", "雲が出ています！"]},
+    {q:"I got a new one.", a:"新しいのを手に入れました。", c:["古いのを捨てました。", "新しいのを買いたいです。", "古いのを探しています。"]},
+    {q:"It's not here.", a:"ここにはありません。", c:["そこにはありません。", "ここにはあります。", "どこにもありません。"]},
+    {q:"I called you last night.", a:"昨日の夜あなたに電話しました。", c:["昨日の朝あなたに会いました。", "昨日の夜手紙を書きました。", "明日の夜電話します。"]},
+    {q:"You weren't at home.", a:"あなたは家にいませんでした。", c:["あなたは学校にいませんでした。", "あなたは忙しくありませんでした。", "あなたは部屋にいました。"]},
+    {q:"It wasn't my phone.", a:"私の電話ではありませんでした。", c:["私の車ではありませんでした。", "私の部屋ではありませんでした。", "私の鞄ではありませんでした。"]},
+    {q:"You lost my bat.", a:"あなたは私のバットをなくしました。", c:["あなたは私のボールを拾いました。", "あなたは私のラケットを買いました。", "あなたは私のバットを使いました。"]},
+    {q:"spaghetti", a:"スパゲッティ", c:["ピザ", "サンドイッチ", "ハンバーガー"]},
+    {q:"delicious", a:"美味しい", c:["珍しい", "温かい", "楽しい"]},
+    {q:"Can I try it?", a:"試してもいいですか？", c:["買ってもいいですか？", "捨ててもいいですか？", "作ってもいいですか？"]},
+    {q:"still", a:"まだ・今でも", c:["すでに・もう", "すぐに・まもなく", "決して・一度も"]},
+    {q:"I wasn't there.", a:"私はそこにいませんでした。", c:["私はここにいませんでした。", "私は忙しくありませんでした。", "私はそこにいました。"]},
+    {q:"We must go now.", a:"私たちは今行かなければなりません。", c:["私たちは今来なければなりません。", "私たちは今帰らなくてもいいです。", "私たちはすぐに出発できます。"]},
+    {q:"It's time for the meeting.", a:"会議の時間です。", c:["授業の時間です。", "昼食の時間です。", "出発の時間です。"]}
+];
+
+const part2Data = [
+    {
+        q: "<span class='dialogue-speaker'>Boy:</span> Today's science homework is difficult.<br><span class='dialogue-speaker'>Girl:</span> I know. ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> )<br><span class='dialogue-speaker'>Boy:</span> Yes, let's.",
+        a: "Do you want to do it together?",
+        c: ["Is it yours?", "Are there many students?", "Did you find the teacher?"]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Boy:</span> There's a rainbow!<br><span class='dialogue-speaker'>Girl:</span> Wow, ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ) Let's take a picture.",
+        a: "it's really pretty.",
+        c: ["I can't see it.", "I got a new one.", "it's not here."]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Boy 1:</span> I called you last night, but ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ) Where were you?<br><span class='dialogue-speaker'>Boy 2:</span> I went to watch a baseball game.",
+        a: "you weren't at home.",
+        c: ["I don't like sports.", "it wasn't my phone.", "you lost my bat."]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Son:</span> The spaghetti was delicious. Thanks, Mom.<br><span class='dialogue-speaker'>Mother:</span> You're welcome. ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> )<br><span class='dialogue-speaker'>Son:</span> No, I'm full.",
+        a: "Are you still hungry?",
+        c: ["Can I try it?", "Did you make it?", "Is it in the kitchen?"]
+    },
+    {
+        q: "<span class='dialogue-speaker'>Man 1:</span> Mark, what time is it?<br><span class='dialogue-speaker'>Man 2:</span> It's 4:30.<br><span class='dialogue-speaker'>Man 1:</span> Oh, ( <span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ) It's time for the meeting.",
+        a: "we must go now.",
+        c: ["I wasn't there.", "I don't know his name.", "we had lunch at the café."]
+    }
+];
+
+// --- Speech Synthesis ---
+let preferredVoice = null;
+
+function loadVoices() {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length === 0) return;
+    preferredVoice = 
+        voices.find(v => v.lang === "en-US" && v.name.includes("Google US English")) ||
+        voices.find(v => v.lang === "en-US" && v.name.includes("Samantha")) ||
+        voices.find(v => v.lang === "en-US" && (v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Victoria"))) ||
+        voices.find(v => v.lang.startsWith("en-US")) ||
+        voices.find(v => v.lang.startsWith("en"));
+}
+
+if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+}
+
+function speak(text) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    
+    let cleanedText = text.replace(/["'?!.,“]/g, "");
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
+    if (preferredVoice) utterance.voice = preferredVoice;
+    utterance.rate = 0.75;
+    utterance.pitch = 1.15;
+    window.speechSynthesis.speak(utterance);
+}
+
+// --- Logic ---
+let currentSet = [];
+let currentIndex = 0;
+let isAnswered = false;
+let firstTryCount = 0;
+let isFirstTryInQ = true;
+let currentPartName = "";
+let currentPartNum = 1;
+
+function switchPart(partNum) {
+    currentPartNum = partNum;
+    currentPartName = (partNum === 1) ? "Part 1 (単語・表現)" : "Part 2 (会話文穴埋め)";
+    document.body.className = partNum === 1 ? 'part1-mode' : 'part2-mode';
+    document.getElementById('tab1').className = partNum === 1 ? 'tab-btn active' : 'tab-btn';
+    document.getElementById('tab2').className = partNum === 2 ? 'tab-btn active' : 'tab-btn';
+    
+    // Part 1 のときのみヘッダーの Auto Play 切替ボタンを表示
+    const audioToggleBtn = document.getElementById('audio-toggle');
+    if (partNum === 1) {
+        audioToggleBtn.style.display = 'flex';
+    } else {
+        audioToggleBtn.style.display = 'none';
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+    }
+
+    let rawData = partNum === 1 ? [...part1Data] : [...part2Data];
+    currentSet = rawData.sort(() => Math.random() - 0.5);
+    
+    currentIndex = 0;
+    firstTryCount = 0;
+    document.getElementById('quiz-screen').style.display = 'block';
+    document.getElementById('result-screen').style.display = 'none';
+    showQuestion();
+}
+
+function showQuestion() {
+    isAnswered = false;
+    isFirstTryInQ = true;
+    document.getElementById('feedback-area').style.display = 'none';
+    const data = currentSet[currentIndex];
+    document.getElementById('progress').textContent = `Question ${currentIndex + 1} / ${currentSet.length}`;
+    document.getElementById('question-display').innerHTML = data.q;
+    
+    const speakerBtn = document.getElementById('speaker-btn');
+    if (currentPartNum === 1) {
+        speakerBtn.style.display = 'flex';
+        if (isAutoPlayEnabled) {
+            setTimeout(() => playAudio(false), 300);
+        }
+    } else {
+        speakerBtn.style.display = 'none';
+    }
+
+    const container = document.getElementById('choices-container');
+    container.innerHTML = '';
+    
+    const choices = [data.a, ...data.c].sort(() => Math.random() - 0.5);
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = choice;
+        btn.onclick = () => {
+            if (isAnswered) return;
+            if (choice === data.a) {
+                isAnswered = true;
+                if (isFirstTryInQ) firstTryCount++;
+                btn.classList.add('correct');
+                document.getElementById('feedback-area').style.display = 'block';
+            } else {
+                isFirstTryInQ = false;
+                btn.classList.add('wrong');
+            }
+        };
+        container.appendChild(btn);
+    });
+}
+
+function playAudio(isManualTap = false) {
+    if (currentPartNum === 1 && currentSet[currentIndex]) {
+        if (isManualTap || isAutoPlayEnabled) {
+            speak(currentSet[currentIndex].q);
+        }
+    }
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < currentSet.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    document.getElementById('final-score').textContent = `${firstTryCount} / ${currentSet.length}`;
+}
+
+function sendReport() {
+    const teacherEmail = "tamaki@eigostudio-stepforward.com";
+    const subject = encodeURIComponent(`英検4級 2022-3 大問2 学習報告 (${currentPartName})`);
+    const body = encodeURIComponent(`Tamaki先生へ\n\n英検4級 2022-3 大問2 Vocabulary Quizを完了しました！\n\n【今回の結果】\nコース: ${currentPartName}\n一発正解数: ${firstTryCount} / ${currentSet.length}\n\nこれからも頑張ります！`);
+    window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+}
+
+// 印刷用ワークシートデータの構築
+function buildPrintWorksheet() {
+    const printContent = document.getElementById('print-content');
+    let html = '<div class="print-section-title">Part 1: 単語・表現</div>';
+    
+    part1Data.forEach((item, index) => {
+        const choices = [item.a, ...item.c].sort();
+        html += `
+            <div class="print-q-item">
+                <div class="print-q-text">(${index + 1}) ${item.q}</div>
+                <div class="print-choices">
+                    <div class="print-choice-item">1. ${choices[0]}</div>
+                    <div class="print-choice-item">2. ${choices[1]}</div>
+                    <div class="print-choice-item">3. ${choices[2]}</div>
+                    <div class="print-choice-item">4. ${choices[3]}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '<div class="print-section-title" style="margin-top:20px;">Part 2: 会話文穴埋め</div>';
+    part2Data.forEach((item, index) => {
+        const choices = [item.a, ...item.c].sort();
+        const cleanQ = item.q.replace("<span class='sentence-gap'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>", " ( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ) ");
+        html += `
+            <div class="print-q-item">
+                <div class="print-q-text">(${index + 16}) ${cleanQ}</div>
+                <div class="print-choices">
+                    <div class="print-choice-item">1. ${choices[0]}</div>
+                    <div class="print-choice-item">2. ${choices[1]}</div>
+                    <div class="print-choice-item">3. ${choices[2]}</div>
+                    <div class="print-choice-item">4. ${choices[3]}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    printContent.innerHTML = html;
+}
+
+window.onload = () => {
+    switchPart(1);
+    buildPrintWorksheet();
+};
+</script>
+</body>
+</html>
